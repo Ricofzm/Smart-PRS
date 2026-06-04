@@ -1,34 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Smart PRS Dashboard</title>
+  <title>Smart PRS</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
+  <h1>Smart PRS Dashboard</h1>
 
-    <h1>Smart PRS Dashboard</h1>
+  <button onclick="sendTest()">Test Data</button>
 
-    <div class="card">
-      <h2>Status API</h2>
-      <p id="status">Loading...</p>
-    </div>
-
-    <div class="card">
-      <h2>Test Request</h2>
-      <button onclick="testAPI()">Ping API</button>
-      <p id="response">-</p>
-    </div>
-
-    <div class="card">
-      <h2>Realtime Data</h2>
-      <pre id="data">Waiting...</pre>
-    </div>
-
-  </div>
+  <pre id="data">Loading...</pre>
 
   <script src="script.js"></script>
 </body>
