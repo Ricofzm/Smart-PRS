@@ -10,7 +10,9 @@ async function loadData() {
 
 async function sendTest() {
   await fetch(API + "/test");
-  loadData();
+  await loadData();
 }
 
 loadData();
+
+setInterval(loadData, 5000);
