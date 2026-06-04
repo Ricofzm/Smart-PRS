@@ -1,44 +1,8 @@
-body {
-  margin: 0;
+body{
   font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: white;
-}
-
-.container {
-  max-width: 800px;
-  margin: auto;
   padding: 20px;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.card {
-  background: #1e293b;
-  padding: 20px;
-  margin-bottom: 15px;
-  border-radius: 10px;
-}
-
-button {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 6px;
-  background: #38bdf8;
-  color: black;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-button:hover {
-  background: #0ea5e9;
-}
-
-pre {
-  background: black;
+button{
   padding: 10px;
-  border-radius: 6px;
 }
