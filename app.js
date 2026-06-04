@@ -1,41 +1,31 @@
-body{
-background:#0f172a;
-color:white;
-font-family:sans-serif;
-padding:20px;
+const API =
+"https://smart-prs-api.enrikofzm.workers.dev";
+
+async function loadData(){
+
+try{
+
+const res = await fetch(API);
+
+console.log("STATUS", res.status);
+
+const json = await res.json();
+
+console.log("DATA", json);
+
+const d = json[0];
+
+document.getElementById("inlet").innerText = d.PressureInlet;
+
+}catch(err){
+
+console.error(err);
+
+document.getElementById("update").innerText =
+"ERROR : " + err.message;
+
 }
 
-h1{
-text-align:center;
-margin-bottom:20px;
 }
 
-.grid{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(150px,1fr));
-gap:15px;
-}
-
-.card{
-background:#1e293b;
-padding:15px;
-border-radius:12px;
-}
-
-.card h3{
-font-size:14px;
-opacity:.8;
-}
-
-.card p{
-font-size:24px;
-font-weight:bold;
-margin-top:10px;
-}
-
-#update{
-text-align:center;
-margin-top:20px;
-opacity:.7;
-}
+loadData();
