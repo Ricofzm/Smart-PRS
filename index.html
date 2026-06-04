@@ -1,36 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Smart PRS Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart PRS</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 
-  <h1>Smart PRS Dashboard</h1>
+<h1>SMART PRS</h1>
 
-  <div class="card">
-    <h2>Pressure</h2>
-    <p id="pressure">--</p>
-  </div>
+<div class="grid">
 
-  <div class="card">
-    <h2>Flow</h2>
-    <p id="flow">--</p>
-  </div>
+<div class="card">
+<h3>Inlet Pressure</h3>
+<p id="inlet">-</p>
+</div>
 
-  <div class="card">
-    <h2>Status</h2>
-    <p id="status">--</p>
-  </div>
+<div class="card">
+<h3>Outlet Pressure</h3>
+<p id="outlet">-</p>
+</div>
 
-  <button onclick="sendTest()">
-    Tambah Data Test
-  </button>
+<div class="card">
+<h3>Temperature</h3>
+<p id="temp">-</p>
+</div>
 
-  <h3>History</h3>
-  <pre id="data"></pre>
+<div class="card">
+<h3>Gas Flow</h3>
+<p id="gasflow">-</p>
+</div>
 
-  <script src="script.js"></script>
+<div class="card">
+<h3>Correction Flow</h3>
+<p id="corrflow">-</p>
+</div>
+
+<div class="card">
+<h3>Turbin Meter</h3>
+<p id="turbin">-</p>
+</div>
+
+<div class="card">
+<h3>EVC Meter</h3>
+<p id="evc">-</p>
+</div>
+
+<div class="card">
+<h3>Today Volume</h3>
+<p id="today">-</p>
+</div>
+
+</div>
+
+<p id="update">
+Loading...
+</p>
+
+<script src="app.js"></script>
 
 </body>
 </html>
