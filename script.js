@@ -4,23 +4,13 @@ async function loadData() {
   const res = await fetch(API + "/data");
   const json = await res.json();
 
-  document.getElementById("data").innerText =
+  document.getElementById("data").textContent =
     JSON.stringify(json.data, null, 2);
 }
 
 async function sendTest() {
-  await fetch(API + "/data", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      pressure: Math.random() * 100,
-      flow: Math.random() * 50,
-      status: "NORMAL"
-    })
-  });
-
+  await fetch(API + "/test");
   loadData();
 }
 
 loadData();
-setInterval(loadData, 3000);
