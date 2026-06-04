@@ -1,21 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Smart PRS</title>
+  <title>Smart PRS Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <h1>Smart PRS Dashboard</h1>
 
-  <button onclick="sendTest()">Test Data</button>
+  <div class="card">
+    <h2>Pressure</h2>
+    <p id="pressure">--</p>
+  </div>
 
-  <pre id="data">Loading...</pre>
-  
-  <button onclick="sendTest()">Tambah Data</button>
+  <div class="card">
+    <h2>Flow</h2>
+    <p id="flow">--</p>
+  </div>
 
+  <div class="card">
+    <h2>Status</h2>
+    <p id="status">--</p>
+  </div>
+
+  <button onclick="sendTest()">
+    Tambah Data Test
+  </button>
+
+  <h3>History</h3>
   <pre id="data"></pre>
 
   <script src="script.js"></script>
+
 </body>
 </html>
