@@ -1,31 +1,55 @@
 const API =
 "https://smart-prs-api.enrikofzm.workers.dev";
 
-async function loadData(){
+async function loadData() {
 
-try{
+  try {
 
-const res = await fetch(API);
+    const res = await fetch(API);
+    const json = await res.json();
 
-console.log("STATUS", res.status);
+    console.log(json);
 
-const json = await res.json();
+    const d = json[0];
 
-console.log("DATA", json);
+    document.getElementById("inlet").innerText =
+      d.PressureInlet || "-";
 
-const d = json[0];
+    document.getElementById("outlet").innerText =
+      d.Pressure || "-";
 
-document.getElementById("inlet").innerText = d.PressureInlet;
+    document.getElementById("temp").innerText =
+      d.Temperature || "-";
 
-}catch(err){
+    document.getElementById("gasflow").innerText =
+      d.GasFlow || "-";
 
-console.error(err);
+    document.getElementById("corrflow").innerText =
+      d.CorrectionFlow || "-";
 
-document.getElementById("update").innerText =
-"ERROR : " + err.message;
+    document.getElementById("turbin").innerText =
+      d.TurbinMeter || "-";
 
-}
+    document.getElementById("evc").innerText =
+      d.CorrectionMeter || "-";
+
+    document.getElementById("today").innerText =
+      d.TodayVolume || "-";
+
+    document.getElementById("update").innerText =
+      d.ReceiveDateTime || new Date().toLocaleTimeString();
+
+  } catch (err) {
+
+    document.getElementById("update").innerText =
+      err.message;
+
+    console.error(err);
+
+  }
 
 }
 
 loadData();
+
+setInterval(loadData, 30000);
