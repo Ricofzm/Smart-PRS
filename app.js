@@ -183,13 +183,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const arr = getRecords(key);
 
     arr.unshift({
-     time: daily
-      ? now.toLocaleDateString("id-ID")
-      : String(now.getDate()).padStart(2,"0") + "/" +
-        String(now.getMonth()+1).padStart(2,"0") + "/" +
-        now.getFullYear() + " " +
-        String(now.getHours()).padStart(2,"0") +
-        ":00";
+      time: daily
+        ? now.toLocaleDateString("id-ID")
+        : `${String(now.getDate()).padStart(2,"0")}/${String(now.getMonth()+1).padStart(2,"0")}/${now.getFullYear()} ${String(now.getHours()).padStart(2,"0")}:00`,
+    
       inlet: d.PressureInlet,
       outlet: d.Pressure,
       temp: d.Temperature,
