@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart PRS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-left">
+    <button class="hamburger" id="menuBtn" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-title">SMART PRS</div>
+  <div class="nav-right">
+    <span class="nav-time" id="update">--:--:--</span>
+  </div>
+</nav>
+
+<!-- SIDEBAR -->
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">NAVIGASI</div>
+  <ul class="sidebar-menu">
+    <li><a href="#" class="menu-item active" onclick="showPage('dashboard', this)">
+      <svg viewBox="0 0 24 24"><path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/></svg>
+      Dashboard
+    </a></li>
+    <li><a href="#" class="menu-item" onclick="showPage('hourly', this)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      Pencatatan Per Jam
+    </a></li>
+    <li><a href="#" class="menu-item" onclick="showPage('daily', this)">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      Pencatatan Harian
+    </a></li>
+  </ul>
+</aside>
+
+<!-- PAGE: DASHBOARD -->
+<main class="page active" id="page-dashboard">
+  <div class="grid">
+    <div class="card">
+      <h3>Inlet Pressure</h3>
+      <p id="inlet">-</p>
+      <span class="unit">bar</span>
+    </div>
+    <div class="card">
+      <h3>Outlet Pressure</h3>
+      <p id="outlet">-</p>
+      <span class="unit">bar</span>
+    </div>
+    <div class="card">
+      <h3>Temperature</h3>
+      <p id="temp">-</p>
+      <span class="unit">°C</span>
+    </div>
+    <div class="card">
+      <h3>Gas Flow</h3>
+      <p id="gasflow">-</p>
+      <span class="unit">m³/h</span>
+    </div>
+    <div class="card">
+      <h3>Correction Flow</h3>
+      <p id="corrflow">-</p>
+      <span class="unit">m³/h</span>
+    </div>
+    <div class="card">
+      <h3>Turbin Meter</h3>
+      <p id="turbin">-</p>
+      <span class="unit">m³</span>
+    </div>
+    <div class="card">
+      <h3>EVC Meter</h3>
+      <p id="evc">-</p>
+      <span class="unit">m³</span>
+    </div>
+    <div class="card">
+      <h3>Today Volume</h3>
+      <p id="today">-</p>
+      <span class="unit">m³</span>
+    </div>
+    <div class="card">
+      <h3>Stok Aman</h3>
+      <p id="stok">-</p>
+      <span class="unit">jam</span>
+    </div>
+    <div class="card">
+      <h3>Consumption</h3>
+      <p id="consumption">-</p>
+      <span class="unit">m³</span>
+    </div>
+    <div class="card chart-card">
+      <h3>Gas Flow Realtime</h3>
+      <canvas id="flowChart"></canvas>
+    </div>
+  </div>
+</main>
+
+<!-- PAGE: HOURLY -->
+<main class="page" id="page-hourly">
+  <div class="page-header">
+    <h2>Pencatatan Per Jam</h2>
+    <button class="btn-export" onclick="exportCSV('hourly')">Export CSV</button>
+  </div>
+  <div class="table-wrap">
+    <table id="hourlyTable">
+      <thead>
+        <tr>
+          <th>Waktu</th>
+          <th>Inlet (bar)</th>
+          <th>Outlet (bar)</th>
+          <th>Temp (°C)</th>
+          <th>Gas Flow</th>
+          <th>Corr Flow</th>
+          <th>Turbin</th>
+          <th>EVC</th>
+          <th>Volume Hari Ini</th>
+        </tr>
+      </thead>
+      <tbody id="hourlyBody">
+        <tr><td colspan="9" class="empty">Belum ada data pencatatan.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<!-- PAGE: DAILY -->
+<main class="page" id="page-daily">
+  <div class="page-header">
+    <h2>Pencatatan Harian</h2>
+    <button class="btn-export" onclick="exportCSV('daily')">Export CSV</button>
+  </div>
+  <div class="table-wrap">
+    <table id="dailyTable">
+      <thead>
+        <tr>
+          <th>Tanggal</th>
+          <th>Inlet (bar)</th>
+          <th>Outlet (bar)</th>
+          <th>Temp (°C)</th>
+          <th>Gas Flow</th>
+          <th>Corr Flow</th>
+          <th>Turbin</th>
+          <th>EVC</th>
+          <th>Volume Hari Ini</th>
+        </tr>
+      </thead>
+      <tbody id="dailyBody">
+        <tr><td colspan="9" class="empty">Belum ada data pencatatan.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
