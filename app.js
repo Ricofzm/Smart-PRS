@@ -179,3 +179,21 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(loadData, 60000);
 
 });
+
+function toggleMenu() {
+  const btn = document.getElementById("menuBtn");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+
+  const isOpen = sidebar.classList.contains("open");
+
+  if (isOpen) {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+    btn.classList.remove("open");
+  } else {
+    sidebar.classList.add("open");
+    overlay.classList.add("show");
+    btn.classList.add("open");
+  }
+}
