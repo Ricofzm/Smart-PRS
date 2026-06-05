@@ -77,19 +77,10 @@ async function loadData() {
     lastEVC =
       Number(d.CorrectionMeter);
     
-    calcFlowData.push(
-    calculatedFlow ?? 0
-    );
-    
     document.getElementById(
     "consumption"
     ).innerText =
     konsumsi;
-    
-    document.getElementById(
-      "smartflow"
-    ).innerText =
-    calculatedFlow ?? "-";
 
     console.log(
     "Time:",
@@ -98,9 +89,6 @@ async function loadData() {
     d.CorrectionMeter,
     "CorrFlow:",
     d.CorrectionFlow,
-    "Smart:",
-    calculatedFlow
-    );
     
     const now =
     new Date().toLocaleTimeString();
@@ -124,7 +112,6 @@ async function loadData() {
     gasFlowData.shift();
     corrFlowData.shift();
     pressureData.shift();
-    calcFlowData.shift();
     }
     
     flowChart.update();
