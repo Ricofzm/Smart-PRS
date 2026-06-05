@@ -120,12 +120,14 @@ async function loadData() {
     calculatedFlow ?? "-";
 
     console.log(
-      "CorrFlow:",
-      d.CorrectionFlow,
-      "SmartFlow:",
-      calculatedFlow,
-      "DeltaEVC:",
-      konsumsi
+    "Time:",
+    d.ReceiveDateTime,
+    "EVC:",
+    d.CorrectionMeter,
+    "CorrFlow:",
+    d.CorrectionFlow,
+    "Smart:",
+    calculatedFlow
     );
     
     const now =
