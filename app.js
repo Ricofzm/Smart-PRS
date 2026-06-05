@@ -49,6 +49,36 @@ position:"right"
 }
 });
 
+flowChart.options.plugins = {
+  legend: {
+    labels: {
+      color: "white"
+    }
+  }
+};
+
+flowChart.options.scales = {
+  x: {
+    ticks: {
+      color: "white"
+    }
+  },
+  y: {
+    ticks: {
+      color: "white"
+    },
+    beginAtZero: true
+  },
+  y1: {
+    position: "right",
+    ticks: {
+      color: "white"
+    }
+  }
+};
+
+flowChart.update();
+
 function getPressureStatus(p) {
   p = Number(p);
 
