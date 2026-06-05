@@ -154,7 +154,7 @@ async function loadData() {
       d.PressureInlet || "-";
 
     document.getElementById("outlet").innerText =
-      d.PressureOutlet || "-";
+      d.Pressure || "-";
 
     document.getElementById("temp").innerText =
       d.Temperature || "-";
@@ -187,7 +187,7 @@ async function loadData() {
     
     updateAlarm(
     d.PressureInlet,
-    d.PressureOutlet
+    d.Pressure
     );
   } catch (err) {
 
