@@ -187,7 +187,7 @@ async function loadData() {
     
     updateAlarm(
     d.PressureInlet,
-    d.Pressure
+    d.PressureOutlet
     );
   } catch (err) {
 
