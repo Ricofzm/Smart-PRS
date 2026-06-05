@@ -119,6 +119,15 @@ async function loadData() {
     ).innerText =
     calculatedFlow ?? "-";
 
+    console.log(
+      "CorrFlow:",
+      d.CorrectionFlow,
+      "SmartFlow:",
+      calculatedFlow,
+      "DeltaEVC:",
+      konsumsi
+    );
+    
     const now =
     new Date().toLocaleTimeString();
     
