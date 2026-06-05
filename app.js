@@ -71,8 +71,6 @@ async function loadData() {
     console.log(json);
 
     const d = json[0];
-    let calculatedFlow = null;
-    let konsumsi = "-";
     
     const nowTime = Date.now();
 
