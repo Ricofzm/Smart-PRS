@@ -124,15 +124,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // ── hourly log ──
       const hour = now.getHours();
-      if (lastHourLog !== hour) {
+      const minute = now.getMinutes();
+      
+      if (
+        minute === 0 &&
+        lastHourLog !== hour
+      ) {
         lastHourLog = hour;
-        addRecord("prs_hourly", d, now);
-        renderTable("hourlyBody", "prs_hourly");
+      
+        addRecord(
+          "prs_hourly",
+          d,
+          now
+        );
+      
+        renderTable(
+          "hourlyBody",
+          "prs_hourly"
+        );
       }
 
       // ── daily log ──
       const dateStr = now.toISOString().slice(0, 10);
-      if (hour >= 6 && lastDailyLog !== dateStr) {
+      if (
+      hour === 6 &&
+      minute === 0 &&
+      lastDailyLog !== dateStr
+      ) {
         lastDailyLog = dateStr;
         addRecord("prs_daily", d, now, true);
         renderTable("dailyBody", "prs_daily");
@@ -165,9 +183,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const arr = getRecords(key);
 
     arr.unshift({
-      time: daily
-        ? now.toLocaleDateString("id-ID")
-        : now.toLocaleString("id-ID"),
+     time: daily
+      ? now.toLocaleDateString("id-ID")
+      : String(now.getDate()).padStart(2,"0") + "/" +
+        String(now.getMonth()+1).padStart(2,"0") + "/" +
+        now.getFullYear() + " " +
+        String(now.getHours()).padStart(2,"0") +
+        ":00";
       inlet: d.PressureInlet,
       outlet: d.Pressure,
       temp: d.Temperature,
