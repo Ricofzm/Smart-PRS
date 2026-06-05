@@ -59,6 +59,7 @@ options:{
     }
   }
 }
+});
 
 function getPressureStatus(p) {
   p = Number(p);
@@ -165,7 +166,7 @@ async function loadData() {
       d.PressureInlet || "-";
 
     document.getElementById("outlet").innerText =
-      d.Pressure || "-";
+      d.PressureOutlet || "-";
 
     document.getElementById("temp").innerText =
       d.Temperature || "-";
