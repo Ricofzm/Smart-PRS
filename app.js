@@ -3,7 +3,6 @@ const labels = [];
 const gasFlowData = [];
 const corrFlowData = [];
 const pressureData = [];
-const calcFlowData = [];
 
 const ctx =
 document.getElementById("flowChart");
@@ -30,11 +29,6 @@ data:pressureData,
 borderWidth:2,
 yAxisID:"y1"
 },
-{
-label:"Smart PRS Flow",
-data:calcFlowData,
-borderWidth:2
-},
 ]
 },
 options:{
@@ -55,9 +49,6 @@ position:"right"
 }
 });
 
-let lastEVC = null;
-let lastTime = null;
-
 const API =
 "https://smart-prs-api.enrikofzm.workers.dev";
 
@@ -72,38 +63,19 @@ async function loadData() {
 
     const d = json[0];
     
-    const nowTime = Date.now();
+    let lastEVC = null;
 
-    let calculatedFlow = null;
-    let konsumsi = "-";
-    
     if(lastEVC !== null){
-
-    const deltaV =
-      Number(d.CorrectionMeter) -
-      lastEVC;
-  
-    konsumsi =
-      deltaV.toFixed(2);
-  
-    if(lastTime !== null){
-
-    const deltaT =
-      (nowTime - lastTime) / 1000;
-
-    calculatedFlow =
-      ((deltaV / deltaT) * 3600)
-      .toFixed(2);
-
+    
+      konsumsi = (
+        Number(d.CorrectionMeter) -
+        lastEVC
+      ).toFixed(2);
+    
     }
-  
-  }
-  
+    
     lastEVC =
       Number(d.CorrectionMeter);
-    
-    lastTime =
-      nowTime;
     
     calcFlowData.push(
     calculatedFlow ?? 0
