@@ -1,5 +1,8 @@
 const labels = [];
-const flowData = [];
+
+const gasFlowData = [];
+const corrFlowData = [];
+const pressureData = [];
 
 const ctx =
 document.getElementById("flowChart");
@@ -8,11 +11,19 @@ const flowChart =
 new Chart(ctx,{
 type:"line",
 data:{
-labels:labels,
+labels,
 datasets:[
 {
 label:"Gas Flow",
-data:flowData
+data:gasFlowData
+},
+{
+label:"Correction Flow",
+data:corrFlowData
+},
+{
+label:"Pressure Inlet",
+data:pressureData
 }
 ]
 },
@@ -40,13 +51,23 @@ async function loadData() {
     
     labels.push(now);
     
-    flowData.push(
+    gasFlowData.push(
     Number(d.GasFlow)
+    );
+    
+    corrFlowData.push(
+    Number(d.CorrectionFlow)
+    );
+    
+    pressureData.push(
+    Number(d.PressureInlet)
     );
     
     if(labels.length > 20){
     labels.shift();
-    flowData.shift();
+    gasFlowData.shift();
+    corrFlowData.shift();
+    pressureData.shift();
     }
     
     flowChart.update();
@@ -77,7 +98,36 @@ async function loadData() {
 
     document.getElementById("update").innerText =
       d.ReceiveDateTime || new Date().toLocaleTimeString();
+    
+    const stokAman =
+    (Number(d.PressureInlet)/10)
+    .toFixed(1);
+    
+    document.getElementById("stok")
+    .innerText =
+    stokAman + " Jam";
+    
+    let konsumsi = "-";
 
+    if(lastEVC !== null){
+    
+    konsumsi =
+    (
+    Number(d.CorrectionMeter)
+    -
+    lastEVC
+    ).toFixed(2);
+    
+    }
+    
+    lastEVC =
+    Number(d.CorrectionMeter);
+    
+    document.getElementById(
+    "consumption"
+    ).innerText =
+    konsumsi;
+    
   } catch (err) {
 
     document.getElementById("update").innerText =
