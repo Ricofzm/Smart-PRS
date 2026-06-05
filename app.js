@@ -127,13 +127,15 @@ document.addEventListener("DOMContentLoaded", () => {
       if (lastHourLog !== hour) {
         lastHourLog = hour;
         addRecord("prs_hourly", d, now);
+        renderTable("hourlyBody", "prs_hourly");
       }
 
       // ── daily log ──
       const dateStr = now.toISOString().slice(0, 10);
-      if (hour === 6 && lastDailyLog !== dateStr) {
+      if (hour >= 6 && lastDailyLog !== dateStr) {
         lastDailyLog = dateStr;
         addRecord("prs_daily", d, now, true);
+        renderTable("dailyBody", "prs_daily");
       }
 
     } catch (err) {
@@ -143,7 +145,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ── STORAGE ──────────────────────────────────────────
+  // ── START LOOP ───────────────────────────────────────
+  loadData();
+  setInterval(loadData, 5000);
+
+});
+
+// ── STORAGE ──────────────────────────────────────────
   function getRecords(key) {
     try { return JSON.parse(localStorage.getItem(key) || "[]"); }
     catch { return []; }
@@ -173,27 +181,130 @@ document.addEventListener("DOMContentLoaded", () => {
     if (arr.length > 500) arr.length = 500;
     saveRecords(key, arr);
   }
+  function renderTable(tbodyId, key) {
 
-  // ── START LOOP ───────────────────────────────────────
-  loadData();
-  setInterval(loadData, 5000);
+  const tbody = document.getElementById(tbodyId);
 
-});
+  const data = getRecords(key);
 
-function toggleMenu() {
-  const btn = document.getElementById("menuBtn");
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay");
+  if (!data.length) {
+    tbody.innerHTML =
+      '<tr><td colspan="9" class="empty">Belum ada data pencatatan.</td></tr>';
+    return;
+  }
 
-  const isOpen = sidebar.classList.contains("open");
+  tbody.innerHTML = data.map(r => `
+    <tr>
+      <td>${r.time}</td>
+      <td>${r.inlet}</td>
+      <td>${r.outlet}</td>
+      <td>${r.temp}</td>
+      <td>${r.gasflow}</td>
+      <td>${r.corrflow}</td>
+      <td>${r.turbin}</td>
+      <td>${r.evc}</td>
+      <td>${r.today}</td>
+    </tr>
+    `).join("");
+  }
+  function exportCSV(type) {
 
-  if (isOpen) {
-    sidebar.classList.remove("open");
-    overlay.classList.remove("show");
-    btn.classList.remove("open");
-  } else {
-    sidebar.classList.add("open");
-    overlay.classList.add("show");
-    btn.classList.add("open");
+  const key =
+    type === "hourly"
+      ? "prs_hourly"
+      : "prs_daily";
+
+  const data = getRecords(key);
+
+  if (!data.length) {
+    alert("Belum ada data");
+    return;
+  }
+
+  const header = [
+    "Waktu",
+    "Inlet",
+    "Outlet",
+    "Temp",
+    "Gas Flow",
+    "Corr Flow",
+    "Turbin",
+    "EVC",
+    "Today"
+  ];
+
+  const rows = data.map(r => [
+    r.time,
+    r.inlet,
+    r.outlet,
+    r.temp,
+    r.gasflow,
+    r.corrflow,
+    r.turbin,
+    r.evc,
+    r.today
+  ].join(","));
+
+  const csv =
+    [header.join(","), ...rows]
+      .join("\n");
+
+  const blob =
+    new Blob([csv], {
+      type: "text/csv"
+    });
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
+
+  a.href = url;
+
+  a.download =
+    `${type}.csv`;
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+  }
+  
+  function toggleMenu() {
+  document.getElementById("sidebar").classList.toggle("open");
+  document.getElementById("overlay").classList.toggle("show");
+  document.getElementById("menuBtn").classList.toggle("open");
+  }
+  
+  function showPage(pageName, el) {
+
+  document.querySelectorAll(".page")
+    .forEach(page =>
+      page.classList.remove("active")
+    );
+
+  document.querySelectorAll(".tab-btn")
+    .forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+  document
+    .getElementById("page-" + pageName)
+    .classList.add("active");
+
+  el.classList.add("active");
+
+  if (pageName === "hourly") {
+    renderTable(
+      "hourlyBody",
+      "prs_hourly"
+    );
+  }
+
+  if (pageName === "daily") {
+    renderTable(
+      "dailyBody",
+      "prs_daily"
+    );
   }
 }
