@@ -29,7 +29,7 @@ label:"Pressure Inlet",
 data:pressureData,
 borderWidth:2,
 yAxisID:"y1"
-}
+},
 {
 label:"Smart PRS Flow",
 data:calcFlowData,
@@ -70,6 +70,42 @@ async function loadData() {
     console.log(json);
 
     const d = json[0];
+    let calculatedFlow = null;
+    let konsumsi = "-";
+    
+    if(lastEVC !== null){
+    
+      const deltaV =
+        Number(d.CorrectionMeter) -
+        lastEVC;
+    
+      calculatedFlow =
+      Number(
+        (deltaV * 120).toFixed(2)
+      );
+    
+      konsumsi =
+        deltaV.toFixed(2);
+    
+    }
+    
+    lastEVC =
+      Number(d.CorrectionMeter);
+      
+    calcFlowData.push(
+    calculatedFlow ?? 0
+    );
+    
+    document.getElementById(
+    "consumption"
+    ).innerText =
+    konsumsi;
+    
+    document.getElementById(
+      "smartflow"
+    ).innerText =
+    calculatedFlow ?? "-";
+
     const now =
     new Date().toLocaleTimeString();
     
@@ -85,10 +121,6 @@ async function loadData() {
     
     pressureData.push(
     Number(d.PressureInlet)
-    );
-    
-    calcFlowData.push(
-    calculatedFlow ?? 0
     );
     
     if(labels.length > 20){
@@ -128,22 +160,6 @@ async function loadData() {
     document.getElementById("update").innerText =
       d.ReceiveDateTime || new Date().toLocaleTimeString();
     
-    let calculatedFlow = null;
-
-    if(lastEVC !== null){
-    
-      const deltaV =
-        Number(d.CorrectionMeter) -
-        lastEVC;
-    
-      calculatedFlow =
-        deltaV * 120;
-    
-    }
-    
-    lastEVC =
-      Number(d.CorrectionMeter);
-    
     const stokAman =
     (Number(d.PressureInlet)/10)
     .toFixed(1);
@@ -151,27 +167,6 @@ async function loadData() {
     document.getElementById("stok")
     .innerText =
     stokAman + " Jam";
-    
-    let konsumsi = "-";
-
-    if(lastEVC !== null){
-    
-    konsumsi =
-    (
-    Number(d.CorrectionMeter)
-    -
-    lastEVC
-    ).toFixed(2);
-    
-    }
-    
-    lastEVC =
-    Number(d.CorrectionMeter);
-    
-    document.getElementById(
-    "consumption"
-    ).innerText =
-    konsumsi;
     
   } catch (err) {
 
