@@ -33,6 +33,8 @@ animation:false
 }
 });
 
+let lastEVC = null;
+
 const API =
 "https://smart-prs-api.enrikofzm.workers.dev";
 
