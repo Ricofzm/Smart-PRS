@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ── START LOOP ───────────────────────────────────────
   loadData();
-  setInterval(loadData, 60000);
+  setInterval(loadData, 15000);
 
 });
 
