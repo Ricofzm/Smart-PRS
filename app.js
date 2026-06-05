@@ -56,6 +56,7 @@ position:"right"
 });
 
 let lastEVC = null;
+let lastTime = null;
 
 const API =
 "https://smart-prs-api.enrikofzm.workers.dev";
@@ -73,25 +74,39 @@ async function loadData() {
     let calculatedFlow = null;
     let konsumsi = "-";
     
+    const nowTime = Date.now();
+
+    let calculatedFlow = null;
+    let konsumsi = "-";
+    
     if(lastEVC !== null){
-    
-      const deltaV =
-        Number(d.CorrectionMeter) -
-        lastEVC;
-    
-      calculatedFlow =
-      Number(
-        (deltaV * 120).toFixed(2)
-      );
-    
-      konsumsi =
-        deltaV.toFixed(2);
-    
+
+    const deltaV =
+      Number(d.CorrectionMeter) -
+      lastEVC;
+  
+    konsumsi =
+      deltaV.toFixed(2);
+  
+    if(lastTime !== null){
+
+    const deltaT =
+      (nowTime - lastTime) / 1000;
+
+    calculatedFlow =
+      ((deltaV / deltaT) * 3600)
+      .toFixed(2);
+
     }
-    
+  
+  }
+  
     lastEVC =
       Number(d.CorrectionMeter);
-      
+    
+    lastTime =
+      nowTime;
+    
     calcFlowData.push(
     calculatedFlow ?? 0
     );
