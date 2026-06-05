@@ -39,3 +39,12 @@ text-align:center;
 margin-top:20px;
 opacity:.7;
 }
+
+.chart-card{
+grid-column:1/-1;
+}
+
+canvas{
+width:100%;
+max-height:300px;
+}
