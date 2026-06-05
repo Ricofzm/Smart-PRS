@@ -61,45 +61,6 @@ options:{
 }
 });
 
-function getPressureStatus(p) {
-  p = Number(p);
-
-  if (p >= 90) return "critical";
-  if (p >= 75) return "warning";
-  if (p >= 60) return "normal";
-  return "warning"; // terlalu rendah juga bahaya
-}
-function updateAlarm(inlet, outlet) {
-  const inletStatus = getPressureStatus(inlet);
-  const outletStatus = getPressureStatus(outlet);
-
-  const alarmBar = document.getElementById("alarmBar");
-
-  const finalStatus =
-    (inletStatus === "critical" || outletStatus === "critical")
-      ? "critical"
-      : (inletStatus === "warning" || outletStatus === "warning")
-        ? "warning"
-        : "normal";
-
-  alarmBar.className = "alarm-bar " + finalStatus;
-
-  if (finalStatus === "critical") {
-    alarmBar.innerText = "CRITICAL PRESSURE ALERT";
-  } else if (finalStatus === "warning") {
-    alarmBar.innerText = "WARNING: Pressure unstable";
-  } else {
-    alarmBar.innerText = "SYSTEM NORMAL";
-  }
-
-  // highlight card
-  const inletCard = document.getElementById("inlet").parentElement;
-  const outletCard = document.getElementById("outlet").parentElement;
-
-  inletCard.className = "card " + inletStatus;
-  outletCard.className = "card " + outletStatus;
-}
-
 const API =
 "https://smart-prs-api.enrikofzm.workers.dev";
 
@@ -197,10 +158,6 @@ async function loadData() {
     .innerText =
     stokAman + " Jam";
     
-    updateAlarm(
-    d.PressureInlet,
-    d.PressureOutlet
-    );
   } catch (err) {
 
     document.getElementById("update").innerText =
