@@ -62,84 +62,6 @@ body{
   color:var(--muted);
 }
 
-/* ===== HAMBURGER ===== */
-.hamburger{
-  background:none;
-  border:none;
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-  cursor:pointer;
-}
-.hamburger span{
-  width:20px;
-  height:2px;
-  background:var(--text);
-  border-radius:10px;
-  opacity:.8;
-}
-
-/* ===== SIDEBAR iOS STYLE ===== */
-.sidebar{
-  position:fixed;
-  top:0;
-  left:0;
-  width:280px;
-  height:100vh;
-
-  background:rgba(20,25,35,.7);
-  backdrop-filter: blur(22px);
-  border-right:1px solid var(--stroke);
-
-  transform:translateX(-100%);
-  transition:.35s ease;
-  z-index:2000;
-
-  padding-top:80px;
-}
-.sidebar.open{ transform:translateX(0); }
-
-.overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.35);
-  opacity:0;
-  pointer-events:none;
-  transition:.3s;
-  z-index:1500;
-}
-.overlay.show{
-  opacity:1;
-  pointer-events:auto;
-}
-
-.sidebar-header{
-  padding:0 20px 10px;
-  font-size:11px;
-  color:var(--muted);
-  letter-spacing:2px;
-}
-
-.menu-item{
-  display:flex;
-  align-items:center;
-  gap:10px;
-
-  padding:14px 18px;
-  margin:6px 10px;
-  border-radius:12px;
-
-  color:var(--text);
-  text-decoration:none;
-  font-size:14px;
-
-  transition:.2s;
-}
-.menu-item:hover,
-.menu-item.active{
-  background:rgba(255,255,255,.08);
-}
-
 /* ===== PAGE ===== */
 .page{
   display:none;
@@ -251,4 +173,64 @@ tbody tr:hover{
   text-align:center;
   padding:30px;
   color:var(--muted);
+}
+
+/* ========================= */
+/* BOTTOM NAV IOS STYLE */
+/* ========================= */
+
+.bottom-nav{
+  position:fixed;
+  left:12px;
+  right:12px;
+  bottom:12px;
+
+  height:68px;
+
+  background:rgba(20,25,35,.75);
+
+  backdrop-filter:blur(20px);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:20px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+
+  z-index:9999;
+}
+
+.tab-btn{
+  border:none;
+  background:none;
+
+  color:#9aa4b2;
+
+  display:flex;
+  flex-direction:column;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:4px;
+
+  cursor:pointer;
+
+  flex:1;
+
+  height:100%;
+}
+
+.tab-btn span{
+  font-size:11px;
+}
+
+.tab-btn.active{
+  color:white;
+}
+
+.tab-btn.active span{
+  font-weight:600;
 }
