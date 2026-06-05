@@ -15,21 +15,37 @@ labels,
 datasets:[
 {
 label:"Gas Flow",
-data:gasFlowData
+data:gasFlowData,
+borderWidth:2
 },
 {
 label:"Correction Flow",
-data:corrFlowData
+data:corrFlowData,
+borderWidth:2
 },
 {
 label:"Pressure Inlet",
-data:pressureData
+data:pressureData,
+borderWidth:2,
+yAxisID:"y1"
 }
 ]
 },
 options:{
 responsive:true,
-animation:false
+animation:false,
+interaction:{
+mode:"index",
+intersect:false
+},
+scales:{
+y:{
+beginAtZero:true
+},
+y1:{
+position:"right"
+}
+}
 }
 });
 
