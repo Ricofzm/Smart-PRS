@@ -217,7 +217,7 @@ tbody tr:hover{
   border:none;
   background:none;
 
-  color:#8f9baa;
+  color:rgba(255,255,255,.55);
 
   display:flex;
   flex-direction:column;
@@ -242,5 +242,12 @@ tbody tr:hover{
 }
 
 .tab-btn.active svg{
+  background:#0a84ff;
+  padding:8px;
+  border-radius:12px;
+
+  width:38px;
+  height:38px;
+  
   transform:translateY(-2px) scale(1.05);
 }
