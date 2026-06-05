@@ -270,12 +270,6 @@ document.addEventListener("DOMContentLoaded", () => {
   URL.revokeObjectURL(url);
   }
   
-  function toggleMenu() {
-  document.getElementById("sidebar").classList.toggle("open");
-  document.getElementById("overlay").classList.toggle("show");
-  document.getElementById("menuBtn").classList.toggle("open");
-  }
-  
   function showPage(pageName, el) {
 
   document.querySelectorAll(".page")
@@ -292,7 +286,9 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("page-" + pageName)
     .classList.add("active");
 
+  if(el){
   el.classList.add("active");
+  }
 
   if (pageName === "hourly") {
     renderTable(
