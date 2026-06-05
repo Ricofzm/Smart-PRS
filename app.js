@@ -52,19 +52,22 @@ position:"right"
 const API =
 "https://smart-prs-api.enrikofzm.workers.dev";
 
+let lastEVC = null;
+
 async function loadData() {
 
   try {
 
     const res = await fetch(API);
     const json = await res.json();
-
+    if(!json || !json.length){
+      return;
+    }
     console.log(json);
 
     const d = json[0];
-    
-    let lastEVC = null;
 
+    let konsumsi = "-";
     if(lastEVC !== null){
     
       konsumsi = (
@@ -81,14 +84,6 @@ async function loadData() {
     "consumption"
     ).innerText =
     konsumsi;
-
-    console.log(
-    "Time:",
-    d.ReceiveDateTime,
-    "EVC:",
-    d.CorrectionMeter,
-    "CorrFlow:",
-    d.CorrectionFlow,
     
     const now =
     new Date().toLocaleTimeString();
