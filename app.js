@@ -32,52 +32,33 @@ yAxisID:"y1"
 ]
 },
 options:{
-responsive:true,
-animation:false,
-interaction:{
-mode:"index",
-intersect:false
-},
-scales:{
-y:{
-beginAtZero:true
-},
-y1:{
-position:"right"
-}
-}
-}
-});
-
-flowChart.options.plugins = {
-  legend: {
-    labels: {
-      color: "white"
-    }
-  }
-};
-
-flowChart.options.scales = {
-  x: {
-    ticks: {
-      color: "white"
+  responsive:true,
+  animation:false,
+  interaction:{
+    mode:"index",
+    intersect:false
+  },
+  plugins:{
+    legend:{
+      labels:{
+        color:"white"
+      }
     }
   },
-  y: {
-    ticks: {
-      color: "white"
+  scales:{
+    x:{
+      ticks:{ color:"white" }
     },
-    beginAtZero: true
-  },
-  y1: {
-    position: "right",
-    ticks: {
-      color: "white"
+    y:{
+      beginAtZero:true,
+      ticks:{ color:"white" }
+    },
+    y1:{
+      position:"right",
+      ticks:{ color:"white" }
     }
   }
-};
-
-flowChart.update();
+}
 
 function getPressureStatus(p) {
   p = Number(p);
@@ -217,7 +198,7 @@ async function loadData() {
     
     updateAlarm(
     d.PressureInlet,
-    d.Pressure
+    d.PressureOutlet
     );
   } catch (err) {
 
