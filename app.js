@@ -49,6 +49,45 @@ position:"right"
 }
 });
 
+function getPressureStatus(p) {
+  p = Number(p);
+
+  if (p >= 90) return "critical";
+  if (p >= 75) return "warning";
+  if (p >= 60) return "normal";
+  return "warning"; // terlalu rendah juga bahaya
+}
+function updateAlarm(inlet, outlet) {
+  const inletStatus = getPressureStatus(inlet);
+  const outletStatus = getPressureStatus(outlet);
+
+  const alarmBar = document.getElementById("alarmBar");
+
+  const finalStatus =
+    (inletStatus === "critical" || outletStatus === "critical")
+      ? "critical"
+      : (inletStatus === "warning" || outletStatus === "warning")
+        ? "warning"
+        : "normal";
+
+  alarmBar.className = "alarm-bar " + finalStatus;
+
+  if (finalStatus === "critical") {
+    alarmBar.innerText = "CRITICAL PRESSURE ALERT";
+  } else if (finalStatus === "warning") {
+    alarmBar.innerText = "WARNING: Pressure unstable";
+  } else {
+    alarmBar.innerText = "SYSTEM NORMAL";
+  }
+
+  // highlight card
+  const inletCard = document.getElementById("inlet").parentElement;
+  const outletCard = document.getElementById("outlet").parentElement;
+
+  inletCard.className = "card " + inletStatus;
+  outletCard.className = "card " + outletStatus;
+}
+
 const API =
 "https://smart-prs-api.enrikofzm.workers.dev";
 
@@ -115,7 +154,7 @@ async function loadData() {
       d.PressureInlet || "-";
 
     document.getElementById("outlet").innerText =
-      d.Pressure || "-";
+      d.PressureOutlet || "-";
 
     document.getElementById("temp").innerText =
       d.Temperature || "-";
@@ -146,6 +185,10 @@ async function loadData() {
     .innerText =
     stokAman + " Jam";
     
+    updateAlarm(
+    d.PressureInlet,
+    d.Pressure
+    );
   } catch (err) {
 
     document.getElementById("update").innerText =
@@ -154,7 +197,7 @@ async function loadData() {
     console.error(err);
 
   }
-
+  
 }
 
 loadData();
