@@ -3,6 +3,7 @@ const labels = [];
 const gasFlowData = [];
 const corrFlowData = [];
 const pressureData = [];
+const calcFlowData = [];
 
 const ctx =
 document.getElementById("flowChart");
@@ -29,6 +30,11 @@ data:pressureData,
 borderWidth:2,
 yAxisID:"y1"
 }
+{
+label:"Smart PRS Flow",
+data:calcFlowData,
+borderWidth:2
+},
 ]
 },
 options:{
@@ -81,11 +87,16 @@ async function loadData() {
     Number(d.PressureInlet)
     );
     
+    calcFlowData.push(
+    calculatedFlow ?? 0
+    );
+    
     if(labels.length > 20){
     labels.shift();
     gasFlowData.shift();
     corrFlowData.shift();
     pressureData.shift();
+    calcFlowData.shift();
     }
     
     flowChart.update();
@@ -116,6 +127,22 @@ async function loadData() {
 
     document.getElementById("update").innerText =
       d.ReceiveDateTime || new Date().toLocaleTimeString();
+    
+    let calculatedFlow = null;
+
+    if(lastEVC !== null){
+    
+      const deltaV =
+        Number(d.CorrectionMeter) -
+        lastEVC;
+    
+      calculatedFlow =
+        deltaV * 120;
+    
+    }
+    
+    lastEVC =
+      Number(d.CorrectionMeter);
     
     const stokAman =
     (Number(d.PressureInlet)/10)
