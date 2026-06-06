@@ -147,8 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // ── daily log ──
       const dateStr = now.toISOString().slice(0, 10);
       if (
-      hour === 6 &&
-      minute === 0 &&
+      hour >= 6 &&
       lastDailyLog !== dateStr
       ) {
         lastDailyLog = dateStr;
@@ -184,8 +183,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     arr.unshift({
       time: daily
-        ? now.toLocaleDateString("id-ID")
-        : `${String(now.getDate()).padStart(2,"0")}/${String(now.getMonth()+1).padStart(2,"0")}/${now.getFullYear()} ${String(now.getHours()).padStart(2,"0")}:00`,
+      ? now.toLocaleDateString("id-ID")
+      : String(now.getDate()).padStart(2,"0") + "/" +
+        String(now.getMonth()+1).padStart(2,"0") + "/" +
+        now.getFullYear() + " " +
+        String(now.getHours()).padStart(2,"0") +
+        ":00",
     
       inlet: d.PressureInlet,
       outlet: d.Pressure,
