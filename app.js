@@ -98,12 +98,12 @@ document.addEventListener("DOMContentLoaded", () => {
       set("stok", (Number(d.PressureInlet) / 10).toFixed(1));
       
       updateAlarm(
-        Number(d.PressureInlet),
-        Number(d.Pressure),
-        Number(d.Temperature),
-        Number(d.GasFlow),
-        Number(d.CorrectionMeter),
-        Number(d.StokAman)
+      Number(d.PressureInlet),
+      Number(d.Pressure),
+      Number(d.Temperature),
+      Number(d.GasFlow),
+      Number(d.CorrectionFlow),
+      Number(d.PressureInlet) / 10
       );
 
       // consumption
@@ -355,39 +355,47 @@ document.addEventListener("DOMContentLoaded", () => {
   inlet,
   outlet,
   temp,
-  flow
+  gasflow,
+  corrflow,
+  stok
   ){
-  
-    setCard(
-      "card-inlet",
-      inlet < 5 || inlet > 250
-    );
-  
-    setCard(
-      "card-outlet",
-      outlet < 2 || outlet > 3
-    );
-  
-    setCard(
-      "card-temp",
-      temp < 25 || temp > 40
-    );
-  
-    setCard(
-      "card-gasflow",
-      gasflow > 60 || gasflow < 10
-    );
-    
-    setCard(
-      "card-corrflow",
-      corrflow > 500 || corrflow < 275
-    );
-    
-    setCard(
-      "card-stok",
-      stok > 500 || stok < 5
-    );
-  
+
+  // Inlet
+  setCard(
+    "card-inlet",
+    inlet < 5 || inlet > 250
+  );
+
+  // Outlet
+  setCard(
+    "card-outlet",
+    outlet < 2 || outlet > 3
+  );
+
+  // Temperature
+  setCard(
+    "card-temp",
+    temp < 25 || temp > 40
+  );
+
+  // Gas Flow
+  setCard(
+    "card-gasflow",
+    gasflow < 5 || gasflow > 250
+  );
+
+  // Correction Flow
+  setCard(
+    "card-corrflow",
+    corrflow < 275 || corrflow > 500
+  );
+
+  // Stok Aman
+  setCard(
+    "card-stok",
+    stok < 5
+  );
+
   }
   
   function setCard(id, alarm){
