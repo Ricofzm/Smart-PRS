@@ -25,17 +25,17 @@
 <!-- PAGE: DASHBOARD -->
 <main class="page active" id="page-dashboard">
   <div class="grid">
-    <div class="card">
+    <div class="card" id="card-inlet">
       <h3>Inlet Pressure</h3>
       <p id="inlet">-</p>
       <span class="unit">bar</span>
     </div>
-    <div class="card">
+    <div class="card" id="card-outlet">
       <h3>Outlet Pressure</h3>
       <p id="outlet">-</p>
       <span class="unit">bar</span>
     </div>
-    <div class="card">
+    <div class="card" id="card-temp">
       <h3>Temperature</h3>
       <p id="temp">-</p>
       <span class="unit">°C</span>
@@ -45,7 +45,7 @@
       <p id="gasflow">-</p>
       <span class="unit">m³/h</span>
     </div>
-    <div class="card">
+    <div class="card" id="card-corrflow">
       <h3>Correction Flow</h3>
       <p id="corrflow">-</p>
       <span class="unit">m³/h</span>
@@ -65,7 +65,7 @@
       <p id="today">-</p>
       <span class="unit">m³</span>
     </div>
-    <div class="card">
+    <div class="card" id="card-stok">
       <h3>Stok Aman</h3>
       <p id="stok">-</p>
       <span class="unit">jam</span>
@@ -74,10 +74,6 @@
       <h3>Consumption</h3>
       <p id="consumption">-</p>
       <span class="unit">m³</span>
-    </div>
-    <div class="card chart-card">
-      <h3>Gas Flow Realtime</h3>
-      <canvas id="flowChart"></canvas>
     </div>
   </div>
 </main>
