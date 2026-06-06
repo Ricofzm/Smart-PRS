@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
           fill: true,
           pointRadius: 0,
           pointHoverRadius: 5,
-          tension: .45
+          tension: 0.5
         },
         {
           label: "Correction Flow",
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
           fill: true,
           pointRadius: 0,
           pointHoverRadius: 5,
-          tension: .45
+          tension: 0.5
         }
       ]
     },
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
       state.corrFlow.push(Number(d.CorrectionFlow));
       state.pressure.push(Number(d.PressureInlet));
 
-      if (state.labels.length > 20) {
+      if (state.labels.length > 180) {
         state.labels.shift();
         state.gasFlow.shift();
         state.corrFlow.shift();
@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ── START LOOP ───────────────────────────────────────
   loadData();
-  setInterval(loadData, 5000);
+  setInterval(loadData, 10000);
 
 });
 
