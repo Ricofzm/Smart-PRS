@@ -136,34 +136,28 @@ document.addEventListener("DOMContentLoaded", () => {
         stok
       );
 
-      const hourKey = now.getHours();
-      const inletNow = Number(d.PressureInlet || 0);
+      const hourKey = `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}-${now.getHours()}`;
+
+      let hourlyInlet = getHourlyInlet();
       
-      // init pertama
-      if (lastHourStored === null) {
-        lastHourStored = hourKey;
-        lastHourInlet = inletNow;
-      
-        set("consumption", "-");
-      } else {
-      
-        // kalau jam berubah → hitung DIF INLET
-        if (hourKey !== lastHourStored) {
-      
-          const diff = inletNow - lastHourInlet;
-      
-          lastHourStored = hourKey;
-          lastHourInlet = inletNow;
-      
-          set("consumption", diff.toFixed(2));
-      
-        } else {
-      
-          // tetap tampil nilai jam ini (stabil)
-          const diffLive = inletNow - lastHourInlet;
-          set("consumption", diffLive.toFixed(2));
-        }
+      if (!hourlyInlet[hourKey]) {
+        hourlyInlet[hourKey] = Number(d.PressureInlet);
+        saveHourlyInlet(hourlyInlet);
       }
+      
+      const keys = Object.keys(hourlyInlet).sort();
+      const currentIndex = keys.indexOf(hourKey);
+      
+      let difInlet = "-";
+      
+      if (currentIndex > 0) {
+        const prevKey = keys[currentIndex - 1];
+        difInlet = (
+          Number(d.PressureInlet) - Number(hourlyInlet[prevKey])
+        ).toFixed(2);
+      }
+      
+      set("consumption", difInlet);
 
       // ── CHART UPDATE ──
       state.labels.push(now.toLocaleTimeString("id-ID"));
@@ -217,6 +211,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+// ── HOURLY INLET STORAGE ─────────────────────────────
+function getHourlyInlet() {
+  return JSON.parse(localStorage.getItem("hourly_inlet") || "{}");
+}
+
+function saveHourlyInlet(obj) {
+  localStorage.setItem("hourly_inlet", JSON.stringify(obj));
+}
 
 // ── STORAGE ─────────────────────────────
 function getRecords(key) {
