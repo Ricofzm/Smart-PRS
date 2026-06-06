@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-localStorage.removeItem("prs_hourly");
-localStorage.removeItem("prs_daily");
+
   // ── STATE ─────────────────────────────────────────────
   const state = {
     labels: [],
