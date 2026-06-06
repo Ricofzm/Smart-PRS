@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // ── STATE ─────────────────────────────────────────────
+  // ── STATE ─────────────────────────────
   const state = {
     labels: [],
     gasFlow: [],
@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const API = "https://smart-prs-api.enrikofzm.workers.dev";
 
-  // ── CHART INIT (SAFE) ────────────────────────────────
-  const ctx = document.getElementById("flowChart");
+  // ── CHART ─────────────────────────────
+  const ctx = document.getElementById("flowchart");
 
   if (!ctx) {
     console.error("Chart canvas not found");
@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
           backgroundColor: "rgba(10,132,255,.15)",
           fill: true,
           pointRadius: 0,
-          pointHoverRadius: 5,
           tension: 0.5
         },
         {
@@ -45,85 +44,65 @@ document.addEventListener("DOMContentLoaded", () => {
           backgroundColor: "rgba(48,209,88,.15)",
           fill: true,
           pointRadius: 0,
-          pointHoverRadius: 5,
           tension: 0.5
         }
       ]
     },
-      options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      animation:false,
-      
-      animation:{
-        duration:800,
-        easing:"easeOutQuart"
-      }
-      interaction:{
-        mode:"index",
-        intersect:false
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+
+      animation: {
+        duration: 600,
+        easing: "easeOutQuart"
       },
-    
-      plugins:{
-    
-        legend:{
-          display:false
-        },
-    
-        tooltip:{
-          backgroundColor:"rgba(20,25,35,.95)",
-          borderColor:"rgba(255,255,255,.08)",
-          borderWidth:1,
-          padding:12,
-          cornerRadius:12,
-          titleColor:"#fff",
-          bodyColor:"#d1d5db"
-        }
-    
+
+      interaction: {
+        mode: "index",
+        intersect: false
       },
-    
-      scales:{
-    
-        x:{
-          ticks:{
-            color:"#94a3b8",
-            maxTicksLimit:6
-          },
-          grid:{
-            display:false
-          }
-        },
-    
-        y:{
-          beginAtZero:true,
-          ticks:{
-            color:"#94a3b8"
-          },
-          grid:{
-            color:"rgba(255,255,255,.05)"
-          }
+
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: "rgba(20,25,35,.95)",
+          borderColor: "rgba(255,255,255,.08)",
+          borderWidth: 1,
+          padding: 10,
+          cornerRadius: 10
         }
-    
+      },
+
+      scales: {
+        x: {
+          ticks: { color: "#94a3b8" },
+          grid: { display: false }
+        },
+        y: {
+          beginAtZero: true,
+          ticks: { color: "#94a3b8" },
+          grid: { color: "rgba(255,255,255,.05)" }
+        }
       }
-    
     }
   });
 
-  // ── SAFE FETCH ───────────────────────────────────────
+  // ── FETCH ─────────────────────────────
   async function loadData() {
     try {
+
       document.querySelectorAll(".card")
-      .forEach(c => c.classList.add("loading"));
+        .forEach(c => c.classList.add("loading"));
+
       const res = await fetch(API);
       if (!res.ok) throw new Error("API error");
 
       const json = await res.json();
-      if (!Array.isArray(json) || json.length === 0) return;
+      if (!Array.isArray(json) || !json.length) return;
 
       const d = json[0];
       const now = new Date();
 
-      // UI update helper
       const set = (id, val) => {
         const el = document.getElementById(id);
         if (el) el.innerText = val ?? "-";
@@ -138,21 +117,24 @@ document.addEventListener("DOMContentLoaded", () => {
       set("turbin", d.TurbinMeter);
       set("evc", d.CorrectionMeter);
       set("today", d.TodayVolume);
-      set("stok", (Number(d.PressureInlet) / 10).toFixed(1));
-      
+
+      const stok = Number(d.PressureInlet) / 10;
+      set("stok", stok.toFixed(1));
+
       document.querySelectorAll(".card")
-      .forEach(c => c.classList.remove("loading"));
-  
+        .forEach(c => c.classList.remove("loading"));
+
+      // ── ALARM ──
       updateAlarm(
-      Number(d.PressureInlet),
-      Number(d.Pressure),
-      Number(d.Temperature),
-      Number(d.GasFlow),
-      Number(d.CorrectionFlow),
-      Number(d.PressureInlet) / 10
+        Number(d.PressureInlet),
+        Number(d.Pressure),
+        Number(d.Temperature),
+        Number(d.GasFlow),
+        Number(d.CorrectionFlow),
+        stok
       );
 
-      // consumption
+      // ── CONSUMPTION ──
       let konsumsi = "-";
       if (lastEVC !== null) {
         konsumsi = (Number(d.CorrectionMeter) - lastEVC).toFixed(2);
@@ -160,13 +142,13 @@ document.addEventListener("DOMContentLoaded", () => {
       lastEVC = Number(d.CorrectionMeter);
       set("consumption", konsumsi);
 
-      // ── chart push ──
+      // ── CHART UPDATE ──
       state.labels.push(now.toLocaleTimeString("id-ID"));
       state.gasFlow.push(Number(d.GasFlow));
       state.corrFlow.push(Number(d.CorrectionFlow));
       state.pressure.push(Number(d.PressureInlet));
 
-      if (state.labels.length > 180) {
+      if (state.labels.length > 50) {
         state.labels.shift();
         state.gasFlow.shift();
         state.corrFlow.shift();
@@ -175,88 +157,66 @@ document.addEventListener("DOMContentLoaded", () => {
 
       flowChart.update();
 
-      // ── hourly log ──
+      // ── HOURLY LOG ──
       const hour = now.getHours();
       const minute = now.getMinutes();
-      
-      if (
-        minute <= 1 &&
-        lastHourLog !== hour
-      ) {
+
+      if (minute <= 1 && lastHourLog !== hour) {
         lastHourLog = hour;
-      
-        addRecord(
-          "prs_hourly",
-          d,
-          now
-        );
-      
-        renderTable(
-          "hourlyBody",
-          "prs_hourly"
-        );
+        addRecord("prs_hourly", d, now);
+        renderTable("hourlyBody", "prs_hourly");
       }
 
-      // ── daily log ──
-      const dailyData = getRecords("prs_daily");
+      // ── DAILY LOG ──
+      const daily = getRecords("prs_daily");
 
-      const sudahAda =
-        dailyData.length &&
-        dailyData[0].time === now.toLocaleDateString("id-ID");
-      
-      if (
-        hour === 6 &&
-        minute === 1 &&
-        !sudahAda
-      ) {
-        addRecord(
-          "prs_daily",
-          d,
-          now,
-          true
-        );
-        renderTable(
-          "dailyBody",
-          "prs_daily"
-        );
+      const already =
+        daily.length &&
+        daily[0].time === now.toLocaleDateString("id-ID");
+
+      if (hour === 6 && minute === 1 && !already) {
+        addRecord("prs_daily", d, now, true);
+        renderTable("dailyBody", "prs_daily");
       }
+
     } catch (err) {
-      const el = document.getElementById("update");
-      if (el) el.innerText = "Error";
       console.error(err);
+      const el = document.getElementById("update");
+      if (el) el.innerText = "ERROR";
+
+      document.querySelectorAll(".card")
+        .forEach(c => c.classList.remove("loading"));
     }
   }
 
-  // ── START LOOP ───────────────────────────────────────
   loadData();
-  setInterval(loadData, 10000);
+  setInterval(loadData, 5000);
 
 });
 
-// ── STORAGE ──────────────────────────────────────────
-  function getRecords(key) {
-    try { return JSON.parse(localStorage.getItem(key) || "[]"); }
-    catch { return []; }
-  }
 
-  function saveRecords(key, arr) {
-    localStorage.setItem(key, JSON.stringify(arr));
-  }
+// ── STORAGE ─────────────────────────────
+function getRecords(key) {
+  try { return JSON.parse(localStorage.getItem(key) || "[]"); }
+  catch { return []; }
+}
 
-  function addRecord(key, d, now, daily = false) {
+function saveRecords(key, arr) {
+  localStorage.setItem(key, JSON.stringify(arr));
+}
+
+function addRecord(key, d, now, daily = false) {
 
   const arr = getRecords(key);
 
   if (daily) {
 
+    const prev = arr[0];
+
     let dailyVolume = "-";
-
-    const yesterday = arr[0];
-
-    if (yesterday?.evc) {
+    if (prev?.evc) {
       dailyVolume = (
-        Number(d.CorrectionMeter) -
-        Number(yesterday.evc)
+        Number(d.CorrectionMeter) - Number(prev.evc)
       ).toFixed(3);
     }
 
@@ -269,12 +229,10 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
 
     arr.unshift({
-      time:
-        String(now.getDate()).padStart(2,"0") + "/" +
-        String(now.getMonth()+1).padStart(2,"0") + "/" +
-        now.getFullYear() + " " +
-        String(now.getHours()).padStart(2,"0") +
-        ":00",
+      time: `${String(now.getDate()).padStart(2,"0")}/${
+        String(now.getMonth()+1).padStart(2,"0")}/${
+        now.getFullYear()} ${
+        String(now.getHours()).padStart(2,"0")}:00`,
 
       inlet: d.PressureInlet,
       outlet: d.Pressure,
@@ -291,207 +249,52 @@ document.addEventListener("DOMContentLoaded", () => {
   if (arr.length > 500) arr.length = 500;
 
   saveRecords(key, arr);
-  }
-  
-  function renderTable(tbodyId, key) {
+}
 
-  const tbody = document.getElementById(tbodyId);
+function renderTable(id, key) {
 
+  const tbody = document.getElementById(id);
   const data = getRecords(key);
-  
-  if (key === "prs_daily") {
+
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="9" class="empty">No data</td></tr>`;
+    return;
+  }
 
   tbody.innerHTML = data.map(r => `
     <tr>
       <td>${r.time}</td>
-      <td>${r.evc}</td>
-      <td>${r.dailyVolume}</td>
+      <td>${r.inlet || "-"}</td>
+      <td>${r.outlet || "-"}</td>
+      <td>${r.temp || "-"}</td>
+      <td>${r.gasflow || "-"}</td>
+      <td>${r.corrflow || "-"}</td>
+      <td>${r.turbin || "-"}</td>
+      <td>${r.evc || "-"}</td>
+      <td>${r.dailyVolume || "-"}</td>
     </tr>
   `).join("");
+}
 
-  return;
-  }
 
-  if (!data.length) {
-    tbody.innerHTML =
-      '<tr><td colspan="9" class="empty">Belum ada data pencatatan.</td></tr>';
-    return;
-  }
+// ── ALARM SYSTEM (FIXED) ─────────────────────────────
+function updateAlarm(inlet, outlet, temp, gasflow, corrflow, stok) {
 
-  tbody.innerHTML = data.map(r => `
-    <tr>
-      <td>${r.time}</td>
-      <td>${r.inlet}</td>
-      <td>${r.outlet}</td>
-      <td>${r.temp}</td>
-      <td>${r.gasflow}</td>
-      <td>${r.corrflow}</td>
-      <td>${r.turbin}</td>
-      <td>${r.evc}</td>
-      <td>${r.dailyVolume ?? "-"}</td>
-    </tr>
-    `).join("");
-  }
-  function exportCSV(type) {
+  setCard("card-inlet", inlet < 5 || inlet > 250);
+  setCard("card-outlet", outlet < 2 || outlet > 4);
+  setCard("card-temp", temp < 25 || temp > 40);
 
-  const key =
-    type === "hourly"
-      ? "prs_hourly"
-      : "prs_daily";
+  setCard("card-gasflow", gasflow < 5 || gasflow > 250);
+  setCard("card-corrflow", corrflow < 275 || corrflow > 500);
+  setCard("card-stok", stok < 5);
 
-  const data = getRecords(key);
+}
 
-  if (!data.length) {
-    alert("Belum ada data");
-    return;
-  }
+function setCard(id, alarm) {
 
-  const header = [
-    "Waktu",
-    "Inlet",
-    "Outlet",
-    "Temp",
-    "Gas Flow",
-    "Corr Flow",
-    "Turbin",
-    "EVC",
-    "Today"
-  ];
+  const card = document.getElementById(id);
+  if (!card) return;
 
-  const rows = data.map(r => [
-    r.time,
-    r.inlet,
-    r.outlet,
-    r.temp,
-    r.gasflow,
-    r.corrflow,
-    r.turbin,
-    r.evc,
-    r.today
-  ].join(","));
-
-  const csv =
-    [header.join(","), ...rows]
-      .join("\n");
-
-  const blob =
-    new Blob([csv], {
-      type: "text/csv"
-    });
-
-  const url =
-    URL.createObjectURL(blob);
-
-  const a =
-    document.createElement("a");
-
-  a.href = url;
-
-  a.download =
-    `${type}.csv`;
-
-  a.click();
-
-  URL.revokeObjectURL(url);
-  }
-  
-  function updateAlarm(
-  inlet,
-  outlet,
-  temp,
-  gasflow,
-  corrflow,
-  stok
-  ){
-
-  // Inlet
-  setCard(
-    "card-inlet",
-    inlet < 5 || inlet > 250
-  );
-
-  // Outlet
-  setCard(
-    "card-outlet",
-    outlet < 2 || outlet > 4
-  );
-
-  // Temperature
-  setCard(
-    "card-temp",
-    temp < 25 || temp > 40
-  );
-
-  // Gas Flow
-  setCard(
-    "card-gasflow",
-    gasflow < 5 || gasflow > 60
-  );
-
-  // Correction Flow
-  setCard(
-    "card-corrflow",
-    corrflow < 275 || corrflow > 500
-  );
-
-  // Stok Aman
-  setCard(
-    "card-stok",
-    stok < 5
-  );
-
-  }
-  
-  function setCard(id, alarm){
-
-  const card =
-    document.getElementById(id);
-
-  if(!card) return;
-
-  card.classList.remove(
-    "normal",
-    "alarm"
-  );
-
-  card.classList.add(
-    alarm
-      ? "alarm"
-      : "normal"
-  );
-  }
-  
-  function showPage(pageName, el) {
-
-  document.querySelectorAll(".page")
-    .forEach(page =>
-      page.classList.remove("active")
-    );
-
-  document.querySelectorAll(".tab-btn")
-    .forEach(btn =>
-      btn.classList.remove("active")
-    );
-
-  document
-    .getElementById("page-" + pageName)
-    .classList.add("active");
-
-  if(el){
-  el.classList.add("active");
-  }
-
-  if (pageName === "hourly") {
-    renderTable(
-      "hourlyBody",
-      "prs_hourly"
-    );
-  }
-
-  if (pageName === "daily") {
-    renderTable(
-      "dailyBody",
-      "prs_daily"
-    );
-  }
+  card.classList.remove("normal", "warning", "alarm");
+  card.classList.add(alarm ? "alarm" : "normal");
 }
