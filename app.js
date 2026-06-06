@@ -398,31 +398,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
   
-  function setCard(id, value, low, high){
+  function setCard(id, alarm){
 
-  const card = document.getElementById(id);
+  const card =
+    document.getElementById(id);
 
   if(!card) return;
 
   card.classList.remove(
     "normal",
-    "warning",
     "alarm"
   );
 
-  if(value < low || value > high){
-    card.classList.add("alarm");
-  }
-  else if(
-    value < low * 1.1 ||
-    value > high * 0.9
-  ){
-    card.classList.add("warning");
-  }
-  else{
-    card.classList.add("normal");
-  }
-
+  card.classList.add(
+    alarm
+      ? "alarm"
+      : "normal"
+  );
   }
   
   function showPage(pageName, el) {
