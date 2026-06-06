@@ -369,7 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Outlet
   setCard(
     "card-outlet",
-    outlet < 2 || outlet > 3
+    outlet < 2 || outlet > 4
   );
 
   // Temperature
@@ -381,7 +381,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Gas Flow
   setCard(
     "card-gasflow",
-    gasflow < 5 || gasflow > 250
+    gasflow < 5 || gasflow > 60
   );
 
   // Correction Flow
@@ -398,24 +398,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
   
-  function setCard(id, alarm){
-  
-    const card =
-      document.getElementById(id);
-  
-    if(!card) return;
-  
-    card.classList.remove(
-      "normal",
-      "alarm"
-    );
-  
-    card.classList.add(
-      alarm
-        ? "alarm"
-        : "normal"
-    );
-  
+  function setCard(id, value, low, high){
+
+  const card = document.getElementById(id);
+
+  if(!card) return;
+
+  card.classList.remove(
+    "normal",
+    "warning",
+    "alarm"
+  );
+
+  if(value < low || value > high){
+    card.classList.add("alarm");
+  }
+  else if(
+    value < low * 1.1 ||
+    value > high * 0.9
+  ){
+    card.classList.add("warning");
+  }
+  else{
+    card.classList.add("normal");
+  }
+
   }
   
   function showPage(pageName, el) {
