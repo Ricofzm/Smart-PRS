@@ -298,3 +298,38 @@ function setCard(id, alarm) {
   card.classList.remove("normal", "warning", "alarm");
   card.classList.add(alarm ? "alarm" : "normal");
 }
+
+function showPage(pageName, el) {
+
+  document.querySelectorAll(".page")
+    .forEach(page =>
+      page.classList.remove("active")
+    );
+
+  document.querySelectorAll(".tab-btn")
+    .forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+  document
+    .getElementById("page-" + pageName)
+    .classList.add("active");
+
+  if(el){
+  el.classList.add("active");
+  }
+
+  if (pageName === "hourly") {
+    renderTable(
+      "hourlyBody",
+      "prs_hourly"
+    );
+  }
+
+  if (pageName === "daily") {
+    renderTable(
+      "dailyBody",
+      "prs_daily"
+    );
+  }
+}
