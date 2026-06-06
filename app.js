@@ -54,7 +54,11 @@ document.addEventListener("DOMContentLoaded", () => {
       responsive:true,
       maintainAspectRatio:false,
       animation:false,
-    
+      
+      animation:{
+        duration:800,
+        easing:"easeOutQuart"
+      }
       interaction:{
         mode:"index",
         intersect:false
@@ -108,6 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // ── SAFE FETCH ───────────────────────────────────────
   async function loadData() {
     try {
+      document.querySelectorAll(".card")
+      .forEach(c => c.classList.add("loading"));
       const res = await fetch(API);
       if (!res.ok) throw new Error("API error");
 
@@ -134,6 +140,9 @@ document.addEventListener("DOMContentLoaded", () => {
       set("today", d.TodayVolume);
       set("stok", (Number(d.PressureInlet) / 10).toFixed(1));
       
+      document.querySelectorAll(".card")
+      .forEach(c => c.classList.remove("loading"));
+  
       updateAlarm(
       Number(d.PressureInlet),
       Number(d.Pressure),
@@ -206,13 +215,11 @@ document.addEventListener("DOMContentLoaded", () => {
           now,
           true
         );
-      
         renderTable(
           "dailyBody",
           "prs_daily"
         );
       }
-
     } catch (err) {
       const el = document.getElementById("update");
       if (el) el.innerText = "Error";
