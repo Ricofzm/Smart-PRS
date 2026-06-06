@@ -93,6 +93,30 @@ body{
   background:var(--glass2);
 }
 
+/* ===== STATUS CARD ===== */
+
+.card.normal{
+  border:1px solid var(--stroke);
+}
+
+.card.warning{
+  border:1px solid #ff9f0a;
+  box-shadow:0 0 20px rgba(255,159,10,.25);
+}
+
+.card.alarm{
+  border:1px solid #ff453a;
+  box-shadow:0 0 25px rgba(255,69,58,.35);
+}
+
+.card.warning p{
+  color:#ff9f0a;
+}
+
+.card.alarm p{
+  color:#ff453a;
+}
+
 .card h3{
   font-size:11px;
   color:var(--muted);
