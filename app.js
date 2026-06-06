@@ -95,8 +95,14 @@ document.addEventListener("DOMContentLoaded", () => {
       set("turbin", d.TurbinMeter);
       set("evc", d.CorrectionMeter);
       set("today", d.TodayVolume);
-
       set("stok", (Number(d.PressureInlet) / 10).toFixed(1));
+      
+      updateAlarm(
+        Number(d.PressureInlet),
+        Number(d.Pressure),
+        Number(d.Temperature),
+        Number(d.GasFlow)
+      );
 
       // consumption
       let konsumsi = "-";
@@ -341,6 +347,65 @@ document.addEventListener("DOMContentLoaded", () => {
   a.click();
 
   URL.revokeObjectURL(url);
+  }
+  
+  function updateAlarm(
+  inlet,
+  outlet,
+  temp,
+  flow
+  ){
+  
+    setCard(
+      "card-inlet",
+      inlet < 5 || inlet > 250
+    );
+  
+    setCard(
+      "card-outlet",
+      outlet < 2 || outlet > 3
+    );
+  
+    setCard(
+      "card-temp",
+      temp < 25 || temp > 40
+    );
+  
+    setCard(
+      "card-gasflow",
+      gasflow > 60 || gasflow < 10
+    );
+    
+    setCard(
+      "card-corrflow",
+      corrflow > 500 || corrflow < 275
+    );
+    
+    setCard(
+      "card-stok",
+      stok > 500 || stok < 5
+    );
+  
+  }
+  
+  function setCard(id, alarm){
+  
+    const card =
+      document.getElementById(id);
+  
+    if(!card) return;
+  
+    card.classList.remove(
+      "normal",
+      "alarm"
+    );
+  
+    card.classList.add(
+      alarm
+        ? "alarm"
+        : "normal"
+    );
+  
   }
   
   function showPage(pageName, el) {
