@@ -1,5 +1,3 @@
-let lastHourInlet = null;
-let lastHourStored = null;
 document.addEventListener("DOMContentLoaded", () => {
 
   // ── STATE ─────────────────────────────
@@ -136,28 +134,43 @@ document.addEventListener("DOMContentLoaded", () => {
         stok
       );
 
-      const hourKey = `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}-${now.getHours()}`;
+      const nowHourKey =
+  now.getFullYear() * 10000 +
+  (now.getMonth() + 1) * 100 +
+  now.getDate();
 
-      let hourlyInlet = getHourlyInlet();
+  const hourKey = `${nowHourKey}-${now.getHours()}`;
+  
+  let hourlyInlet = getHourlyInlet();
+  
+  // simpan hanya 1x per jam
+  if (!hourlyInlet[hourKey]) {
+    hourlyInlet[hourKey] = Number(d.PressureInlet);
+    saveHourlyInlet(hourlyInlet);
+  }
+  
+  // ambil semua key lalu urutkan NUMERIC (bukan string)
+  const keys = Object.keys(hourlyInlet).sort((a, b) => {
+    const aNum = parseInt(a.replace("-", ""));
+    const bNum = parseInt(b.replace("-", ""));
+    return aNum - bNum;
+  });
+  
+  let difInlet = "-";
+  
+  const currentIndex = keys.indexOf(hourKey);
+  
+  if (currentIndex > 0) {
+    const prevKey = keys[currentIndex - 1];
+  
+    difInlet =
+      Number(d.PressureInlet) -
+      Number(hourlyInlet[prevKey]);
       
-      if (!hourlyInlet[hourKey]) {
-        hourlyInlet[hourKey] = Number(d.PressureInlet);
-        saveHourlyInlet(hourlyInlet);
-      }
-      
-      const keys = Object.keys(hourlyInlet).sort();
-      const currentIndex = keys.indexOf(hourKey);
-      
-      let difInlet = "-";
-      
-      if (currentIndex > 0) {
-        const prevKey = keys[currentIndex - 1];
-        difInlet = (
-          Number(d.PressureInlet) - Number(hourlyInlet[prevKey])
-        ).toFixed(2);
-      }
-      
-      set("consumption", difInlet);
+    difInlet = difInlet.toFixed(2);
+    }
+    
+    set("consumption", difInlet);
 
       // ── CHART UPDATE ──
       state.labels.push(now.toLocaleTimeString("id-ID"));
