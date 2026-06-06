@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // ── STATE ─────────────────────────────
+  // ── STATE CHART ─────────────────────────────
   const state = {
     labels: [],
     gasFlow: [],
@@ -8,18 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
     pressure: []
   };
 
-  let lastEVC = null;
-  let lastHourLog = null;
-
   const API = "https://smart-prs-api.enrikofzm.workers.dev";
 
   // ── CHART ─────────────────────────────
   const ctx = document.getElementById("flowChart");
 
-  if (!ctx) {
-    console.error("Chart canvas not found");
-    return;
-  }
+  if (!ctx) return;
 
   const flowChart = new Chart(ctx, {
     type: "line",
@@ -51,17 +45,14 @@ document.addEventListener("DOMContentLoaded", () => {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-
       animation: {
         duration: 600,
         easing: "easeOutQuart"
       },
-
       interaction: {
         mode: "index",
         intersect: false
       },
-
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -72,22 +63,14 @@ document.addEventListener("DOMContentLoaded", () => {
           cornerRadius: 10
         }
       },
-
       scales: {
-        x: {
-          ticks: { color: "#94a3b8" },
-          grid: { display: false }
-        },
-        y: {
-          beginAtZero: true,
-          ticks: { color: "#94a3b8" },
-          grid: { color: "rgba(255,255,255,.05)" }
-        }
+        x: { ticks: { color: "#94a3b8" }, grid: { display: false } },
+        y: { beginAtZero: true, ticks: { color: "#94a3b8" }, grid: { color: "rgba(255,255,255,.05)" } }
       }
     }
   });
 
-  // ── FETCH ─────────────────────────────
+  // ── FETCH DATA FROM WORKER ─────────────────────────────
   async function loadData() {
     try {
 
@@ -98,9 +81,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) throw new Error("API error");
 
       const json = await res.json();
-      if (!Array.isArray(json) || !json.length) return;
+      const d = json?.[0];
 
-      const d = json[0];
+      if (!d) return;
+
       const now = new Date();
 
       const set = (id, val) => {
@@ -108,6 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (el) el.innerText = val ?? "-";
       };
 
+      // ── MAIN VALUES ──
       set("update", d.ReceiveDateTime || now.toLocaleTimeString("id-ID"));
       set("inlet", d.PressureInlet);
       set("outlet", d.Pressure);
@@ -134,44 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
         stok
       );
 
-      const nowHourKey =
-  now.getFullYear() * 10000 +
-  (now.getMonth() + 1) * 100 +
-  now.getDate();
-
-  const hourKey = `${nowHourKey}-${now.getHours()}`;
-  
-  let hourlyInlet = getHourlyInlet();
-  
-  // simpan hanya 1x per jam
-  if (!hourlyInlet[hourKey]) {
-    hourlyInlet[hourKey] = Number(d.PressureInlet);
-    saveHourlyInlet(hourlyInlet);
-  }
-  
-  // ambil semua key lalu urutkan NUMERIC (bukan string)
-  const keys = Object.keys(hourlyInlet).sort((a, b) => {
-    const aNum = parseInt(a.replace("-", ""));
-    const bNum = parseInt(b.replace("-", ""));
-    return aNum - bNum;
-  });
-  
-  let difInlet = "-";
-  
-  const currentIndex = keys.indexOf(hourKey);
-  
-  if (currentIndex > 0) {
-    const prevKey = keys[currentIndex - 1];
-  
-    difInlet =
-      Number(d.PressureInlet) -
-      Number(hourlyInlet[prevKey]);
-      
-    difInlet = difInlet.toFixed(2);
-    }
-    
-    set("consumption", difInlet);
-
       // ── CHART UPDATE ──
       state.labels.push(now.toLocaleTimeString("id-ID"));
       state.gasFlow.push(Number(d.GasFlow));
@@ -187,30 +134,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       flowChart.update();
 
-      // ── HOURLY LOG ──
-      const hour = now.getHours();
-      const minute = now.getMinutes();
-
-      if (minute <= 1 && lastHourLog !== hour) {
-        lastHourLog = hour;
-        addRecord("prs_hourly", d, now);
-        renderTable("hourlyBody", "prs_hourly");
-      }
-
-      // ── DAILY LOG ──
-      const daily = getRecords("prs_daily");
-
-      const already =
-        daily.length &&
-        daily[0].time === now.toLocaleDateString("id-ID");
-
-      if (hour === 6 && minute === 1 && !already) {
-        addRecord("prs_daily", d, now, true);
-        renderTable("dailyBody", "prs_daily");
-      }
-
     } catch (err) {
       console.error(err);
+
       const el = document.getElementById("update");
       if (el) el.innerText = "ERROR";
 
@@ -224,98 +150,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// ── HOURLY INLET STORAGE ─────────────────────────────
-function getHourlyInlet() {
-  return JSON.parse(localStorage.getItem("hourly_inlet") || "{}");
-}
 
-function saveHourlyInlet(obj) {
-  localStorage.setItem("hourly_inlet", JSON.stringify(obj));
-}
-
-// ── STORAGE ─────────────────────────────
-function getRecords(key) {
-  try { return JSON.parse(localStorage.getItem(key) || "[]"); }
-  catch { return []; }
-}
-
-function saveRecords(key, arr) {
-  localStorage.setItem(key, JSON.stringify(arr));
-}
-
-function addRecord(key, d, now, daily = false) {
-
-  const arr = getRecords(key);
-
-  if (daily) {
-
-    const prev = arr[0];
-
-    let dailyVolume = "-";
-    if (prev?.evc) {
-      dailyVolume = (
-        Number(d.CorrectionMeter) - Number(prev.evc)
-      ).toFixed(3);
-    }
-
-    arr.unshift({
-      time: now.toLocaleDateString("id-ID"),
-      evc: d.CorrectionMeter,
-      dailyVolume
-    });
-
-  } else {
-
-    arr.unshift({
-      time: `${String(now.getDate()).padStart(2,"0")}/${
-        String(now.getMonth()+1).padStart(2,"0")}/${
-        now.getFullYear()} ${
-        String(now.getHours()).padStart(2,"0")}:00`,
-
-      inlet: d.PressureInlet,
-      outlet: d.Pressure,
-      temp: d.Temperature,
-      gasflow: d.GasFlow,
-      corrflow: d.CorrectionFlow,
-      turbin: d.TurbinMeter,
-      evc: d.CorrectionMeter,
-      today: d.TodayVolume
-    });
-
-  }
-
-  if (arr.length > 500) arr.length = 500;
-
-  saveRecords(key, arr);
-}
-
-function renderTable(id, key) {
-
-  const tbody = document.getElementById(id);
-  const data = getRecords(key);
-
-  if (!data.length) {
-    tbody.innerHTML = `<tr><td colspan="9" class="empty">No data</td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = data.map(r => `
-    <tr>
-      <td>${r.time}</td>
-      <td>${r.inlet || "-"}</td>
-      <td>${r.outlet || "-"}</td>
-      <td>${r.temp || "-"}</td>
-      <td>${r.gasflow || "-"}</td>
-      <td>${r.corrflow || "-"}</td>
-      <td>${r.turbin || "-"}</td>
-      <td>${r.evc || "-"}</td>
-      <td>${r.dailyVolume || "-"}</td>
-    </tr>
-  `).join("");
-}
-
-
-// ── ALARM SYSTEM (FIXED) ─────────────────────────────
+// ── ALARM SYSTEM ─────────────────────────────
 function updateAlarm(inlet, outlet, temp, gasflow, corrflow, stok) {
 
   setCard("card-inlet", inlet < 5 || inlet > 250);
@@ -325,49 +161,12 @@ function updateAlarm(inlet, outlet, temp, gasflow, corrflow, stok) {
   setCard("card-gasflow", gasflow < 5 || gasflow > 250);
   setCard("card-corrflow", corrflow < 275 || corrflow > 500);
   setCard("card-stok", stok < 5);
-
 }
 
 function setCard(id, alarm) {
-
   const card = document.getElementById(id);
   if (!card) return;
 
   card.classList.remove("normal", "warning", "alarm");
   card.classList.add(alarm ? "alarm" : "normal");
-}
-
-function showPage(pageName, el) {
-
-  document.querySelectorAll(".page")
-    .forEach(page =>
-      page.classList.remove("active")
-    );
-
-  document.querySelectorAll(".tab-btn")
-    .forEach(btn =>
-      btn.classList.remove("active")
-    );
-
-  document
-    .getElementById("page-" + pageName)
-    .classList.add("active");
-
-  if(el){
-  el.classList.add("active");
-  }
-
-  if (pageName === "hourly") {
-    renderTable(
-      "hourlyBody",
-      "prs_hourly"
-    );
-  }
-
-  if (pageName === "daily") {
-    renderTable(
-      "dailyBody",
-      "prs_daily"
-    );
-  }
 }
