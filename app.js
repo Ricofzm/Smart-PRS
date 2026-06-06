@@ -101,7 +101,9 @@ document.addEventListener("DOMContentLoaded", () => {
         Number(d.PressureInlet),
         Number(d.Pressure),
         Number(d.Temperature),
-        Number(d.GasFlow)
+        Number(d.GasFlow),
+        Number(d.CorrectionMeter),
+        Number(d.StokAman)
       );
 
       // consumption
