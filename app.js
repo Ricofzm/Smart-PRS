@@ -29,42 +29,79 @@ document.addEventListener("DOMContentLoaded", () => {
         {
           label: "Gas Flow",
           data: state.gasFlow,
-          borderWidth: 2,
-          borderColor: "#00d4ff",
-          backgroundColor: "rgba(0,212,255,.08)",
-          tension: .4
+          borderWidth: 3,
+          borderColor: "#0A84FF",
+          backgroundColor: "rgba(10,132,255,.15)",
+          fill: true,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          tension: .45
         },
         {
           label: "Correction Flow",
           data: state.corrFlow,
-          borderWidth: 2,
-          borderColor: "#00ff9f",
-          backgroundColor: "rgba(0,255,159,.08)",
-          tension: .4
-        },
-        {
-          label: "Pressure Inlet",
-          data: state.pressure,
-          borderWidth: 2,
-          borderColor: "#ff9f00",
-          backgroundColor: "rgba(255,159,0,.08)",
-          tension: .4,
-          yAxisID: "y1"
+          borderWidth: 3,
+          borderColor: "#30D158",
+          backgroundColor: "rgba(48,209,88,.15)",
+          fill: true,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          tension: .45
         }
       ]
     },
-    options: {
-      responsive: true,
-      animation: false,
-      interaction: { mode: "index", intersect: false },
-      plugins: {
-        legend: { labels: { color: "#6a8fa8" } }
+      options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      animation:false,
+    
+      interaction:{
+        mode:"index",
+        intersect:false
       },
-      scales: {
-        x: { ticks: { color: "#6a8fa8" }, grid: { color: "rgba(30,58,82,.5)" } },
-        y: { beginAtZero: true, ticks: { color: "#6a8fa8" }, grid: { color: "rgba(30,58,82,.5)" } },
-        y1: { position: "right", ticks: { color: "#6a8fa8" }, grid: { drawOnChartArea: false } }
+    
+      plugins:{
+    
+        legend:{
+          display:false
+        },
+    
+        tooltip:{
+          backgroundColor:"rgba(20,25,35,.95)",
+          borderColor:"rgba(255,255,255,.08)",
+          borderWidth:1,
+          padding:12,
+          cornerRadius:12,
+          titleColor:"#fff",
+          bodyColor:"#d1d5db"
+        }
+    
+      },
+    
+      scales:{
+    
+        x:{
+          ticks:{
+            color:"#94a3b8",
+            maxTicksLimit:6
+          },
+          grid:{
+            display:false
+          }
+        },
+    
+        y:{
+          beginAtZero:true,
+          ticks:{
+            color:"#94a3b8"
+          },
+          grid:{
+            color:"rgba(255,255,255,.05)"
+          }
+        }
+    
       }
+    
     }
   });
 
