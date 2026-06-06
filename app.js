@@ -1,3 +1,5 @@
+let lastHourInlet = null;
+let lastHourStored = null;
 document.addEventListener("DOMContentLoaded", () => {
 
   // ── STATE ─────────────────────────────
@@ -134,13 +136,34 @@ document.addEventListener("DOMContentLoaded", () => {
         stok
       );
 
-      // ── CONSUMPTION ──
-      let konsumsi = "-";
-      if (lastEVC !== null) {
-        konsumsi = (Number(d.CorrectionMeter) - lastEVC).toFixed(2);
+      const hourKey = now.getHours();
+      const inletNow = Number(d.PressureInlet || 0);
+      
+      // init pertama
+      if (lastHourStored === null) {
+        lastHourStored = hourKey;
+        lastHourInlet = inletNow;
+      
+        set("consumption", "-");
+      } else {
+      
+        // kalau jam berubah → hitung DIF INLET
+        if (hourKey !== lastHourStored) {
+      
+          const diff = inletNow - lastHourInlet;
+      
+          lastHourStored = hourKey;
+          lastHourInlet = inletNow;
+      
+          set("consumption", diff.toFixed(2));
+      
+        } else {
+      
+          // tetap tampil nilai jam ini (stabil)
+          const diffLive = inletNow - lastHourInlet;
+          set("consumption", diffLive.toFixed(2));
+        }
       }
-      lastEVC = Number(d.CorrectionMeter);
-      set("consumption", konsumsi);
 
       // ── CHART UPDATE ──
       state.labels.push(now.toLocaleTimeString("id-ID"));
