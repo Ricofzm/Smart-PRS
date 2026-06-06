@@ -137,6 +137,12 @@ body{
 /* chart full width */
 .chart-card{
   grid-column:1 / -1;
+  min-height:280px;
+}
+
+.chart-card canvas{
+  width:100% !important;
+  height:220px !important;
 }
 
 /* ===== PAGE HEADER ===== */
