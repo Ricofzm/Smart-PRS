@@ -81,7 +81,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) throw new Error("API error");
 
       const json = await res.json();
-      const d = json?.[0];
+      const d = json.realtime;
+      const hourly = json.hourly;
+      const daily = json.daily;
 
       if (!d) return;
 
