@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const API = "https://smart-prs-api.enrikofzm.workers.dev";
 
   // ── CHART ─────────────────────────────
-  const ctx = document.getElementById("flowchart");
+  const ctx = document.getElementById("flowChart");
 
   if (!ctx) {
     console.error("Chart canvas not found");
