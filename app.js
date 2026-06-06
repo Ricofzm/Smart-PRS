@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let lastEVC = null;
   let lastHourLog = null;
-  let lastDailyLog = null;
 
   const API = "https://smart-prs-api.enrikofzm.workers.dev";
 
@@ -127,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const minute = now.getMinutes();
       
       if (
-        minute === 0 &&
+        minute <= 1 &&
         lastHourLog !== hour
       ) {
         lastHourLog = hour;
@@ -145,14 +144,28 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // ── daily log ──
-      const dateStr = now.toISOString().slice(0, 10);
+      const dailyData = getRecords("prs_daily");
+
+      const sudahAda =
+        dailyData.length &&
+        dailyData[0].time === now.toLocaleDateString("id-ID");
+      
       if (
-      hour >= 6 &&
-      lastDailyLog !== dateStr
+        hour === 6 &&
+        minute === 1 &&
+        !sudahAda
       ) {
-        lastDailyLog = dateStr;
-        addRecord("prs_daily", d, now, true);
-        renderTable("dailyBody", "prs_daily");
+        addRecord(
+          "prs_daily",
+          d,
+          now,
+          true
+        );
+      
+        renderTable(
+          "dailyBody",
+          "prs_daily"
+        );
       }
 
     } catch (err) {
@@ -179,17 +192,38 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function addRecord(key, d, now, daily = false) {
-    const arr = getRecords(key);
+
+  const arr = getRecords(key);
+
+  if (daily) {
+
+    let dailyVolume = "-";
+
+    const yesterday = arr[0];
+
+    if (yesterday?.evc) {
+      dailyVolume = (
+        Number(d.CorrectionMeter) -
+        Number(yesterday.evc)
+      ).toFixed(3);
+    }
 
     arr.unshift({
-      time: daily
-      ? now.toLocaleDateString("id-ID")
-      : String(now.getDate()).padStart(2,"0") + "/" +
+      time: now.toLocaleDateString("id-ID"),
+      evc: d.CorrectionMeter,
+      dailyVolume
+    });
+
+  } else {
+
+    arr.unshift({
+      time:
+        String(now.getDate()).padStart(2,"0") + "/" +
         String(now.getMonth()+1).padStart(2,"0") + "/" +
         now.getFullYear() + " " +
         String(now.getHours()).padStart(2,"0") +
         ":00",
-    
+
       inlet: d.PressureInlet,
       outlet: d.Pressure,
       temp: d.Temperature,
@@ -200,14 +234,31 @@ document.addEventListener("DOMContentLoaded", () => {
       today: d.TodayVolume
     });
 
-    if (arr.length > 500) arr.length = 500;
-    saveRecords(key, arr);
   }
+
+  if (arr.length > 500) arr.length = 500;
+
+  saveRecords(key, arr);
+  }
+  
   function renderTable(tbodyId, key) {
 
   const tbody = document.getElementById(tbodyId);
 
   const data = getRecords(key);
+  
+  if (key === "prs_daily") {
+
+  tbody.innerHTML = data.map(r => `
+    <tr>
+      <td>${r.time}</td>
+      <td>${r.evc}</td>
+      <td>${r.dailyVolume}</td>
+    </tr>
+  `).join("");
+
+  return;
+  }
 
   if (!data.length) {
     tbody.innerHTML =
@@ -225,7 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <td>${r.corrflow}</td>
       <td>${r.turbin}</td>
       <td>${r.evc}</td>
-      <td>${r.today}</td>
+      <td>${r.dailyVolume ?? "-"}</td>
     </tr>
     `).join("");
   }
