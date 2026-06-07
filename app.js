@@ -491,51 +491,43 @@ function updateSparkline(id, data, color) {
 
   if (!data || data.length === 0) data = [0];
 
-  // INIT FIRST TIME
-  if (!sparkCharts[id]) {
+  // ⛑ FIX SIZE (INI WAJIB)
+  canvas.width = canvas.offsetWidth;
+  canvas.height = 35;
 
-    const gradient = createGradient(ctx, color);
-
-    sparkCharts[id] = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: data.map((_, i) => i),
-        datasets: [{
-          data: data,
-          borderColor: color,
-          backgroundColor: gradient,
-          borderWidth: 2,
-          shadowOffsetX: 0,
-          shadowOffsetY: 0,
-          pointRadius: 0,
-          tension: 0.45,
-          fill: true
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: { enabled: false }
-        },
-        scales: {
-          x: { display: false },
-          y: { display: false }
-        }
-      }
-    });
-
-    return;
+  // ⛑ FIX NONTABRAK CHART
+  if (sparkCharts[id]) {
+    sparkCharts[id].destroy();
   }
 
-  // UPDATE ONLY DATA (NO RECREATE)
-  const chart = sparkCharts[id];
+  const gradient = createGradient(ctx, color);
 
-  chart.data.labels = data.map((_, i) => i);
-  chart.data.datasets[0].data = data;
-
-  chart.update("none");
-}
+  sparkCharts[id] = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: data.map((_, i) => i),
+      datasets: [{
+        data,
+        borderColor: color,
+        backgroundColor: gradient,
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.45,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false }
+      },
+      scales: {
+        x: { display: false },
+        y: { display: false }
+      }
+    }
+  });
 }
