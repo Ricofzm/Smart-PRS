@@ -412,15 +412,16 @@ rgba(10,132,255,.35);
 }
 
 .sparkline{
-  width:100%;
-  height:35px !important;
+  width:100% !important;
+  height:40px !important;
   display:block;
-}
-.card{
-  position:relative;
 }
 
 canvas.sparkline {
   width: 100% !important;
   height: 35px !important;
+}
+
+.card canvas{
+  min-height:40px;
 }
