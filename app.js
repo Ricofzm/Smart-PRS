@@ -17,6 +17,7 @@ consumption:[]
 
 };
 
+const sparkCharts = {};
 let detailChart = null;
 let historyMode = "hourly";
   
@@ -140,6 +141,60 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       
       refreshChart();
+      
+      updateSparkline(
+      "spark-inlet",
+      state.inlet,
+      "#0A84FF"
+      );
+      
+      updateSparkline(
+      "spark-outlet",
+      state.outlet,
+      "#30D158"
+      );
+      
+      updateSparkline(
+      "spark-temp",
+      state.temp,
+      "#FF9F0A"
+      );
+      
+      updateSparkline(
+      "spark-gasflow",
+      state.gasFlow,
+      "#64D2FF"
+      );
+      
+      updateSparkline(
+      "spark-corrflow",
+      state.corrFlow,
+      "#32D74B"
+      );
+      
+      updateSparkline(
+      "spark-turbin",
+      state.turbin,
+      "#FFD60A"
+      );
+      
+      updateSparkline(
+      "spark-evc",
+      state.evc,
+      "#BF5AF2"
+      );
+      
+      updateSparkline(
+      "spark-today",
+      state.today,
+      "#FF375F"
+      );
+      
+      updateSparkline(
+      "spark-consumption",
+      state.consumption,
+      "#FF453A"
+      );
 
     } catch (err) {
       console.error(err);
@@ -419,4 +474,46 @@ function refreshChart(){
   detailChart.data.labels = [...state.labels];
   detailChart.data.datasets[0].data = [...state[key]];
   detailChart.update("none");
+}
+
+function updateSparkline(id,data,color){
+
+  const canvas = document.getElementById(id);
+
+  if(!canvas) return;
+
+  if(!sparkCharts[id]){
+    sparkCharts[id] = new Chart(canvas,{
+      type:"line", data:{
+        labels:data.map((_,i)=>i),
+        datasets:[{
+          data,
+          borderColor:color,backgroundColor:"transparent",
+          borderWidth:2,
+          pointRadius:0,
+          tension:.4
+        }]
+      },
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+          legend:{
+            display:false
+          }
+        },
+        scales:{
+          x:{display:false},
+          y:{display:false}
+        }
+      }
+    });
+  }else{
+    sparkCharts[id]
+    .data.datasets[0]
+    .data = data;
+
+    sparkCharts[id]
+    .update("none");
+  }
 }
