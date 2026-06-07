@@ -1,3 +1,4 @@
+const API = "https://smart-prs-api.enrikofzm.workers.dev";
 document.addEventListener("DOMContentLoaded", () => {
 
   // ── STATE CHART ─────────────────────────────
@@ -7,8 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
     corrFlow: [],
     pressure: []
   };
-
-  const API = "https://smart-prs-api.enrikofzm.workers.dev";
 
   // ── CHART ─────────────────────────────
   const ctx = document.getElementById("flowChart");
