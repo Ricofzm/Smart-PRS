@@ -82,8 +82,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const json = await res.json();
       const d = json.realtime;
-      const hourly = json.hourly;
-      const daily = json.daily;
+      const hourly = json.hourly || [];
+      const daily = json.daily || [];
+      renderHourly(hourly);
+      renderDaily(daily);
+      
 
       if (!d) return;
 
@@ -190,20 +193,42 @@ function showPage(pageName, el) {
     .classList.add("active");
 
   if(el){
-  el.classList.add("active");
+    el.classList.add("active");
   }
+}
+function renderHourly(data) {
 
-  if (pageName === "hourly") {
-    renderTable(
-      "hourlyBody",
-      "prs_hourly"
-    );
-  }
+  const tbody =
+    document.getElementById("hourlyBody");
 
-  if (pageName === "daily") {
-    renderTable(
-      "dailyBody",
-      "prs_daily"
-    );
-  }
+  if (!tbody) return;
+
+  tbody.innerHTML = data.map(r => `
+    <tr>
+      <td>${r.time ?? "-"}</td>
+      <td>${r.inlet ?? "-"}</td>
+      <td>${r.outlet ?? "-"}</td>
+      <td>${r.temp ?? "-"}</td>
+      <td>${r.gasflow ?? "-"}</td>
+      <td>${r.corrflow ?? "-"}</td>
+      <td>${r.turbin ?? "-"}</td>
+      <td>${r.evc ?? "-"}</td>
+      <td>${r.today ?? "-"}</td>
+    </tr>
+  `).join("");
+}
+function renderDaily(data) {
+
+  const tbody =
+    document.getElementById("dailyBody");
+
+  if (!tbody) return;
+
+  tbody.innerHTML = data.map(r => `
+    <tr>
+      <td>${r.time ?? "-"}</td>
+      <td>${r.evc ?? "-"}</td>
+      <td>${r.dailyVolume ?? "-"}</td>
+    </tr>
+  `).join("");
 }
