@@ -384,5 +384,29 @@ font-size:13px;
 background:#0a84ff;
 }
 
+.chart-panel{
 
+display:none;
+
+margin-top:15px;
+
+background:var(--glass);
+
+border:1px solid var(--stroke);
+
+border-radius:18px;
+
+padding:15px;
+
+backdrop-filter:blur(18px);
+
+}
+
+.chart-panel.active{
+display:block;
+}
+
+.chart-panel canvas{
+height:250px !important;
+}
 
