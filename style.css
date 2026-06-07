@@ -413,7 +413,7 @@ rgba(10,132,255,.35);
 
 .sparkline{
   width:100% !important;
-  height:40px !important;
+  height:38px !important;
   display:block;
 }
 
@@ -423,5 +423,5 @@ canvas.sparkline {
 }
 
 .card canvas{
-  min-height:40px;
+  min-height:38px;
 }
