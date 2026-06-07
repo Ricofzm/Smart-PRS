@@ -1,21 +1,24 @@
-const API = "https://smart-prs-api.enrikofzm.workers.dev";
+const API =
+"https://smart-prs-api.enrikofzm.workers.dev";
 
-// ── STATE CHART ─────────────────────────────
-  const state = {
+const state = {
 
-  labels: [],
-  
-  inlet: [],
-  outlet: [],
-  temp: [],
-  gasFlow: [],
-  corrFlow: [],
-  evc: [],
-  turbin: [],
-  today: [],
-  consumption: []
-  
-  };
+labels:[],
+
+inlet:[],
+outlet:[],
+temp:[],
+gasFlow:[],
+corrFlow:[],
+turbin:[],
+evc:[],
+today:[],
+consumption:[]
+
+};
+
+let detailChart = null;
+let historyMode = "hourly";
   
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -46,14 +49,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const latestHourly = hourly[0];
 
       if (latestHourly) {
-
-        const cons =
-        Number(latestHourly.difInlet || 0);
-      
-        set("consumption", cons.toFixed(2));
-      
-        state.consumption.push(cons);
-      
+        set(
+          "consumption",
+          Number(latestHourly.difInlet || 0).toFixed(2)
+        );
       }
 
       if (!d) return;
@@ -115,12 +114,12 @@ document.addEventListener("DOMContentLoaded", () => {
       Number(d.CorrectionFlow)
       );
       
-      state.evc.push(
-      Number(d.CorrectionMeter)
-      );
-      
       state.turbin.push(
       Number(d.TurbinMeter)
+      );
+      
+      state.evc.push(
+      Number(d.CorrectionMeter)
       );
       
       state.today.push(
@@ -130,9 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       
       state.consumption.push(
-      Number(
-      latestHourly?.difInlet || 0
-      )
+      cons
       );
 
       if(state.labels.length > 100){
@@ -146,8 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       
       }
-
-      flowChart.update();
 
     } catch (err) {
       console.error(err);
@@ -343,20 +338,12 @@ function renderHistoryDaily(data){
 
 }
 
-let detailChart = null;
-
 function toggleChart(title,key){
 
-document
-.querySelectorAll(".card")
-.forEach(card =>
-card.classList.remove(
-"chart-active"
-)
-);
-
 const panel =
-document.getElementById("chartPanel");
+document.getElementById(
+"chartPanel"
+);
 
 if(
 panel.classList.contains("show")
@@ -367,6 +354,7 @@ panel.dataset.key === key
 panel.classList.remove("show");
 
 return;
+
 }
 
 panel.classList.add("show");
@@ -386,43 +374,83 @@ if(detailChart){
 detailChart.destroy();
 }
 
-detailChart =
-new Chart(ctx,{
-type:"line",
-data:{
-labels:state.labels,
 const colorMap = {
+
 inlet:"#0A84FF",
 outlet:"#30D158",
 temp:"#FF9F0A",
 gasFlow:"#64D2FF",
 corrFlow:"#32D74B",
-evc:"#BF5AF2",
 turbin:"#FFD60A",
+evc:"#BF5AF2",
 today:"#FF375F",
 consumption:"#FF453A"
+
 };
 
-datasets:[{
-label:title,
-data:state[key],
-borderColor:colorMap[key],
-backgroundColor:colorMap[key] + "33",
-fill:true,
-borderWidth:3,
-tension:.4
-}]
-},
-options:{
-responsive:true,
-maintainAspectRatio:false
-}
-});
+detailChart =
+new Chart(ctx,{
 
-document
-.querySelector(
-`[onclick*="${key}"]`
-)
-?.classList.add("active-chart");
+type:"line",
+
+data:{
+
+labels:state.labels,
+
+datasets:[{
+
+label:title,
+
+data:state[key],
+
+borderColor:
+colorMap[key],
+
+backgroundColor:
+colorMap[key] + "33",
+
+fill:true,
+
+borderWidth:3,
+
+tension:.4,
+
+pointRadius:0
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false,
+
+plugins:{
+legend:{
+display:false
+}
+},
+
+scales:{
+
+x:{
+ticks:{
+color:"#9aa4b2"
+}
+},
+
+y:{
+ticks:{
+color:"#9aa4b2"
+}
+}
+
+}
+
+}
+
+});
 
 }
