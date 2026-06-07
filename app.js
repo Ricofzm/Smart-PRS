@@ -490,41 +490,39 @@ function refreshChart(){
 function updateSparkline(id,data,color){
 
   const canvas = document.getElementById(id);
-
   if(!canvas) return;
 
-  if(!sparkCharts[id]){
-    sparkCharts[id] = new Chart(canvas,{
-      type:"line", data:{
-        labels:data.map((_,i)=>i),
-        datasets:[{
-          data,
-          borderColor:color,backgroundColor:"transparent",
-          borderWidth:2,
-          pointRadius:0,
-          tension:.4
-        }]
-      },
-      options:{
-        responsive:true,
-        maintainAspectRatio:false,
-        plugins:{
-          legend:{
-            display:false
-          }
-        },
-        scales:{
-          x:{display:false},
-          y:{display:false}
-        }
-      }
-    });
-  }else{
-    sparkCharts[id]
-    .data.datasets[0]
-    .data = data;
+  if(!data || data.length === 0) data = [0];
 
-    sparkCharts[id]
-    .update("none");
+  if(sparkCharts[id]){
+    sparkCharts[id].data.labels = data.map((_,i)=>i);
+    sparkCharts[id].data.datasets[0].data = data;
+    sparkCharts[id].update("none");
+    return;
   }
+
+  sparkCharts[id] = new Chart(canvas, {
+    type: "line",
+    data: {
+      labels: data.map((_,i)=>i),
+      datasets: [{
+        data: data,
+        borderColor: color,
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.4,
+        fill: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      plugins: { legend: { display: false }},
+      scales: {
+        x: { display: false },
+        y: { display: false }
+      }
+    }
+  });
 }
