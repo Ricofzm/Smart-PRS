@@ -71,12 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
       set("corrflow", d.CorrectionFlow);
       set("turbin", d.TurbinMeter);
       set("evc", d.CorrectionMeter);
-      set(
-        "today",
-        Number(
-          d.TodayVolumeCustom ?? 0
-        ).toFixed(3)
-      );
+      set("today",Number(d.TodayVolumeCustom ?? 0).toFixed(3));
 
       const stok = Number(d.PressureInlet) / 10;
       set("stok", stok.toFixed(1));
@@ -135,16 +130,16 @@ document.addEventListener("DOMContentLoaded", () => {
       
 
       if(state.labels.length > 100){
-
-      Object.keys(state).forEach(key=>{
-      
-      if(Array.isArray(state[key])){
-      state[key].shift();
+        
+        Object.keys(state).forEach(key=>{
+          
+          if(Array.isArray(state[key])){
+            state[key].shift();
+          }
+        });
       }
       
-      });
-      
-      }
+      refreshChart();
 
     } catch (err) {
       console.error(err);
@@ -341,117 +336,87 @@ function renderHistoryDaily(data){
 
 function toggleChart(title,key){
 
-const panel =
-document.getElementById(
-"chartPanel"
-);
-
-if(
-panel.classList.contains("show")
-&&
-panel.dataset.key === key
-){
-
-panel.classList.remove("show");
-
-return;
-
+  const panel = document.getElementById("chartPanel");
+  
+  if(panel.classList.contains("show") && panel.dataset.key === key){
+  panel.classList.remove("show");
+  return;
+  }
+  
+  panel.classList.add("show");
+  panel.scrollIntoView({
+    behavior:"smooth",block:"nearest"
+  });
+  panel.dataset.key = key;
+  
+  document.getElementById("chartTitle").innerText = title;
+  
+  const ctx = document.getElementById("detailChart");
+  
+  if(detailChart){
+    detailChart.destroy();}
+  
+  const colorMap = {
+  inlet:"#0A84FF",
+  outlet:"#30D158",
+  temp:"#FF9F0A",
+  gasFlow:"#64D2FF",
+  corrFlow:"#32D74B",
+  turbin:"#FFD60A",
+  evc:"#BF5AF2",
+  today:"#FF375F",
+  consumption:"#FF453A"
+  };
+  
+  detailChart = new Chart(ctx,{
+    type:"line", data:{
+      labels:state.labels,
+      datasets:[{
+        label:title,
+        data:state[key],
+        borderColor:
+        colorMap[key],
+        backgroundColor:
+        colorMap[key] + "33",
+        fill:true,
+        borderWidth:3,
+        tension:.4,
+        pointRadius:0
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      animation:false,
+      plugins:{
+        legend:{
+        display:false
+        }
+      },
+      scales:{
+        x:{
+          ticks:{
+            color:"#9aa4b2"
+          }
+        },
+        y:{
+          ticks:{
+          color:"#9aa4b2"
+          }
+        }
+        
+      }
+    }
+  });
 }
 
-panel.classList.add("show");
+function refreshChart(){
+  if(!detailChart){
+    return;
+  }
+  const key = document.getElementById("chartPanel").dataset.key;
 
-panel.dataset.key = key;
-
-document.getElementById(
-"chartTitle"
-).innerText = title;
-
-const ctx =
-document.getElementById(
-"detailChart"
-);
-
-if(detailChart){
-detailChart.destroy();
-}
-
-const colorMap = {
-
-inlet:"#0A84FF",
-outlet:"#30D158",
-temp:"#FF9F0A",
-gasFlow:"#64D2FF",
-corrFlow:"#32D74B",
-turbin:"#FFD60A",
-evc:"#BF5AF2",
-today:"#FF375F",
-consumption:"#FF453A"
-
-};
-
-detailChart =
-new Chart(ctx,{
-
-type:"line",
-
-data:{
-
-labels:state.labels,
-
-datasets:[{
-
-label:title,
-
-data:state[key],
-
-borderColor:
-colorMap[key],
-
-backgroundColor:
-colorMap[key] + "33",
-
-fill:true,
-
-borderWidth:3,
-
-tension:.4,
-
-pointRadius:0
-
-}]
-
-},
-
-options:{
-
-responsive:true,
-
-maintainAspectRatio:false,
-
-plugins:{
-legend:{
-display:false
-}
-},
-
-scales:{
-
-x:{
-ticks:{
-color:"#9aa4b2"
-}
-},
-
-y:{
-ticks:{
-color:"#9aa4b2"
-}
-}
-
-}
-
-}
-
-});
-
+  detailChart.data.labels = [...state.labels];
+  detailChart.data.datasets[0].data = [...state[key]];
+  detailChart.update("none");
 }
