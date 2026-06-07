@@ -87,6 +87,13 @@ document.addEventListener("DOMContentLoaded", () => {
       renderHourly(hourly);
       renderDaily(daily);
       
+      const now = new Date();
+
+      const set = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = val ?? "-";
+      };
+      
       const latestHourly = hourly[0];
 
       if (latestHourly) {
@@ -97,13 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (!d) return;
-
-      const now = new Date();
-
-      const set = (id, val) => {
-        const el = document.getElementById(id);
-        if (el) el.innerText = val ?? "-";
-      };
 
       // ── MAIN VALUES ──
       set("update", d.ReceiveDateTime || now.toLocaleTimeString("id-ID"));
