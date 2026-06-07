@@ -49,10 +49,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const latestHourly = hourly[0];
 
       if (latestHourly) {
+        const cons =
+        Number(latestHourly?.difInlet || 0);
+        
         set(
           "consumption",
-          Number(latestHourly.difInlet || 0).toFixed(2)
+          cons.toFixed(2)
         );
+        
+        state.consumption.push(cons);
       }
 
       if (!d) return;
@@ -128,9 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
       )
       );
       
-      state.consumption.push(
-      cons
-      );
 
       if(state.labels.length > 100){
 
@@ -267,7 +269,6 @@ async function loadHistory(){
 
 }
 
-let historyMode = "hourly";
 function switchHistory(mode, el){
 
   historyMode = mode;
