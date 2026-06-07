@@ -146,6 +146,24 @@
     <h2>History Data</h2>
   </div>
 
+  <div class="history-tabs">
+
+    <button
+      class="history-btn active"
+      onclick="switchHistory('hourly',this)"
+    >
+      Hourly
+    </button>
+
+    <button
+      class="history-btn"
+      onclick="switchHistory('daily',this)"
+    >
+      Daily
+    </button>
+
+  </div>
+
   <div class="history-filter">
 
     <input
@@ -166,7 +184,8 @@
 
     <table>
 
-      <thead>
+      <thead id="historyHead">
+
         <tr>
           <th>Jam</th>
           <th>Inlet</th>
@@ -175,6 +194,7 @@
           <th>Gas Flow</th>
           <th>Corr Flow</th>
         </tr>
+
       </thead>
 
       <tbody id="historyBody">
