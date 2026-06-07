@@ -1,7 +1,6 @@
 const API = "https://smart-prs-api.enrikofzm.workers.dev";
-document.addEventListener("DOMContentLoaded", () => {
 
-  // ── STATE CHART ─────────────────────────────
+// ── STATE CHART ─────────────────────────────
   const state = {
 
   labels: [],
@@ -13,9 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
   corrFlow: [],
   evc: [],
   turbin: [],
-  today: []
+  today: [],
+  consumption: []
   
   };
+  
+document.addEventListener("DOMContentLoaded", () => {
 
   // ── CHART ─────────────────────────────
   const ctx = document.getElementById("flowChart");
@@ -104,10 +106,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const latestHourly = hourly[0];
 
       if (latestHourly) {
-        set(
-          "consumption",
-          Number(latestHourly.difInlet || 0).toFixed(2)
-        );
+
+        const cons =
+        Number(latestHourly.difInlet || 0);
+      
+        set("consumption", cons.toFixed(2));
+      
+        state.consumption.push(cons);
+      
       }
 
       if (!d) return;
@@ -180,6 +186,12 @@ document.addEventListener("DOMContentLoaded", () => {
       state.today.push(
       Number(
       d.TodayVolumeCustom || 0
+      )
+      );
+      
+      state.consumption.push(
+      Number(
+      latestHourly?.difInlet || 0
       )
       );
 
@@ -395,6 +407,14 @@ let detailChart = null;
 
 function toggleChart(title,key){
 
+document
+.querySelectorAll(".card")
+.forEach(card =>
+card.classList.remove(
+"chart-active"
+)
+);
+
 const panel =
 document.getElementById("chartPanel");
 
@@ -445,4 +465,48 @@ maintainAspectRatio:false
 }
 });
 
+document
+.querySelector(
+`[onclick*="${key}"]`
+)
+?.classList.add("active-chart");
+
+event.currentTarget
+.classList.add(
+"chart-active"
+);
+
+const colorMap = {
+
+inlet:"#0A84FF",
+outlet:"#30D158",
+temp:"#FF9F0A",
+gasFlow:"#64D2FF",
+corrFlow:"#32D74B",
+evc:"#BF5AF2",
+turbin:"#FFD60A",
+today:"#FF375F",
+consumption:"#FF453A"
+
+};
+
+datasets:[{
+
+label:title,
+
+data:state[key],
+
+borderColor:
+colorMap[key],
+
+backgroundColor:
+colorMap[key] + "33",
+
+fill:true,
+
+borderWidth:3,
+
+tension:.4
+
+}]
 }
