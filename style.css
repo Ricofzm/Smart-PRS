@@ -398,15 +398,12 @@ border-radius:18px;
 
 padding:15px;
 
-backdrop-filter:blur(18px);
-
 }
 
-.chart-panel.active{
+.chart-panel.show{
 display:block;
 }
 
 .chart-panel canvas{
 height:250px !important;
 }
-
