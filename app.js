@@ -19,66 +19,6 @@ const API = "https://smart-prs-api.enrikofzm.workers.dev";
   
 document.addEventListener("DOMContentLoaded", () => {
 
-  // ── CHART ─────────────────────────────
-  const ctx = document.getElementById("flowChart");
-
-  if (!ctx) return;
-
-  const flowChart = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: state.labels,
-      datasets: [
-        {
-          label: "Gas Flow",
-          data: state.gasFlow,
-          borderWidth: 3,
-          borderColor: "#0A84FF",
-          backgroundColor: "rgba(10,132,255,.15)",
-          fill: true,
-          pointRadius: 0,
-          tension: 0.5
-        },
-        {
-          label: "Correction Flow",
-          data: state.corrFlow,
-          borderWidth: 3,
-          borderColor: "#30D158",
-          backgroundColor: "rgba(48,209,88,.15)",
-          fill: true,
-          pointRadius: 0,
-          tension: 0.5
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: {
-        duration: 600,
-        easing: "easeOutQuart"
-      },
-      interaction: {
-        mode: "index",
-        intersect: false
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: "rgba(20,25,35,.95)",
-          borderColor: "rgba(255,255,255,.08)",
-          borderWidth: 1,
-          padding: 10,
-          cornerRadius: 10
-        }
-      },
-      scales: {
-        x: { ticks: { color: "#94a3b8" }, grid: { display: false } },
-        y: { beginAtZero: true, ticks: { color: "#94a3b8" }, grid: { color: "rgba(255,255,255,.05)" } }
-      }
-    }
-  });
-
   // ── FETCH DATA FROM WORKER ─────────────────────────────
   async function loadData() {
     try {
@@ -451,11 +391,25 @@ new Chart(ctx,{
 type:"line",
 data:{
 labels:state.labels,
+const colorMap = {
+inlet:"#0A84FF",
+outlet:"#30D158",
+temp:"#FF9F0A",
+gasFlow:"#64D2FF",
+corrFlow:"#32D74B",
+evc:"#BF5AF2",
+turbin:"#FFD60A",
+today:"#FF375F",
+consumption:"#FF453A"
+};
+
 datasets:[{
 label:title,
 data:state[key],
-borderWidth:3,
+borderColor:colorMap[key],
+backgroundColor:colorMap[key] + "33",
 fill:true,
+borderWidth:3,
 tension:.4
 }]
 },
@@ -471,42 +425,4 @@ document
 )
 ?.classList.add("active-chart");
 
-event.currentTarget
-.classList.add(
-"chart-active"
-);
-
-const colorMap = {
-
-inlet:"#0A84FF",
-outlet:"#30D158",
-temp:"#FF9F0A",
-gasFlow:"#64D2FF",
-corrFlow:"#32D74B",
-evc:"#BF5AF2",
-turbin:"#FFD60A",
-today:"#FF375F",
-consumption:"#FF453A"
-
-};
-
-datasets:[{
-
-label:title,
-
-data:state[key],
-
-borderColor:
-colorMap[key],
-
-backgroundColor:
-colorMap[key] + "33",
-
-fill:true,
-
-borderWidth:3,
-
-tension:.4
-
-}]
 }
