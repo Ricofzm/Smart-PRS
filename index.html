@@ -139,6 +139,60 @@
   </div>
 </main>
 
+<!-- PAGE: HISTORY -->
+<main class="page" id="page-history">
+
+  <div class="page-header">
+    <h2>History Data</h2>
+  </div>
+
+  <div class="history-filter">
+
+    <input
+      type="date"
+      id="historyDate"
+    >
+
+    <button
+      onclick="loadHistory()"
+      class="btn-export"
+    >
+      Cari
+    </button>
+
+  </div>
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Jam</th>
+          <th>Inlet</th>
+          <th>Outlet</th>
+          <th>Temp</th>
+          <th>Gas Flow</th>
+          <th>Corr Flow</th>
+        </tr>
+      </thead>
+
+      <tbody id="historyBody">
+
+        <tr>
+          <td colspan="6" class="empty">
+            Pilih tanggal
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</main>
+
 <nav class="bottom-nav">
 
   <button
@@ -182,6 +236,17 @@
       <path d="M8 17H13"/>
     </svg>
     <span>Daily</span>
+  </button>
+  
+  <button
+  class="tab-btn"
+  onclick="showPage('history', this)"
+  >
+  <svg viewBox="0 0 24 24">
+    <path d="M12 8v5l3 3"/>
+    <circle cx="12" cy="12" r="9"/>
+    </svg>
+  <span>History</span>
   </button>
 
 </nav>
