@@ -419,3 +419,8 @@ rgba(10,132,255,.35);
 .card{
   position:relative;
 }
+
+canvas.sparkline {
+  width: 100% !important;
+  height: 35px !important;
+}
