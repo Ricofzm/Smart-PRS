@@ -248,20 +248,61 @@ function renderDaily(data) {
 async function loadHistory(){
 
   const date =
-  document.getElementById("historyDate")
-  .value;
+  document.getElementById(
+    "historyDate"
+  ).value;
 
   if(!date) return;
 
   const res =
   await fetch(
     API +
-    "/history?date=" +
+    "/history/" +
+    historyMode +
+    "?date=" +
     date
   );
 
   const data =
   await res.json();
+
+  if(historyMode === "hourly"){
+    renderHistoryHourly(data);
+  }else{
+    renderHistoryDaily(data);
+  }
+
+}
+
+let historyMode = "hourly";
+function switchHistory(mode, el){
+
+  historyMode = mode;
+
+  document
+    .querySelectorAll(".history-btn")
+    .forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+  el.classList.add("active");
+
+}
+
+function renderHistoryHourly(data){
+
+  document.getElementById(
+    "historyHead"
+  ).innerHTML = `
+  <tr>
+    <th>Jam</th>
+    <th>Inlet</th>
+    <th>Outlet</th>
+    <th>Temp</th>
+    <th>Gas Flow</th>
+    <th>Corr Flow</th>
+  </tr>
+  `;
 
   document.getElementById(
     "historyBody"
@@ -276,4 +317,30 @@ async function loadHistory(){
     <td>${r.corrflow}</td>
   </tr>
   `).join("");
+
+}
+
+function renderHistoryDaily(data){
+
+  document.getElementById(
+    "historyHead"
+  ).innerHTML = `
+  <tr>
+    <th>Tanggal</th>
+    <th>EVC</th>
+    <th>Daily Volume</th>
+  </tr>
+  `;
+
+  document.getElementById(
+    "historyBody"
+  ).innerHTML =
+  data.map(r=>`
+  <tr>
+    <td>${r.time}</td>
+    <td>${r.evc}</td>
+    <td>${r.dailyVolume}</td>
+  </tr>
+  `).join("");
+
 }
