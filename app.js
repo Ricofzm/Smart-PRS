@@ -240,3 +240,36 @@ function renderDaily(data) {
     </tr>
   `).join("");
 }
+
+async function loadHistory(){
+
+  const date =
+  document.getElementById("historyDate")
+  .value;
+
+  if(!date) return;
+
+  const res =
+  await fetch(
+    API +
+    "/history?date=" +
+    date
+  );
+
+  const data =
+  await res.json();
+
+  document.getElementById(
+    "historyBody"
+  ).innerHTML =
+  data.map(r=>`
+  <tr>
+    <td>${r.time}</td>
+    <td>${r.inlet}</td>
+    <td>${r.outlet}</td>
+    <td>${r.temp}</td>
+    <td>${r.gasflow}</td>
+    <td>${r.corrflow}</td>
+  </tr>
+  `).join("");
+}
