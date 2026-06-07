@@ -28,42 +28,52 @@
 <!-- PAGE: DASHBOARD -->
 <main class="page active" id="page-dashboard">
   <div class="grid">
-    <div class="card" id="card-inlet">
+    <div class="card" id="card-inlet" onclick="toggleChart('Inlet Pressure','inlet')">
       <h3>Inlet Pressure</h3>
       <p id="inlet">-</p>
       <span class="unit">bar</span>
     </div>
-    <div class="card" id="card-outlet">
+    <div
+      class="card"
+      id="card-outlet"
+      onclick="toggleChart('Outlet Pressure','outlet')">
       <h3>Outlet Pressure</h3>
       <p id="outlet">-</p>
       <span class="unit">bar</span>
     </div>
-    <div class="card" id="card-temp">
+    <div
+      class="card"
+      id="card-temp"
+      onclick="toggleChart('Temperature','temp')">
       <h3>Temperature</h3>
       <p id="temp">-</p>
       <span class="unit">°C</span>
     </div>
-    <div class="card" id="card-gasflow">
+    <div
+      class="card"
+      id="card-gasflow"
+      onclick="toggleChart('Gas Flow','gasflow')">
       <h3>Gas Flow</h3>
       <p id="gasflow">-</p>
       <span class="unit">m³/h</span>
     </div>
-    <div class="card" id="card-corrflow">
+    <div class="card" id="card-corrflow"
+      onclick="toggleChart('Correction Flow','corrflow')">
       <h3>Correction Flow</h3>
       <p id="corrflow">-</p>
       <span class="unit">m³/h</span>
     </div>
-    <div class="card">
+    <div class="card" id="card-turbin" onclick="toggleChart('Turbin Meter','turbin')">
       <h3>Turbin Meter</h3>
       <p id="turbin">-</p>
       <span class="unit">m³</span>
     </div>
-    <div class="card">
+    <div class="card" id="card-evc" onclick="toggleChart('EVC Meter','evc')">
       <h3>EVC Meter</h3>
       <p id="evc">-</p>
       <span class="unit">m³</span>
     </div>
-    <div class="card">
+    <div class="card" id="card-today" onclick="toggleChart('Today Volume','today')">
       <h3>Today Volume</h3>
       <p id="today">-</p>
       <span class="unit">m³</span>
@@ -73,7 +83,7 @@
       <p id="stok">-</p>
       <span class="unit">jam</span>
     </div>
-    <div class="card">
+    <div class="card" id="card-consumption" onclick="toggleChart('Consumption','consumption')">
       <h3>Consumption</h3>
       <p id="consumption">-</p>
       <span class="unit">bar/h</span>
