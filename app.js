@@ -3,10 +3,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ── STATE CHART ─────────────────────────────
   const state = {
-    labels: [],
-    gasFlow: [],
-    corrFlow: [],
-    pressure: []
+
+  labels: [],
+  
+  inlet: [],
+  outlet: [],
+  temp: [],
+  gasFlow: [],
+  corrFlow: [],
+  evc: [],
+  turbin: [],
+  today: []
+  
   };
 
   // ── CHART ─────────────────────────────
@@ -137,16 +145,54 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       // ── CHART UPDATE ──
-      state.labels.push(now.toLocaleTimeString("id-ID"));
-      state.gasFlow.push(Number(d.GasFlow));
-      state.corrFlow.push(Number(d.CorrectionFlow));
-      state.pressure.push(Number(d.PressureInlet));
+      state.labels.push(
+      now.toLocaleTimeString("id-ID")
+      );
+      
+      state.inlet.push(
+      Number(d.PressureInlet)
+      );
+      
+      state.outlet.push(
+      Number(d.Pressure)
+      );
+      
+      state.temp.push(
+      Number(d.Temperature)
+      );
+      
+      state.gasFlow.push(
+      Number(d.GasFlow)
+      );
+      
+      state.corrFlow.push(
+      Number(d.CorrectionFlow)
+      );
+      
+      state.evc.push(
+      Number(d.CorrectionMeter)
+      );
+      
+      state.turbin.push(
+      Number(d.TurbinMeter)
+      );
+      
+      state.today.push(
+      Number(
+      d.TodayVolumeCustom || 0
+      )
+      );
 
-      if (state.labels.length > 50) {
-        state.labels.shift();
-        state.gasFlow.shift();
-        state.corrFlow.shift();
-        state.pressure.shift();
+      if(state.labels.length > 100){
+
+      Object.keys(state).forEach(key=>{
+      
+      if(Array.isArray(state[key])){
+      state[key].shift();
+      }
+      
+      });
+      
       }
 
       flowChart.update();
