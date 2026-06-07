@@ -487,42 +487,67 @@ function refreshChart(){
   detailChart.update("none");
 }
 
-function updateSparkline(id,data,color){
+function createGradient(ctx, color) {
+  const gradient = ctx.createLinearGradient(0, 0, 0, 50);
+  gradient.addColorStop(0, color);
+  gradient.addColorStop(1, "rgba(0,0,0,0)");
+  return gradient;
+}
+
+function updateSparkline(id, data, color) {
 
   const canvas = document.getElementById(id);
-  if(!canvas) return;
+  if (!canvas) return;
 
-  if(!data || data.length === 0) data = [0];
+  const ctx = canvas.getContext("2d");
 
-  if(sparkCharts[id]){
-    sparkCharts[id].data.labels = data.map((_,i)=>i);
-    sparkCharts[id].data.datasets[0].data = data;
-    sparkCharts[id].update("none");
+  if (!data || data.length === 0) data = [0];
+
+  // INIT FIRST TIME
+  if (!sparkCharts[id]) {
+
+    const gradient = createGradient(ctx, color);
+
+    sparkCharts[id] = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: data.map((_, i) => i),
+        datasets: [{
+          data: data,
+          borderColor: color,
+          backgroundColor: gradient,
+          borderWidth: 2,
+          shadowOffsetX: 0,
+          shadowOffsetY: 0,
+          pointRadius: 0,
+          tension: 0.45,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false }
+        },
+        scales: {
+          x: { display: false },
+          y: { display: false }
+        }
+      }
+    });
+
     return;
   }
 
-  sparkCharts[id] = new Chart(canvas, {
-    type: "line",
-    data: {
-      labels: data.map((_,i)=>i),
-      datasets: [{
-        data: data,
-        borderColor: color,
-        borderWidth: 2,
-        pointRadius: 0,
-        tension: 0.4,
-        fill: false
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: false,
-      plugins: { legend: { display: false }},
-      scales: {
-        x: { display: false },
-        y: { display: false }
-      }
-    }
-  });
+  // UPDATE ONLY DATA (NO RECREATE)
+  const chart = sparkCharts[id];
+
+  chart.data.labels = data.map((_, i) => i);
+  chart.data.datasets[0].data = data;
+
+  chart.update("none");
+}
 }
