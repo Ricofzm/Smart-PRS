@@ -410,3 +410,15 @@ box-shadow:
 rgba(10,132,255,.35);
 
 }
+
+.sparkline{
+
+width:100%;
+
+height:35px !important;
+
+margin-top:8px;
+
+opacity:.8;
+
+}
