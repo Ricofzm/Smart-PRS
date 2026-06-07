@@ -364,5 +364,25 @@ background:#1f2937;
 color:white;
 }
 
+.history-tabs{
+display:flex;
+gap:10px;
+margin-bottom:15px;
+}
+
+.history-btn{
+flex:1;
+border:none;
+padding:10px;
+border-radius:12px;
+background:#1f2937;
+color:white;
+font-size:13px;
+}
+
+.history-btn.active{
+background:#0a84ff;
+}
+
 
 
