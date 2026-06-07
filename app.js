@@ -390,3 +390,59 @@ function renderHistoryDaily(data){
   `).join("");
 
 }
+
+let detailChart = null;
+
+function toggleChart(title,key){
+
+const panel =
+document.getElementById("chartPanel");
+
+if(
+panel.classList.contains("show")
+&&
+panel.dataset.key === key
+){
+
+panel.classList.remove("show");
+
+return;
+}
+
+panel.classList.add("show");
+
+panel.dataset.key = key;
+
+document.getElementById(
+"chartTitle"
+).innerText = title;
+
+const ctx =
+document.getElementById(
+"detailChart"
+);
+
+if(detailChart){
+detailChart.destroy();
+}
+
+detailChart =
+new Chart(ctx,{
+type:"line",
+data:{
+labels:state.labels,
+datasets:[{
+label:title,
+data:state[key],
+borderWidth:3,
+fill:true,
+tension:.4
+}]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+});
+
+}
