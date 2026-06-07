@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "consumption",
           cons.toFixed(2)
         );
+        state.consumption.push(cons);
       }
 
       if (!d) return;
