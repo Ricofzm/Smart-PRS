@@ -87,6 +87,14 @@ document.addEventListener("DOMContentLoaded", () => {
       renderHourly(hourly);
       renderDaily(daily);
       
+      const latestHourly = hourly[0];
+
+      if (latestHourly) {
+        set(
+          "consumption",
+          Number(latestHourly.difInlet || 0).toFixed(2)
+        );
+      }
 
       if (!d) return;
 
