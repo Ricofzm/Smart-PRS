@@ -141,18 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
       
       refreshChart();
       
-      setTimeout(() => {
-        updateSparkline("spark-inlet", state.inlet, "#0A84FF");
-        updateSparkline("spark-outlet", state.outlet, "#30D158");
-        updateSparkline("spark-temp", state.temp, "#FF9F0A");
-        updateSparkline("spark-gasflow", state.gasFlow, "#64D2FF");
-        updateSparkline("spark-corrflow", state.corrFlow, "#32D74B");
-        updateSparkline("spark-turbin", state.turbin, "#FFD60A");
-        updateSparkline("spark-evc", state.evc, "#BF5AF2");
-        updateSparkline("spark-today", state.today, "#FF375F");
-        updateSparkline("spark-consumption", state.consumption, "#FF453A");
-      }, 50);
-      
       updateSparkline(
       "spark-inlet",
       state.inlet,
