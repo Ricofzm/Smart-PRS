@@ -90,54 +90,25 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       // ── CHART UPDATE ──
-      state.labels.push(
-      now.toLocaleTimeString("id-ID")
-      );
-      
-      state.inlet.push(
-      Number(d.PressureInlet)
-      );
-      
-      state.outlet.push(
-      Number(d.Pressure)
-      );
-      
-      state.temp.push(
-      Number(d.Temperature)
-      );
-      
-      state.gasFlow.push(
-      Number(d.GasFlow)
-      );
-      
-      state.corrFlow.push(
-      Number(d.CorrectionFlow)
-      );
-      
-      state.turbin.push(
-      Number(d.TurbinMeter)
-      );
-      
-      state.evc.push(
-      Number(d.CorrectionMeter)
-      );
-      
-      state.today.push(
-      Number(
-      d.TodayVolumeCustom || 0
-      )
-      );
-      
+      state.labels.push(now.toLocaleTimeString("id-ID"));
 
-      if(state.labels.length > 100){
-        
-        Object.keys(state).forEach(key=>{
-          
-          if(Array.isArray(state[key])){
-            state[key].shift();
-          }
-        });
-      }
+      state.inlet.push(d.PressureInlet || 0);
+      state.outlet.push(d.Pressure || 0);
+      state.temp.push(d.Temperature || 0);
+      state.gasFlow.push(d.GasFlow || 0);
+      state.corrFlow.push(d.CorrectionFlow || 0);
+      state.turbin.push(d.TurbinMeter || 0);
+      state.evc.push(d.CorrectionMeter || 0);
+      state.today.push(d.TodayVolumeCustom || 0);
+      
+      // sync safety
+      const len = state.labels.length;
+      Object.keys(state).forEach(k => {
+        if (Array.isArray(state[k])) {
+          state[k].length = len;
+        }
+      });
+    }
       
       refreshChart();
       
@@ -207,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   loadData();
-  setInterval(loadData, 5000);
+  setInterval(loadData, 10000);
 
 });
 
@@ -491,43 +462,42 @@ function updateSparkline(id, data, color) {
 
   if (!data || data.length === 0) data = [0];
 
-  // ⛑ FIX SIZE (INI WAJIB)
-  canvas.width = canvas.offsetWidth;
-  canvas.height = 35;
+  if (!sparkCharts[id]) {
+    sparkCharts[id] = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: data.map((_, i) => i),
+        datasets: [{
+          data,
+          borderColor: color,
+          backgroundColor: "transparent",
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false }
+        },
+        scales: {
+          x: { display: false },
+          y: { display: false }
+        }
+      }
+    });
 
-  // ⛑ FIX NONTABRAK CHART
-  if (sparkCharts[id]) {
-    sparkCharts[id].destroy();
+    return;
   }
 
-  const gradient = createGradient(ctx, color);
+  const chart = sparkCharts[id];
 
-  sparkCharts[id] = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: data.map((_, i) => i),
-      datasets: [{
-        data,
-        borderColor: color,
-        backgroundColor: gradient,
-        borderWidth: 2,
-        pointRadius: 0,
-        tension: 0.45,
-        fill: true
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: { enabled: false }
-      },
-      scales: {
-        x: { display: false },
-        y: { display: false }
-      }
-    }
-  });
+  chart.data.labels = data.map((_, i) => i);
+  chart.data.datasets[0].data = data;
+
+  chart.update("none");
 }
