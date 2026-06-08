@@ -82,7 +82,7 @@ body{
   border:1px solid var(--stroke);
   border-radius:var(--radius);
   padding:14px;
-
+  will-change:transform;
   box-shadow:var(--shadow);
   backdrop-filter: blur(var(--blur));
 
@@ -162,6 +162,8 @@ body{
   border-radius:16px;
   overflow:hidden;
   border:1px solid var(--stroke);
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
 }
 
 table{
@@ -415,6 +417,7 @@ rgba(10,132,255,.35);
   width:100% !important;
   height:38px !important;
   display:block;
+  pointer-events:none;
 }
 
 canvas.sparkline {
