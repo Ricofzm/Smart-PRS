@@ -106,8 +106,6 @@ async function loadData() {
     push(state.evc, d.CorrectionMeter);
     push(state.today, d.TodayVolumeCustom);
 
-    syncStateLength();
-
     /* =========================
        RENDER
     ========================= */
@@ -130,15 +128,6 @@ async function loadData() {
 function push(arr, val) {
   arr.push(Number(val ?? 0));
   if (arr.length > 100) arr.shift();
-}
-
-function syncStateLength() {
-  const len = state.labels.length;
-  Object.keys(state).forEach(k => {
-    if (Array.isArray(state[k])) {
-      state[k].length = len;
-    }
-  });
 }
 
 function setLoading(isLoading) {
@@ -206,44 +195,52 @@ function renderDaily(data) {
    SPARKLINE (STABLE)
 ========================= */
 function updateSparkline(id, data, color) {
+
   const canvas = document.getElementById(id);
   if (!canvas) return;
 
-  const ctx = canvas.getContext("2d");
+  if (!data.length) data = [0];
 
-  if (!data || data.length === 0) data = [0];
+  if (!sparkCharts[id]) {
 
-  if (sparkCharts[id]) {
-    sparkCharts[id].destroy();
+    sparkCharts[id] = new Chart(canvas,{
+      type:"line",
+      data:{
+        labels:data.map((_,i)=>i),
+        datasets:[{
+          data,
+          borderColor:color,
+          backgroundColor:"transparent",
+          borderWidth:2,
+          pointRadius:0,
+          tension:.4
+        }]
+      },
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        animation:false,
+        plugins:{
+          legend:{display:false},
+          tooltip:{enabled:false}
+        },
+        scales:{
+          x:{display:false},
+          y:{display:false}
+        }
+      }
+    });
+
+    return;
   }
 
-  sparkCharts[id] = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: data.map((_, i) => i),
-      datasets: [{
-        data,
-        borderColor: color,
-        backgroundColor: "transparent",
-        borderWidth: 2,
-        pointRadius: 0,
-        tension: 0.4
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: { enabled: false }
-      },
-      scales: {
-        x: { display: false },
-        y: { display: false }
-      }
-    }
-  });
+  sparkCharts[id].data.labels =
+  data.map((_,i)=>i);
+
+  sparkCharts[id].data.datasets[0].data =
+  data;
+
+  sparkCharts[id].update("none");
 }
 
 function updateAllSparklines() {
@@ -301,11 +298,12 @@ async function loadHistory(){
 
   if(!date) return;
 
-  const res =
-  await fetch(
-    API +
-    "/history?date=" +
-    date
+  const res = await fetch(
+  API +
+  "/history/" +
+  historyMode +
+  "?date=" +
+  date
   );
 
   const data =
@@ -340,6 +338,10 @@ function toggleChart(title, key) {
       }
     
       panel.classList.add("show");
+      panel.scrollIntoView({
+        behavior:"smooth",
+        block:"nearest"
+      });
       panel.dataset.key = key;
     
       document.getElementById(
@@ -408,3 +410,45 @@ function switchHistory(mode, el){
   el.classList.add("active");
 }
 
+function exportCSV(type){
+
+  const table =
+  document.getElementById(
+    type + "Table"
+  );
+
+  if(!table) return;
+
+  let csv = [];
+
+  table.querySelectorAll("tr")
+  .forEach(row=>{
+
+    const cols =
+    row.querySelectorAll("th,td");
+
+    csv.push(
+      [...cols]
+      .map(c=>c.innerText)
+      .join(",")
+    );
+
+  });
+
+  const blob =
+  new Blob(
+    [csv.join("\n")],
+    {type:"text/csv"}
+  );
+
+  const a =
+  document.createElement("a");
+
+  a.href =
+  URL.createObjectURL(blob);
+
+  a.download =
+  type + ".csv";
+
+  a.click();
+}
