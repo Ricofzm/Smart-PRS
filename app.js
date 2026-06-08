@@ -1,5 +1,3 @@
-RAPIHIN
-
 const API = "https://smart-prs-api.enrikofzm.workers.dev";
 
 /* =========================
