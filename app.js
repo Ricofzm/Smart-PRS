@@ -63,7 +63,10 @@ async function loadData() {
       push(state.consumption, cons);
     }
 
-    if (!d || Object.keys(d).length === 0) return;
+    if (!d || Object.keys(d).length === 0){
+      setLoading(false);
+      return;
+    }
 
     /* =========================
        UI UPDATE
@@ -97,6 +100,10 @@ async function loadData() {
     ========================= */
     state.labels.push(now.toLocaleTimeString("id-ID"));
 
+    if(state.labels.length > 100){
+      state.labels.shift();
+    }
+
     push(state.inlet, d.PressureInlet);
     push(state.outlet, d.Pressure);
     push(state.temp, d.Temperature);
@@ -109,8 +116,8 @@ async function loadData() {
     /* =========================
        RENDER
     ========================= */
+    syncStateLength();
     refreshChart();
-    
     updateAllSparklines();
     
 
@@ -128,6 +135,24 @@ async function loadData() {
 function push(arr, val) {
   arr.push(Number(val ?? 0));
   if (arr.length > 100) arr.shift();
+}
+
+function syncStateLength(){
+
+  const len = state.labels.length;
+
+  Object.keys(state).forEach(key=>{
+
+    if(Array.isArray(state[key])){
+
+      while(state[key].length > len){
+        state[key].shift();
+      }
+
+    }
+
+  });
+
 }
 
 function setLoading(isLoading) {
@@ -338,10 +363,12 @@ function toggleChart(title, key) {
       }
     
       panel.classList.add("show");
-      panel.scrollIntoView({
-        behavior:"smooth",
-        block:"nearest"
-      });
+      setTimeout(()=>{
+        panel.scrollIntoView({
+          behavior:"smooth",
+          block:"center"
+        });
+      },100);
       panel.dataset.key = key;
     
       document.getElementById(
@@ -391,6 +418,15 @@ function toggleChart(title, key) {
           plugins:{
             legend:{
               display:false
+            }
+          }
+          interaction:{
+            intersect:false,
+            mode:"index"
+          },
+          elements:{
+            line:{
+              tension:.4
             }
           }
         }
