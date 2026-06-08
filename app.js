@@ -1,3 +1,5 @@
+RAPIHIN
+
 const API = "https://smart-prs-api.enrikofzm.workers.dev";
 
 /* =========================
@@ -63,10 +65,7 @@ async function loadData() {
       push(state.consumption, cons);
     }
 
-    if (!d || Object.keys(d).length === 0){
-      setLoading(false);
-      return;
-    }
+    if (!d || Object.keys(d).length === 0) return;
 
     /* =========================
        UI UPDATE
@@ -100,10 +99,6 @@ async function loadData() {
     ========================= */
     state.labels.push(now.toLocaleTimeString("id-ID"));
 
-    if(state.labels.length > 100){
-      state.labels.shift();
-    }
-
     push(state.inlet, d.PressureInlet);
     push(state.outlet, d.Pressure);
     push(state.temp, d.Temperature);
@@ -113,11 +108,13 @@ async function loadData() {
     push(state.evc, d.CorrectionMeter);
     push(state.today, d.TodayVolumeCustom);
 
+    syncStateLength();
+
     /* =========================
        RENDER
     ========================= */
-    syncStateLength();
     refreshChart();
+    
     updateAllSparklines();
     
 
@@ -137,22 +134,13 @@ function push(arr, val) {
   if (arr.length > 100) arr.shift();
 }
 
-function syncStateLength(){
-
+function syncStateLength() {
   const len = state.labels.length;
-
-  Object.keys(state).forEach(key=>{
-
-    if(Array.isArray(state[key])){
-
-      while(state[key].length > len){
-        state[key].shift();
-      }
-
+  Object.keys(state).forEach(k => {
+    if (Array.isArray(state[k])) {
+      state[k].length = len;
     }
-
   });
-
 }
 
 function setLoading(isLoading) {
@@ -323,12 +311,11 @@ async function loadHistory(){
 
   if(!date) return;
 
-  const res = await fetch(
-  API +
-  "/history/" +
-  historyMode +
-  "?date=" +
-  date
+  const res =
+  await fetch(
+    API +
+    "/history?date=" +
+    date
   );
 
   const data =
@@ -363,12 +350,6 @@ function toggleChart(title, key) {
       }
     
       panel.classList.add("show");
-      setTimeout(()=>{
-        panel.scrollIntoView({
-          behavior:"smooth",
-          block:"center"
-        });
-      },100);
       panel.dataset.key = key;
     
       document.getElementById(
@@ -420,15 +401,6 @@ function toggleChart(title, key) {
               display:false
             }
           }
-          interaction:{
-            intersect:false,
-            mode:"index"
-          },
-          elements:{
-            line:{
-              tension:.4
-            }
-          }
         }
       });
 }
@@ -444,47 +416,4 @@ function switchHistory(mode, el){
   );
 
   el.classList.add("active");
-}
-
-function exportCSV(type){
-
-  const table =
-  document.getElementById(
-    type + "Table"
-  );
-
-  if(!table) return;
-
-  let csv = [];
-
-  table.querySelectorAll("tr")
-  .forEach(row=>{
-
-    const cols =
-    row.querySelectorAll("th,td");
-
-    csv.push(
-      [...cols]
-      .map(c=>c.innerText)
-      .join(",")
-    );
-
-  });
-
-  const blob =
-  new Blob(
-    [csv.join("\n")],
-    {type:"text/csv"}
-  );
-
-  const a =
-  document.createElement("a");
-
-  a.href =
-  URL.createObjectURL(blob);
-
-  a.download =
-  type + ".csv";
-
-  a.click();
 }
