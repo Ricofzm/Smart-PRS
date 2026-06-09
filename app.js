@@ -308,35 +308,72 @@ function showPage(pageName, el) {
 
 async function loadHistory(){
 
-  const date =
-  document.getElementById("historyDate")
-  .value;
+  let url;
 
-  if(!date) return;
+  if(historyMode === "hourly"){
 
-  const res =
-  await fetch(
+    const date =
+    document.getElementById(
+      "historyDate"
+    ).value;
+
+    if(!date) return;
+
+    url =
     API +
-    "/history?date=" +
-    date
-  );
+    "/history?type=hourly&date=" +
+    date;
 
-  const data =
-  await res.json();
+  }else{
 
+    const month =
+    document.getElementById(
+      "historyMonth"
+    ).value;
+
+    if(!month) return;
+
+    url =
+    API +
+    "/history?type=daily&month=" +
+    month;
+  }
+
+  const res = await fetch(url);
+  const data = await res.json();
+
+  const tbody =
   document.getElementById(
     "historyBody"
-  ).innerHTML =
-  data.map(r=>`
-  <tr>
-    <td>${r.time}</td>
-    <td>${r.inlet}</td>
-    <td>${r.outlet}</td>
-    <td>${r.temp}</td>
-    <td>${r.gasflow}</td>
-    <td>${r.corrflow}</td>
-  </tr>
-  `).join("");
+  );
+
+  if(historyMode === "hourly"){
+
+    tbody.innerHTML =
+    data.map(r=>`
+    <tr>
+      <td>${r.time}</td>
+      <td>${r.inlet}</td>
+      <td>${r.outlet}</td>
+      <td>${r.temp}</td>
+      <td>${r.gasflow}</td>
+      <td>${r.corrflow}</td>
+    </tr>
+    `).join("");
+
+  }else{
+
+    tbody.innerHTML =
+    data.map(r=>`
+    <tr>
+      <td>${r.time}</td>
+      <td>${Number(r.dailyVolume)
+        .toFixed(3)}</td>
+      <td>${Number(r.evc)
+        .toFixed(3)}</td>
+    </tr>
+    `).join("");
+  }
 }
 
 function toggleChart(title, key) {
@@ -419,4 +456,46 @@ function switchHistory(mode, el){
   );
 
   el.classList.add("active");
+
+  document.getElementById(
+    "historyDate"
+  ).style.display =
+  mode === "hourly"
+  ? "block"
+  : "none";
+
+  document.getElementById(
+    "historyMonth"
+  ).style.display =
+  mode === "daily"
+  ? "block"
+  : "none";
+
+  const head =
+  document.getElementById("historyHead");
+
+  if(mode === "hourly"){
+
+    head.innerHTML = `
+    <tr>
+      <th>Jam</th>
+      <th>Inlet</th>
+      <th>Outlet</th>
+      <th>Temp</th>
+      <th>Gas Flow</th>
+      <th>Corr Flow</th>
+    </tr>
+    `;
+
+  }else{
+
+    head.innerHTML = `
+    <tr>
+      <th>Tanggal</th>
+      <th>Daily Volume</th>
+      <th>EVC</th>
+    </tr>
+    `;
+
+  }
 }
