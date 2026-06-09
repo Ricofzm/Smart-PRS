@@ -53,6 +53,11 @@ async function loadData() {
 
     const now = new Date();
     
+    const set = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.innerText = val ?? "-";
+    };
+    
     const dateStr =
     now.toLocaleDateString(
     "id-ID",
@@ -63,12 +68,6 @@ async function loadData() {
     });
 
     set("dateNow", dateStr);
-    
-    const set = (id, val) => {
-      const el = document.getElementById(id);
-      if (el) el.innerText = val ?? "-";
-    };
-    
     
 
     /* =========================
