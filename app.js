@@ -549,12 +549,17 @@ function toggleChart(title, key) {
       
       setTimeout(()=>{
 
-        panel.scrollIntoView({
-          behavior:"smooth",
-          block:"center"
+        const y =
+        panel.getBoundingClientRect().top +
+        window.pageYOffset -
+        90;
+      
+        window.scrollTo({
+          top:y,
+          behavior:"smooth"
         });
       
-      },100);
+      },150);
     
       document.getElementById(
         "chartTitle"
