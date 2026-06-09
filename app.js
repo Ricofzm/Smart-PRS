@@ -52,6 +52,17 @@ async function loadData() {
     renderDaily(daily);
 
     const now = new Date();
+    
+    const dateStr =
+    now.toLocaleDateString(
+    "id-ID",
+    {
+      day:"2-digit",
+      month:"2-digit",
+      year:"numeric"
+    });
+
+set("dateNow", dateStr);
 
     const set = (id, val) => {
       const el = document.getElementById(id);
