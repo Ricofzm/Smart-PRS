@@ -500,25 +500,29 @@ function switchHistory(mode, el){
   }
 }
 
-function exportCSV(){
+function exportCSV(type){
 
-  if(historyMode === "hourly"){
+  if(type === "hourly"){
 
-    const date =
-    document.getElementById("historyDate")
-    .value;
+    const today =
+    new Date()
+    .toISOString()
+    .split("T")[0];
 
     window.open(
       API +
       "/export-hourly?date=" +
-      date
+      today
     );
 
-  }else{
+  }
+
+  if(type === "daily"){
 
     const month =
-    document.getElementById("historyMonth")
-    .value;
+    new Date()
+    .toISOString()
+    .slice(0,7);
 
     window.open(
       API +
