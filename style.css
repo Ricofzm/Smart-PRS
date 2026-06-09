@@ -441,6 +441,24 @@ rgba(10,132,255,.35);
 
 }
 
+#chartTrend{
+margin-top:8px;
+font-size:12px;
+font-weight:600;
+}
+
+.trend-up{
+color:#30D158;
+}
+
+.trend-down{
+color:#FF453A;
+}
+
+.trend-flat{
+color:#9aa4b2;
+}
+
 .sparkline{
   width:100% !important;
   height:38px !important;
