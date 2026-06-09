@@ -377,6 +377,10 @@ background:#0a84ff;
 
 .chart-panel{
 
+transform:scale(.9);
+  opacity:0;
+  transition:.35s ease;
+  
 display:none;
 
 grid-column:1/-1;
@@ -397,6 +401,8 @@ backdrop-filter:blur(20px);
 
 .chart-panel.show{
 display:block;
+transform:scale(1);
+  opacity:1;
 }
 
 .chart-panel canvas{
