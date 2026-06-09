@@ -527,7 +527,34 @@ function toggleChart(title, key) {
       }
       
       panel.classList.add("show");
+      
+      panel.animate(
+      [
+        {
+          transform:"scale(.85)",
+          opacity:0
+        },
+        {
+          transform:"scale(1)",
+          opacity:1
+        }
+      ],
+      {
+        duration:400,
+        easing:"ease-out"
+      }
+      );
+      
       panel.dataset.key = key;
+      
+      setTimeout(()=>{
+
+        panel.scrollIntoView({
+          behavior:"smooth",
+          block:"center"
+        });
+      
+      },100);
     
       document.getElementById(
         "chartTitle"
@@ -598,8 +625,10 @@ function toggleChart(title, key) {
         options:{
           responsive:true,
           maintainAspectRatio:false,
-          animation:false,
-        
+          animation:{
+            duration:700
+          },
+
           interaction:{
             intersect:false,
             mode:"index"
