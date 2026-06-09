@@ -499,3 +499,33 @@ function switchHistory(mode, el){
 
   }
 }
+
+function exportCSV(){
+
+  if(historyMode === "hourly"){
+
+    const date =
+    document.getElementById("historyDate")
+    .value;
+
+    window.open(
+      API +
+      "/export-hourly?date=" +
+      date
+    );
+
+  }else{
+
+    const month =
+    document.getElementById("historyMonth")
+    .value;
+
+    window.open(
+      API +
+      "/export?month=" +
+      month
+    );
+
+  }
+
+}
