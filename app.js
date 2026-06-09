@@ -76,7 +76,9 @@ async function loadData() {
     set("corrflow", d.CorrectionFlow);
     set("turbin", d.TurbinMeter);
     set("evc", d.CorrectionMeter);
-    set("today", Number(d.TodayVolumeCustom ?? 0).toFixed(3));
+    set("today",
+    Number(daily?.[0]?.dailyVolume ?? 0).toFixed(3)
+    );
 
     const stok = Number(d.PressureInlet) / 10;
     set("stok", stok.toFixed(1));
