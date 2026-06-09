@@ -13,7 +13,9 @@ const state = {
   turbin: [],
   evc: [],
   today: [],
-  consumption: []
+  consumption: [],
+  hourlyData: [],
+  dailyData: []
 };
 
 const sparkCharts = {};
@@ -42,6 +44,9 @@ async function loadData() {
     const d = json.realtime || {};
     const hourly = json.hourly || [];
     const daily = json.daily || [];
+    
+    state.hourlyData = hourly;
+    state.dailyData = daily;
 
     renderHourly(hourly);
     renderDaily(daily);
@@ -138,12 +143,27 @@ function push(arr, val) {
 }
 
 function syncStateLength() {
+
   const len = state.labels.length;
-  Object.keys(state).forEach(k => {
-    if (Array.isArray(state[k])) {
-      state[k].length = len;
+
+  [
+    state.inlet,
+    state.outlet,
+    state.temp,
+    state.gasFlow,
+    state.corrFlow,
+    state.turbin,
+    state.evc,
+    state.today,
+    state.consumption
+  ].forEach(arr => {
+
+    while(arr.length > len){
+      arr.shift();
     }
+
   });
+
 }
 
 function setLoading(isLoading) {
@@ -378,17 +398,64 @@ async function loadHistory(){
 
 function toggleChart(title, key) {
 
+      let labels = [];
+      let values = [];
+      
+      if(key === "today"){
+      
+        labels =
+        state.dailyData
+        .slice()
+        .reverse()
+        .map(r=>r.time);
+      
+        values =
+        state.dailyData
+        .slice()
+        .reverse()
+        .map(r=>Number(r.dailyVolume));
+      
+      }else{
+      
+        labels =
+        state.hourlyData
+        .slice()
+        .reverse()
+        .map(r=>r.time.substring(11,16));
+      
+        const map = {
+          inlet:"inlet",
+          outlet:"outlet",
+          temp:"temp",
+          gasFlow:"gasflow",
+          corrFlow:"corrflow",
+          turbin:"turbin",
+          evc:"evc",
+          consumption:"difInlet"
+        };
+      
+        values =
+        state.hourlyData
+        .slice()
+        .reverse()
+        .map(r=>
+          Number(
+            r[map[key]] || 0
+          )
+        );
+      }
+      
       const panel =
       document.getElementById("chartPanel");
-    
+      
       if (
         panel.classList.contains("show") &&
         panel.dataset.key === key
-      ) {
+      ){
         panel.classList.remove("show");
         return;
       }
-    
+      
       panel.classList.add("show");
       panel.dataset.key = key;
     
@@ -414,15 +481,41 @@ function toggleChart(title, key) {
         today:"#FF375F",
         consumption:"#FF453A"
       };
+      
+      if(!values.length){
+        values = [0];
+      }
     
+      const min =
+      Math.min(...values);
+      
+      const max =
+      Math.max(...values);
+      
+      const avg =
+      values.reduce(
+      (a,b)=>a+b,0
+      ) / values.length;
+      
+      document.getElementById(
+      "chartStats"
+      ).innerHTML =
+      `
+      Min ${min.toFixed(2)}
+      |
+      Max ${max.toFixed(2)}
+      |
+      Avg ${avg.toFixed(2)}
+      `;
+      
       detailChart =
       new Chart(ctx,{
         type:"line",
         data:{
-          labels:[...state.labels],
+          labels,
           datasets:[{
             label:title,
-            data:[...(state[key] || [])],
+            data:values,
             borderColor:colorMap[key],
             backgroundColor:
               colorMap[key] + "33",
