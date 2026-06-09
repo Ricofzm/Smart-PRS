@@ -106,7 +106,10 @@ async function loadData() {
     push(state.corrFlow, d.CorrectionFlow);
     push(state.turbin, d.TurbinMeter);
     push(state.evc, d.CorrectionMeter);
-    push(state.today, d.TodayVolumeCustom);
+    push(
+      state.today,
+      Number(daily?.[0]?.dailyVolume ?? 0)
+    );
 
     syncStateLength();
 
