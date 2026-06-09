@@ -295,16 +295,86 @@ function updateAllSparklines() {
    DETAIL CHART
 ========================= */
 function refreshChart() {
-  if (!detailChart) return;
 
-  const key = document.getElementById("chartPanel")?.dataset.key;
-  if (!key) return;
+  if(!detailChart) return;
 
-  detailChart.data.labels = [...state.labels];
-  detailChart.data.datasets[0].data = [...(state[key] || [])];
+  const key =
+  document.getElementById("chartPanel")
+  ?.dataset.key;
+
+  if(!key) return;
+
+  let labels = [];
+  let values = [];
+
+  if(key === "today"){
+
+    labels =
+    state.dailyData
+    .slice()
+    .reverse()
+    .map(r => r.time);
+
+    values =
+    state.dailyData
+    .slice()
+    .reverse()
+    .map(r => Number(r.dailyVolume));
+
+  }else{
+
+    const map = {
+      inlet:"inlet",
+      outlet:"outlet",
+      temp:"temp",
+      gasFlow:"gasflow",
+      corrFlow:"corrflow",
+      turbin:"turbin",
+      evc:"evc",
+      consumption:"difInlet"
+    };
+
+    labels =
+    state.hourlyData
+    .slice()
+    .reverse()
+    .map(r => r.time.substring(11,16));
+
+    values =
+    state.hourlyData
+    .slice()
+    .reverse()
+    .map(r =>
+      Number(r[map[key]] || 0)
+    );
+
+  }
+
+  detailChart.data.labels = labels;
+  detailChart.data.datasets[0].data = values;
+
   detailChart.update("none");
+  
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  
+  const avg =
+  values.reduce(
+  (a,b)=>a+b,0
+  ) / values.length;
+  
+  document.getElementById(
+  "chartStats"
+  ).innerHTML =
+  `
+  Min ${min.toFixed(2)}
+  |
+  Max ${max.toFixed(2)}
+  |
+  Avg ${avg.toFixed(2)}
+  `;
+  
 }
-
 function showPage(pageName, el) {
 
   document.querySelectorAll(".page")
@@ -529,9 +599,31 @@ function toggleChart(title, key) {
           responsive:true,
           maintainAspectRatio:false,
           animation:false,
+        
+          interaction:{
+            intersect:false,
+            mode:"index"
+          },
+        
           plugins:{
             legend:{
               display:false
+            },
+            tooltip:{
+              enabled:true
+            }
+          },
+        
+          scales:{
+            x:{
+              ticks:{
+                color:"#aaa"
+              }
+            },
+            y:{
+              ticks:{
+                color:"#aaa"
+              }
             }
           }
         }
