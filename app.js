@@ -386,6 +386,50 @@ function refreshChart() {
   Avg ${avg.toFixed(2)}
   `;
   
+  const last =
+  values[values.length - 1] || 0;
+  
+  const prev =
+  values[values.length - 2] || last;
+  
+  const diff =
+  last - prev;
+  
+  const percent =
+  prev !== 0
+  ? (diff / prev) * 100
+  : 0;
+  
+  let trendText = "";
+  let trendClass = "";
+  
+  if(percent > 0){
+  
+    trendClass = "trend-up";
+    trendText =
+    `▲ +${percent.toFixed(1)}% dari data sebelumnya`;
+  
+  }else if(percent < 0){
+  
+    trendClass = "trend-down";
+    trendText =
+    `▼ ${Math.abs(percent).toFixed(1)}% dari data sebelumnya`;
+  
+  }else{
+  
+    trendClass = "trend-flat";
+    trendText =
+    "▬ Tidak ada perubahan";
+  
+  }
+  
+  document.getElementById(
+  "chartTrend"
+  ).innerHTML =
+  `<span class="${trendClass}">
+  ${trendText}
+  </span>`;
+  
 }
 function showPage(pageName, el) {
 
@@ -621,6 +665,50 @@ function toggleChart(title, key) {
       |
       Avg ${avg.toFixed(2)}
       `;
+      
+      const last =
+      values[values.length - 1] || 0;
+      
+      const prev =
+      values[values.length - 2] || last;
+      
+      const diff =
+      last - prev;
+      
+      const percent =
+      prev !== 0
+      ? (diff / prev) * 100
+      : 0;
+      
+      let trendText = "";
+      let trendClass = "";
+      
+      if(percent > 0){
+      
+        trendClass = "trend-up";
+        trendText =
+        `▲ +${percent.toFixed(1)}% dari data sebelumnya`;
+      
+      }else if(percent < 0){
+      
+        trendClass = "trend-down";
+        trendText =
+        `▼ ${percent.toFixed(1)}% dari data sebelumnya`;
+      
+      }else{
+      
+        trendClass = "trend-flat";
+        trendText =
+        "▬ Tidak ada perubahan";
+      
+      }
+      
+      document.getElementById(
+      "chartTrend"
+      ).innerHTML =
+      `<span class="${trendClass}">
+      ${trendText}
+      </span>`;
       
       detailChart =
       new Chart(ctx,{
