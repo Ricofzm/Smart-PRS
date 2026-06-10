@@ -21,7 +21,7 @@ const state = {
 const sparkCharts = {};
 let detailChart = null;
 let historyMode = "hourly";
-
+let lastCons = null;
 
 /* =========================
    INIT
