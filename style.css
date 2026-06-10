@@ -482,6 +482,38 @@ color:#9aa4b2;
     );
 
   z-index:0;
+  
+  animation: chartGlow 4s ease-in-out infinite;
+  }
+  
+  @keyframes chartGlow{
+  
+    0%{
+      opacity:.05;
+      filter:
+        blur(6px)
+        drop-shadow(
+          0 20px 30px rgba(255,255,255,.08)
+        );
+  }
+
+  50%{
+    opacity:.09;
+    filter:
+      blur(7px)
+      drop-shadow(
+        0 25px 40px rgba(255,255,255,.16)
+      );
+  }
+
+  100%{
+    opacity:.05;
+    filter:
+      blur(6px)
+      drop-shadow(
+        0 20px 30px rgba(255,255,255,.08)
+      );
+  }
 }
 
 .card h3,
