@@ -1122,3 +1122,12 @@ function applyRiskUI(risk, hoursLeft, trend) {
     `;
   }
 }
+
+const cardColors = {
+ inlet:"#0A84FF",
+ outlet:"#30D158",
+ temp:"#FF9F0A",
+ gasflow:"#64D2FF",
+ corrflow:"#32D74B",
+ stok:"#BF5AF2"
+};
