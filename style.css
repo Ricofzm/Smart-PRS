@@ -476,7 +476,7 @@ color:#9aa4b2;
   width:100% !important;
   height:auto !important;
 
-  opacity:.06;
+  opacity:.08;
 
   filter:
     drop-shadow(
@@ -502,7 +502,7 @@ color:#9aa4b2;
   }
 
   50%{
-    opacity:.09;
+    opacity:.15;
     filter:
       
       drop-shadow(
