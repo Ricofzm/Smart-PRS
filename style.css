@@ -467,14 +467,14 @@ color:#9aa4b2;
 
 .sparkline{
   position:absolute;
-  transform:scale(.92);
+  transform:scale(.9);
   inset:14px;
   
   left:10px;
   right:10px;
 
-  top:-5px;      /* naik */
-  bottom:15px;   /* tinggi chart */
+  top:0px;      /* naik */
+  bottom:20px;   /* tinggi chart */
 
   width:auto !important;
   height:auto !important;
@@ -482,7 +482,7 @@ color:#9aa4b2;
   opacity:.18; 
 
   filter:
-    blur(4px)
+    blur(3px)
     drop-shadow(
       0 0 10px rgba(255,255,255,.08)
     );
