@@ -471,12 +471,15 @@ color:#9aa4b2;
   left:0;
   right:0;
   top:-10px;
-  bottom:-10px;
+  bottom:0px;
 
   opacity:.35;
 
   filter:
-    blur(3px);
+    blur(6px)
+    drop-shadow(
+      0 25px 40px rgba(255,255,255,.15)
+    );
 
   z-index:0;
 }
