@@ -84,13 +84,13 @@ async function loadData() {
       if (!isNaN(cons)) {
         const delta = lastCons === null ? 0 : Math.abs(cons - lastCons);
       
-        if (delta < 0.001) {
-          // skip update consumption saja
-        } else {
-          lastCons = cons;
+        lastCons = cons;
+      
+        if (delta >= 0.001) {
           set("consumption", cons.toFixed(2));
-          push(state.consumption, cons);
         }
+      
+        push(state.consumption, cons);
       }
     }
     if (!d || Object.keys(d).length === 0) {
