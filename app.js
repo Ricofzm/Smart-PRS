@@ -336,13 +336,13 @@ function updateSparkline(id, data, color) {
         datasets:[{
           data,
         
-          borderColor:color,
-          borderWidth:1.8,
+          borderColor: color + "55", // garis tipis samar
+        
+          borderWidth:1,
         
           pointRadius:0,
         
-          tension:0.55, 
-        
+          tension:0.6,
           cubicInterpolationMode:"monotone",
         
           fill:true,
@@ -350,13 +350,17 @@ function updateSparkline(id, data, color) {
           backgroundColor:ctx=>{
             const chart = ctx.chart;
             const {ctx:c} = chart;
-          
-            const g = c.createLinearGradient(0,0,0,120);
-          
-            g.addColorStop(0,color+"44");
-            g.addColorStop(.5,color+"18");
+        
+            const g =
+            c.createLinearGradient(
+              0,0,
+              0,150
+            );
+        
+            g.addColorStop(0,color+"55");
+            g.addColorStop(.4,color+"22");
             g.addColorStop(1,color+"00");
-          
+        
             return g;
           }
         }]
