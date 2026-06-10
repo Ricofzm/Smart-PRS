@@ -78,6 +78,8 @@ body{
 
 /* ===== CARD (iOS glass cards) ===== */
 .card{
+  position:relative;
+  cursor:pointer;
   background:var(--glass);
   border:1px solid var(--stroke);
   border-radius:var(--radius);
@@ -95,21 +97,37 @@ body{
 
 .card::after{
   content:"";
+
   position:absolute;
 
-  left:14px;
-  right:14px;
-  bottom:10;
+  left:50%;
+  bottom:8px;
 
-  height:2px;
+  transform:translateX(-50%);
 
-  background:rgba(255,255,255,.08);
-  border-radius:99px;
+  width:36px;
+  height:5px;
+
+  border-radius:999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.08),
+      rgba(255,255,255,.25),
+      rgba(255,255,255,.08)
+    );
+
+  opacity:.8;
 }
 
 .card.chart-active::after{
+  width:56px;
+
   background:#0a84ff;
-  box-shadow:0 0 10px rgba(10,132,255,.5);
+
+  box-shadow:
+    0 0 12px rgba(10,132,255,.4);
 }
 
 /* ===== STATUS CARD ===== */
