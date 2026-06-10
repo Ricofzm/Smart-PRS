@@ -497,7 +497,7 @@ color:#9aa4b2;
     filter:
       
       drop-shadow(
-        0 20px 30px rgba(255,255,255,.08)
+        0 20px 30px rgba(255,255,255,.15)
       );
   }
 
@@ -506,7 +506,7 @@ color:#9aa4b2;
     filter:
       
       drop-shadow(
-        0 25px 40px rgba(255,255,255,.16)
+        0 25px 40px rgba(255,255,255,.26)
       );
   }
 
@@ -515,7 +515,7 @@ color:#9aa4b2;
     filter:
       
       drop-shadow(
-        0 20px 30px rgba(255,255,255,.08)
+        0 20px 30px rgba(255,255,255,.15)
       );
   }
 
