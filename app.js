@@ -354,11 +354,10 @@ function updateSparkline(id, data, color) {
             const g =
             c.createLinearGradient(
               0,0,
-              0,150
+              0,300
             );
         
             g.addColorStop(0,color+"55");
-            g.addColorStop(.4,color+"22");
             g.addColorStop(1,color+"00");
         
             return g;
@@ -889,9 +888,9 @@ function toggleChart(title, key) {
             backgroundColor:
               colorMap[key] + "33",
             fill:true,
-            borderWidth:3,
+            borderWidth:4,
             pointRadius:0,
-            tension:.4
+            tension:.5
           }]
         },
         options:{
