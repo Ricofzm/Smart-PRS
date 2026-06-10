@@ -500,6 +500,14 @@ canvas.sparkline {
   text-transform:capitalize;
 }
 
+.status-red{
+  color:#ff453a;
+}
+
+.status-yellow{
+  color:#ff9f0a;
+}
+
 .status-green{
   color:#30d158;
 }
