@@ -87,7 +87,7 @@ async function loadData() {
         lastCons = cons;
       
         if (delta >= 0.001) {
-          set("consumption", cons.toFixed(2));
+          set("consumption", cons ? cons.toFixed(2) : "0.00");
         }
       
         push(state.consumption, cons);
