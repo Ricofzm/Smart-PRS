@@ -495,7 +495,7 @@ color:#9aa4b2;
   0%{
     opacity:.05;
     filter:
-      blur(2px)
+      
       drop-shadow(
         0 20px 30px rgba(255,255,255,.08)
       );
@@ -504,7 +504,7 @@ color:#9aa4b2;
   50%{
     opacity:.09;
     filter:
-      blur(3px)
+      
       drop-shadow(
         0 25px 40px rgba(255,255,255,.16)
       );
@@ -513,7 +513,7 @@ color:#9aa4b2;
   100%{
     opacity:.05;
     filter:
-      blur(4px)
+      
       drop-shadow(
         0 20px 30px rgba(255,255,255,.08)
       );
@@ -523,10 +523,10 @@ color:#9aa4b2;
 
 .card h3,
 .card p,
-.card{
+.unit{
   position:relative;
-  overflow:hidden;
-} 
+  z-index:2;
+}
 .unit{
   position:relative;
   z-index:2;
