@@ -93,6 +93,25 @@ body{
   background:var(--glass2);
 }
 
+.card::after{
+  content:"";
+  position:absolute;
+
+  left:14px;
+  right:14px;
+  bottom:0;
+
+  height:2px;
+
+  background:rgba(255,255,255,.08);
+  border-radius:99px;
+}
+
+.card.chart-active::after{
+  background:#0a84ff;
+  box-shadow:0 0 10px rgba(10,132,255,.5);
+}
+
 /* ===== STATUS CARD ===== */
 
 .card.normal{
