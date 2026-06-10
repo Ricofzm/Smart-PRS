@@ -74,23 +74,18 @@ async function loadData() {
     /* =========================
        CONSUMPTION
     ========================= */
-    const latestHourly = hourly[0];
+    const latestHourly = Array.isArray(hourly) && hourly.length
+      ? hourly[0] // ⚠️ karena query kamu DESC
+      : null;
     
-    if (latestHourly) {
-      const cons = Number(latestHourly.difInlet || 0);
+    const consRaw = latestHourly?.difInlet;
     
-      if (!isNaN(cons)) {
-        const delta = lastCons === null ? 0 : Math.abs(cons - lastCons);
-      
-        lastCons = cons;
-      
-        if (delta >= 0.001) {
-          set("consumption", cons ? cons.toFixed(2) : "0.00");
-        }
-      
-        push(state.consumption, cons);
-      }
-    }
+    const cons = Number.isFinite(Number(consRaw))
+      ? Number(consRaw)
+      : 0;
+    
+    set("consumption", cons.toFixed(2));
+    push(state.consumption, cons);
     if (!d || Object.keys(d).length === 0) {
       set("update", "NO DATA");
       return;
