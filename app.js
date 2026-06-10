@@ -21,6 +21,7 @@ const state = {
 const sparkCharts = {};
 let detailChart = null;
 let historyMode = "hourly";
+let lastCons = null;
 
 /* =========================
    INIT
@@ -73,15 +74,27 @@ async function loadData() {
     /* =========================
        CONSUMPTION
     ========================= */
-    const latestHourly = hourly[0];
+    const latestHourly = Array.isArray(hourly)
+      ? hourly[hourly.length - 1]
+      : null;
+    
     if (latestHourly) {
       const cons = Number(latestHourly.difInlet || 0);
-      set("consumption", cons.toFixed(2));
-      push(state.consumption, cons);
+    
+      if (!isNaN(cons)) {
+        const delta = lastCons === null ? 0 : Math.abs(cons - lastCons);
+      
+        if (delta < 0.001) return; // ignore noise kecil banget
+      
+        lastCons = cons;
+        set("consumption", cons.toFixed(2));
+        push(state.consumption, cons);
+      }
     }
-
-    if (!d || Object.keys(d).length === 0) return;
-
+    if (!d || Object.keys(d).length === 0) {
+      set("update", "NO DATA");
+      return;
+    }
     /* =========================
        UI UPDATE
     ========================= */
@@ -94,7 +107,7 @@ async function loadData() {
     set("turbin", d.TurbinMeter);
     set("evc", d.CorrectionMeter);
     set("today",
-    Number(daily?.[0]?.dailyVolume ?? 0).toFixed(3)
+      Number(daily?.[0]?.dailyVolume ?? 0).toFixed(3)
     );
 
     const avgCons = getAvgConsumption(state);
@@ -106,9 +119,7 @@ async function loadData() {
     
     const trend = getConsumptionTrend(state);
     const risk = getStockRisk(engine.hoursLeft, trend);
-    
-    // tampil utama
-    set("stok", engine.hoursLeft.toFixed(1));
+  
     
     // OPTIONAL: bikin UI tambahan (kalau mau nanti)
     console.log("TREND:", trend);
@@ -120,7 +131,7 @@ async function loadData() {
       Number(d.Temperature),
       Number(d.GasFlow),
       Number(d.CorrectionFlow),
-      stok
+      risk
     );
 
     /* =========================
@@ -149,12 +160,15 @@ async function loadData() {
     
     updateAllSparklines();
     
+    applyRiskUI(risk, engine.hoursLeft, trend);
 
+    
   } catch (err) {
     console.error(err);
-    setLoading(false);
     const el = document.getElementById("update");
     if (el) el.innerText = "ERROR";
+  } finally {
+    setLoading(false);
   }
 }
 
@@ -185,6 +199,10 @@ function syncStateLength() {
     while(arr.length > len){
       arr.shift();
     }
+    
+    while (state.labels.length > 100) {
+      state.labels.shift();
+    }
 
   });
 
@@ -212,21 +230,40 @@ function getAvgConsumption(state) {
 /* =========================
    ALARM
 ========================= */
-function updateAlarm(inlet, outlet, temp, gasflow, corrflow, stok) {
-  setCard("card-inlet", inlet < 5 || inlet > 250);
-  setCard("card-outlet", outlet < 2 || outlet > 4);
-  setCard("card-temp", temp < 25 || temp > 40);
-  setCard("card-gasflow", gasflow < 5 || gasflow > 250);
-  setCard("card-corrflow", corrflow < 275 || corrflow > 500);
-  setCard("card-stok", stok < 5);
+function updateAlarm(inlet, outlet, temp, gasflow, corrflow, risk) {
+
+  setCard("card-inlet", getLevel(inlet, 5, 250));
+  setCard("card-outlet", getLevel(outlet, 2, 4));
+  setCard("card-temp", getLevel(temp, 25, 40));
+  setCard("card-gasflow", getLevel(gasflow, 5, 250));
+  setCard("card-corrflow", getLevel(corrflow, 275, 500));
+
+  setCard("card-stok", riskToLevel(risk));
 }
 
-function setCard(id, alarm) {
-  const el = document.getElementById(id);
-  if (!el) return;
+function getLevel(value, min, max) {
 
-  el.classList.remove("normal", "warning", "alarm");
-  el.classList.add(alarm ? "alarm" : "normal");
+  if (value < min || value > max) {
+    return "alarm";
+  }
+
+  const range = max - min;
+
+  const lowWarn = min + range * 0.2;
+  const highWarn = max - range * 0.2;
+
+  if (value < lowWarn || value > highWarn) {
+    return "warning";
+  }
+
+  return "normal";
+}
+
+function riskToLevel(risk) {
+  if (risk === "CRITICAL") return "alarm";
+  if (risk === "WARNING") return "warning";
+  if (risk === "CAUTION") return "warning";
+  return "normal";
 }
 
 /* =========================
@@ -313,7 +350,7 @@ function updateSparkline(id, data, color) {
   sparkCharts[id].data.datasets[0].data =
   data;
 
-  sparkCharts[id].update("none");
+  sparkCharts[id].update();
 }
 
 function updateAllSparklines() {
@@ -333,7 +370,9 @@ function updateAllSparklines() {
 ========================= */
 function refreshChart() {
 
-  if(!detailChart) return;
+  if (!detailChart || !document.getElementById("chartPanel")?.classList.contains("show")) {
+    return;
+  }
 
   const key =
   document.getElementById("chartPanel")
@@ -371,11 +410,10 @@ function refreshChart() {
       consumption:"difInlet"
     };
 
-    labels =
-    state.hourlyData
+    labels = state.hourlyData
     .slice()
     .reverse()
-    .map(r => r.time.substring(11,16));
+    .map(r => (r.time ? r.time.substring(11,16) : "--"));
 
     values =
     state.hourlyData
@@ -392,13 +430,12 @@ function refreshChart() {
 
   detailChart.update("none");
   
-  const min = Math.min(...values);
-  const max = Math.max(...values);
+  const safeValues = values.length ? values : [0];
+
+  const min = Math.min(...safeValues);
+  const max = Math.max(...safeValues);
   
-  const avg =
-  values.reduce(
-  (a,b)=>a+b,0
-  ) / values.length;
+  const avg = safeValues.reduce((a,b)=>a+b,0) / safeValues.length;
   
   document.getElementById(
   "chartStats"
@@ -649,8 +686,11 @@ function toggleChart(title, key) {
       const ctx =
       document.getElementById("detailChart");
     
-      if(detailChart){
+      if (detailChart) {
+        detailChart.data.labels = [];
+        detailChart.data.datasets[0].data = [];
         detailChart.destroy();
+        detailChart = null;
       }
     
       const colorMap = {
@@ -880,7 +920,7 @@ function exportCSV(type){
 
 function calculateStockHours(pressureInlet, avgConsumption) {
 
-  const stock = Number(pressureInlet || 0) / 10;
+  const stock = Math.max(Number(pressureInlet || 0), 1) / 10;
 
   const safeConsumption = avgConsumption > 0
     ? avgConsumption
@@ -895,25 +935,29 @@ function calculateStockHours(pressureInlet, avgConsumption) {
 }
 
 function getConsumptionTrend(state) {
+  const data = state.consumption.slice(-20);
 
-  const data = state.consumption.slice(-10);
+  if (data.length < 5) return "stable";
 
-  if (data.length < 5) {
-    return "stable";
+  let ema1 = 0;
+  let ema2 = 0;
+
+  const k = 2 / (data.length + 1);
+
+  const half = Math.floor(data.length / 2);
+
+  for (let i = 0; i < half; i++) {
+    ema1 = data[i] * k + ema1 * (1 - k);
   }
 
-  const mid = Math.floor(data.length / 2);
+  for (let i = half; i < data.length; i++) {
+    ema2 = data[i] * k + ema2 * (1 - k);
+  }
 
-  const firstHalf = data.slice(0, mid);
-  const secondHalf = data.slice(mid);
+  const diff = ema1 !== 0 ? ((ema2 - ema1) / ema1) * 100 : 0;
 
-  const avg1 = firstHalf.reduce((a,b)=>a+b,0) / firstHalf.length;
-  const avg2 = secondHalf.reduce((a,b)=>a+b,0) / secondHalf.length;
-
-  const diff = ((avg2 - avg1) / avg1) * 100;
-
-  if (diff > 5) return "rising";   // boros naik
-  if (diff < -5) return "dropping"; // hemat
+  if (diff > 5) return "rising";
+  if (diff < -5) return "dropping";
   return "stable";
 }
 
@@ -923,7 +967,7 @@ function getStockRisk(hoursLeft, trend) {
     return "CRITICAL";
   }
 
-  if (hoursLeft <= 8 && trend === "rising") {
+  if (hoursLeft <= 6 && trend === "rising") {
     return "WARNING";
   }
 
@@ -932,4 +976,30 @@ function getStockRisk(hoursLeft, trend) {
   }
 
   return "SAFE";
+}
+
+function applyRiskUI(risk, hoursLeft, trend) {
+
+  const el = document.getElementById("card-stok");
+  if (!el) return;
+
+  el.classList.remove("normal", "warning", "alarm");
+
+  if (risk === "CRITICAL") {
+    el.classList.add("alarm");
+  } else if (risk === "WARNING") {
+    el.classList.add("warning");
+  } else {
+    el.classList.add("normal");
+  }
+
+  // OPTIONAL TEXT FEEDBACK
+  const stokEl = document.getElementById("stok");
+
+  if (stokEl) {
+    stokEl.innerHTML = `
+      ${hoursLeft.toFixed(1)}<br>
+      <small>${risk} • ${trend}</small>
+    `;
+  }
 }
