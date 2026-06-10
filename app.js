@@ -336,9 +336,9 @@ function updateSparkline(id, data, color) {
         datasets:[{
           data,
         
-          borderColor: color + "55", // garis tipis samar
+          borderColor: color + "22", // garis tipis samar
         
-          borderWidth:1,
+          borderWidth:0.8,
         
           pointRadius:0,
         
