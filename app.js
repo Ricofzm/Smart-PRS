@@ -336,10 +336,11 @@ function updateSparkline(id, data, color) {
         datasets:[{
           data,
           borderColor:color,
-          backgroundColor:"transparent",
+          backgroundColor:color + "22",
+          fill:true,
           borderWidth:2,
           pointRadius:0,
-          tension:.4
+          tension:.45
         }]
       },
       options:{
