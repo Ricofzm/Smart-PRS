@@ -493,29 +493,29 @@ color:#9aa4b2;
 @keyframes chartGlow{
 
   0%{
-    opacity:.15;
+    opacity:.5;
     filter:
       
       drop-shadow(
-        0 20px 30px rgba(255,255,255,.15)
+        0 20px 30px rgba(255,255,255,.5)
       );
   }
 
   50%{
-    opacity:.25;
-    filter:
-      
-      drop-shadow(
-        0 25px 40px rgba(255,255,255,.26)
-      );
-  }
-
-  100%{
     opacity:.15;
     filter:
       
       drop-shadow(
-        0 20px 30px rgba(255,255,255,.15)
+        0 25px 40px rgba(255,255,255,.15)
+      );
+  }
+
+  100%{
+    opacity:.25;
+    filter:
+      
+      drop-shadow(
+        0 20px 30px rgba(255,255,255,.26)
       );
   }
 
