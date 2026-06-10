@@ -476,6 +476,29 @@ background:#0a84ff;
 }
 
 .chart-panel{
+
+grid-column:1/-1;
+
+margin-top:10px;
+
+background:var(--glass);
+
+border-radius:18px;
+padding:15px;
+
+backdrop-filter:blur(20px);
+
+max-height:0;
+overflow:hidden;
+
+transform:scale(.9);
+opacity:0;
+
+transition:
+transform .35s ease,
+opacity .35s ease,
+max-height .35s ease;
+
   min-height:320px;
 
   border:
@@ -483,6 +506,7 @@ background:#0a84ff;
 
   box-shadow:
   0 0 30px rgba(10,132,255,.12);
+  
 }
 
 .chart-panel.show{
