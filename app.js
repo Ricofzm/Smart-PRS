@@ -350,16 +350,13 @@ function updateSparkline(id, data, color) {
           backgroundColor:ctx=>{
             const chart = ctx.chart;
             const {ctx:c} = chart;
-        
-            const g =
-            c.createLinearGradient(
-              0,0,
-              0,50
-            );
-        
-            g.addColorStop(0,color+"22");
+          
+            const g = c.createLinearGradient(0,0,0,120);
+          
+            g.addColorStop(0,color+"44");
+            g.addColorStop(.5,color+"18");
             g.addColorStop(1,color+"00");
-        
+          
             return g;
           }
         }]
