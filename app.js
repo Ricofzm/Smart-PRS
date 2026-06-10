@@ -335,12 +335,33 @@ function updateSparkline(id, data, color) {
         labels:data.map((_,i)=>i),
         datasets:[{
           data,
+        
           borderColor:color,
-          backgroundColor:color + "22",
-          fill:true,
-          borderWidth:2,
+          borderWidth:1.8,
+        
           pointRadius:0,
-          tension:.45
+        
+          tension:0.55, 
+        
+          cubicInterpolationMode:"monotone",
+        
+          fill:true,
+        
+          backgroundColor:ctx=>{
+            const chart = ctx.chart;
+            const {ctx:c} = chart;
+        
+            const g =
+            c.createLinearGradient(
+              0,0,
+              0,50
+            );
+        
+            g.addColorStop(0,color+"22");
+            g.addColorStop(1,color+"00");
+        
+            return g;
+          }
         }]
       },
       options:{
