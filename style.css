@@ -460,20 +460,30 @@ color:#FF453A;
 color:#9aa4b2;
 }
 
+.card{
+  position:relative;
+  overflow:hidden;
+}
+
 .sparkline{
+  position:absolute;
+  inset:0;
+
   width:100% !important;
-  height:38px !important;
-  display:block;
+  height:100% !important;
+
+  opacity:.15;
+  filter:blur(3px);
+
   pointer-events:none;
+  z-index:1;
 }
 
-canvas.sparkline {
-  width: 100% !important;
-  height: 35px !important;
-}
-
-.card canvas{
-  min-height:38px;
+.card h3,
+.card p,
+.card .unit{
+  position:relative;
+  z-index:2;
 }
 
 #stok{
