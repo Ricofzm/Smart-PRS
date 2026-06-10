@@ -480,7 +480,7 @@ color:#9aa4b2;
 
   filter:
     drop-shadow(
-      0 25px 40px rgba(255,255,255,.15)
+      0 0 25px rgba(255,255,255,.15)
     );
 
   z-index:0;
