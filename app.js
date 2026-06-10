@@ -389,7 +389,7 @@ function updateSparkline(id, data, color) {
   sparkCharts[id].data.datasets[0].data =
   data;
 
-  sparkCharts[id].update();
+  sparkCharts[id].update("active");
 }
 
 function updateAllSparklines() {
