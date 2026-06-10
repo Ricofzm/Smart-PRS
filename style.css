@@ -467,16 +467,21 @@ color:#9aa4b2;
 
 .sparkline{
   position:absolute;
-  inset:0;
+  transform:scale(.92);
+  inset:10px;
 
-  width:100% !important;
-  height:100% !important;
+  width:auto !important;
+  height:auto !important;
 
-  opacity:.10;
-  filter:blur(4px);
+  opacity:.18; 
 
-  pointer-events:none;
-  z-index:1;
+  filter:
+    blur(4px)
+    drop-shadow(
+      0 0 10px rgba(255,255,255,.08)
+    );
+
+  z-index:0;
 }
 
 .card h3,
