@@ -470,22 +470,13 @@ color:#9aa4b2;
 
   left:0;
   right:0;
+  top:-10px;
+  bottom:-10px;
 
-  top:-12px;
-  bottom:-12px;
-
-  width:100% !important;
-  height:100% !important;
-
-  transform:scale(1);
-
-  opacity:.22;
+  opacity:.35;
 
   filter:
-    blur(2px)
-    drop-shadow(
-      0 12px 20px rgba(255,255,255,.12)
-    );
+    blur(10px);
 
   z-index:0;
 }
