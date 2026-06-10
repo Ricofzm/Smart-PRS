@@ -479,10 +479,6 @@ canvas.sparkline {
 #stok{
   display:flex;
   flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  height:100%;
 }
 
 .stok-value{
@@ -502,14 +498,6 @@ canvas.sparkline {
   opacity:.65;
   margin-top:6px;
   text-transform:capitalize;
-}
-
-.status-red{
-  color:#ff453a;
-}
-
-.status-yellow{
-  color:#ff9f0a;
 }
 
 .status-green{
