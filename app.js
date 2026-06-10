@@ -121,20 +121,22 @@ async function loadData() {
     
     const trend = getConsumptionTrend(state);
     const risk = getStockRisk(engine.hoursLeft, trend);
-  
     
-    // OPTIONAL: bikin UI tambahan (kalau mau nanti)
     console.log("TREND:", trend);
     console.log("RISK:", risk);
-
-    updateAlarm(
-      Number(d.PressureInlet),
-      Number(d.Pressure),
-      Number(d.Temperature),
-      Number(d.GasFlow),
-      Number(d.CorrectionFlow),
-      risk
-    );
+    
+    try {
+      updateAlarm(
+        Number(d.PressureInlet),
+        Number(d.Pressure),
+        Number(d.Temperature),
+        Number(d.GasFlow),
+        Number(d.CorrectionFlow),
+        risk
+      );
+    } catch (e) {
+      console.error("updateAlarm crash:", e);
+    }
 
     /* =========================
        STATE UPDATE (SAFE)
@@ -227,6 +229,25 @@ function getAvgConsumption(state) {
   }
 
   return sum / data.length;
+}
+
+function setCard(id, level) {
+  const el = document.getElementById(id);
+
+  if (!el) {
+    console.warn("Missing card element:", id);
+    return;
+  }
+
+  const levels = ["normal", "warning", "alarm"];
+
+  el.classList.remove(...levels);
+
+  if (!levels.includes(level)) {
+    level = "normal";
+  }
+
+  el.classList.add(level);
 }
 
 /* =========================
