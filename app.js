@@ -104,9 +104,15 @@ async function loadData() {
       avgCons
     );
     
-    set("stok", engine.hoursLeft);
-
-    setLoading(false);
+    const trend = getConsumptionTrend(state);
+    const risk = getStockRisk(engine.hoursLeft, trend);
+    
+    // tampil utama
+    set("stok", engine.hoursLeft.toFixed(1));
+    
+    // OPTIONAL: bikin UI tambahan (kalau mau nanti)
+    console.log("TREND:", trend);
+    console.log("RISK:", risk);
 
     updateAlarm(
       Number(d.PressureInlet),
@@ -886,4 +892,44 @@ function calculateStockHours(pressureInlet, avgConsumption) {
     stock: Number(stock.toFixed(2)),
     hoursLeft: Number(hoursLeft.toFixed(2))
   };
+}
+
+function getConsumptionTrend(state) {
+
+  const data = state.consumption.slice(-10);
+
+  if (data.length < 5) {
+    return "stable";
+  }
+
+  const mid = Math.floor(data.length / 2);
+
+  const firstHalf = data.slice(0, mid);
+  const secondHalf = data.slice(mid);
+
+  const avg1 = firstHalf.reduce((a,b)=>a+b,0) / firstHalf.length;
+  const avg2 = secondHalf.reduce((a,b)=>a+b,0) / secondHalf.length;
+
+  const diff = ((avg2 - avg1) / avg1) * 100;
+
+  if (diff > 5) return "rising";   // boros naik
+  if (diff < -5) return "dropping"; // hemat
+  return "stable";
+}
+
+function getStockRisk(hoursLeft, trend) {
+
+  if (hoursLeft <= 3) {
+    return "CRITICAL";
+  }
+
+  if (hoursLeft <= 8 && trend === "rising") {
+    return "WARNING";
+  }
+
+  if (hoursLeft <= 12) {
+    return "CAUTION";
+  }
+
+  return "SAFE";
 }
