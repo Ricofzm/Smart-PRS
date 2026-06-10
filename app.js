@@ -74,9 +74,7 @@ async function loadData() {
     /* =========================
        CONSUMPTION
     ========================= */
-    const latestHourly = Array.isArray(hourly)
-      ? hourly[hourly.length - 1]
-      : null;
+    const latestHourly = hourly[0];
     
     if (latestHourly) {
       const cons = Number(latestHourly.difInlet || 0);
