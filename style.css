@@ -31,26 +31,30 @@ body{
 
 /* ===== NAVBAR (iOS floating glass) ===== */
 .navbar{
-  height:90px;
 
-  background:
-  linear-gradient(
-    90deg,
-    rgba(0,40,90,.4),
-    rgba(0,0,0,.3)
-  );
+height:100px;
 
-  border:1px solid
-  rgba(10,132,255,.25);
+padding:0 24px;
 
-  box-shadow:
-  0 0 40px rgba(10,132,255,.15);
+border-radius:28px;
 
-  border-radius:24px;
+background:
+linear-gradient(
+90deg,
+rgba(0,30,70,.85),
+rgba(5,10,20,.95)
+);
+
+border:
+1px solid rgba(10,132,255,.25);
+
+box-shadow:
+0 0 40px rgba(10,132,255,.12);
+
 }
 
 .logo{
-  height:64px;
+  height:72px;
   width:auto;
 
   filter:
@@ -81,8 +85,10 @@ body{
 /* ===== GRID ===== */
 .grid{
   display:grid;
-  grid-template-columns:repeat(2, 1fr);
-  gap:12px;
+  grid-template-columns:
+  repeat(auto-fit,minmax(170px,1fr));
+
+  gap:18px;
 }
 
 /* ===== CARD (iOS glass cards) ===== */
