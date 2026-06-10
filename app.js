@@ -97,8 +97,14 @@ async function loadData() {
     Number(daily?.[0]?.dailyVolume ?? 0).toFixed(3)
     );
 
-    const stok = Number(d.PressureInlet) / 10;
-    set("stok", stok.toFixed(1));
+    const avgCons = getAvgConsumption(state);
+
+    const engine = calculateStockHours(
+      d.PressureInlet,
+      avgCons
+    );
+    
+    set("stok", engine.hoursLeft);
 
     setLoading(false);
 
@@ -182,6 +188,19 @@ function setLoading(isLoading) {
   document.querySelectorAll(".card").forEach(c =>
     c.classList.toggle("loading", isLoading)
   );
+}
+
+function getAvgConsumption(state) {
+  const data = state.consumption.slice(-10);
+
+  if (!data.length) return 0;
+
+  let sum = 0;
+  for (let i = 0; i < data.length; i++) {
+    sum += data[i];
+  }
+
+  return sum / data.length;
 }
 
 /* =========================
@@ -851,4 +870,20 @@ function exportCSV(type){
 
   }
 
+}
+
+function calculateStockHours(pressureInlet, avgConsumption) {
+
+  const stock = Number(pressureInlet || 0) / 10;
+
+  const safeConsumption = avgConsumption > 0
+    ? avgConsumption
+    : 1; // anti division by zero
+
+  const hoursLeft = stock / safeConsumption;
+
+  return {
+    stock: Number(stock.toFixed(2)),
+    hoursLeft: Number(hoursLeft.toFixed(2))
+  };
 }
