@@ -336,9 +336,9 @@ function updateSparkline(id, data, color) {
         datasets:[{
           data,
         
-          borderColor: color + "22", // garis tipis samar
+          borderColor: color + "AA", // garis tipis samar
         
-          borderWidth:0.8,
+          borderWidth:2.5,
         
           pointRadius:0,
         
@@ -358,6 +358,7 @@ function updateSparkline(id, data, color) {
             );
         
             g.addColorStop(0,color+"55");
+            g.addColorStop(.6,color+"18");
             g.addColorStop(1,color+"00");
         
             return g;
