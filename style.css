@@ -467,24 +467,24 @@ color:#9aa4b2;
 
 .sparkline{
   position:absolute;
-  transform:scale(.9);
-  inset:14px;
-  
-  left:10px;
-  right:10px;
 
-  top:0px;      /* naik */
-  bottom:20px;   /* tinggi chart */
+  left:0;
+  right:0;
 
-  width:auto !important;
-  height:auto !important;
+  top:-12px;
+  bottom:-12px;
 
-  opacity:.18; 
+  width:100% !important;
+  height:100% !important;
+
+  transform:scale(1);
+
+  opacity:.22;
 
   filter:
-    blur(3px)
+    blur(2px)
     drop-shadow(
-      0 0 10px rgba(255,255,255,.08)
+      0 12px 20px rgba(255,255,255,.12)
     );
 
   z-index:0;
@@ -492,7 +492,11 @@ color:#9aa4b2;
 
 .card h3,
 .card p,
-.card .unit{
+.card{
+  position:relative;
+  overflow:hidden;
+} 
+.unit{
   position:relative;
   z-index:2;
 }
