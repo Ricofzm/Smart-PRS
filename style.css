@@ -479,7 +479,6 @@ color:#9aa4b2;
   opacity:.06;
 
   filter:
-    blur(2px)
     drop-shadow(
       0 25px 40px rgba(255,255,255,.15)
     );
