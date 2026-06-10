@@ -479,7 +479,7 @@ color:#9aa4b2;
   opacity:.06;
 
   filter:
-    blur(6px)
+    blur(2px)
     drop-shadow(
       0 25px 40px rgba(255,255,255,.15)
     );
@@ -496,7 +496,7 @@ color:#9aa4b2;
   0%{
     opacity:.05;
     filter:
-      blur(6px)
+      blur(2px)
       drop-shadow(
         0 20px 30px rgba(255,255,255,.08)
       );
@@ -505,7 +505,7 @@ color:#9aa4b2;
   50%{
     opacity:.09;
     filter:
-      blur(7px)
+      blur(3px)
       drop-shadow(
         0 25px 40px rgba(255,255,255,.16)
       );
@@ -514,7 +514,7 @@ color:#9aa4b2;
   100%{
     opacity:.05;
     filter:
-      blur(6px)
+      blur(4px)
       drop-shadow(
         0 20px 30px rgba(255,255,255,.08)
       );
