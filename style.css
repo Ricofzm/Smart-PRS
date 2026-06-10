@@ -475,3 +475,43 @@ canvas.sparkline {
 .card canvas{
   min-height:38px;
 }
+
+#stok{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  height:100%;
+}
+
+.stok-value{
+  font-size:32px;
+  font-weight:700;
+  line-height:1;
+}
+
+.stok-unit{
+  font-size:14px;
+  opacity:.8;
+  margin-top:2px;
+}
+
+.stok-status{
+  font-size:11px;
+  opacity:.65;
+  margin-top:6px;
+  text-transform:capitalize;
+}
+
+.status-red{
+  color:#ff453a;
+}
+
+.status-yellow{
+  color:#ff9f0a;
+}
+
+.status-green{
+  color:#30d158;
+}
