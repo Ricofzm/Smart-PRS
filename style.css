@@ -468,33 +468,38 @@ color:#9aa4b2;
 .sparkline{
   position:absolute;
 
-  left:10;
-  right:-10;
+  left:0;
+  right:0;
+  bottom:0;
   top:20px;
-  bottom:0px;
 
-  opacity:.35;
+  width:100% !important;
+  height:auto !important;
+
+  opacity:.06;
 
   filter:
-    blur(2px)
+    blur(6px)
     drop-shadow(
       0 25px 40px rgba(255,255,255,.15)
     );
 
   z-index:0;
-  
+
   animation: chartGlow 4s ease-in-out infinite;
-  }
-  
-  @keyframes chartGlow{
-  
-    0%{
-      opacity:.05;
-      filter:
-        blur(6px)
-        drop-shadow(
-          0 20px 30px rgba(255,255,255,.08)
-        );
+}
+
+/* TARUH DI BAWAHNYA */
+
+@keyframes chartGlow{
+
+  0%{
+    opacity:.05;
+    filter:
+      blur(6px)
+      drop-shadow(
+        0 20px 30px rgba(255,255,255,.08)
+      );
   }
 
   50%{
@@ -514,6 +519,7 @@ color:#9aa4b2;
         0 20px 30px rgba(255,255,255,.08)
       );
   }
+
 }
 
 .card h3,
