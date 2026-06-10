@@ -468,7 +468,7 @@ color:#9aa4b2;
 .sparkline{
   position:absolute;
 
-  left:0;
+  left:10;
   right:-10;
   top:20px;
   bottom:0px;
