@@ -108,6 +108,23 @@ body{
 
   transition:.2s;
 }
+
+.card.blue{
+border-color:#0A84FF;
+}
+
+.card.green{
+border-color:#30D158;
+}
+
+.card.orange{
+border-color:#FF9F0A;
+}
+
+.card.purple{
+border-color:#BF5AF2;
+}
+
 .card:hover{
   transform:translateY(-2px);
   background:var(--glass2);
@@ -448,29 +465,13 @@ background:#0a84ff;
 }
 
 .chart-panel{
+  min-height:320px;
 
-grid-column:1/-1;
+  border:
+  1px solid rgba(10,132,255,.25);
 
-margin-top:10px;
-
-background:var(--glass);
-border:1px solid var(--stroke);
-border-radius:18px;
-padding:15px;
-
-backdrop-filter:blur(20px);
-
-max-height:0;
-overflow:hidden;
-
-transform:scale(.9);
-opacity:0;
-
-transition:
-transform .35s ease,
-opacity .35s ease,
-max-height .35s ease;
-
+  box-shadow:
+  0 0 30px rgba(10,132,255,.12);
 }
 
 .chart-panel.show{
