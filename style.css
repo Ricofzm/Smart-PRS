@@ -476,7 +476,7 @@ color:#9aa4b2;
   opacity:.35;
 
   filter:
-    blur(10px);
+    blur(3px);
 
   z-index:0;
 }
