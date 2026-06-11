@@ -111,60 +111,6 @@
   </div>
 </main>
 
-<!-- PAGE: HOURLY -->
-<main class="page" id="page-hourly">
-  <div class="page-header">
-    <h2>Pencatatan Per Jam</h2>
-    <button class="btn-export" onclick="exportCSV('hourly')">Export CSV</button>
-  </div>
-  <div class="table-wrap">
-    <table id="hourlyTable">
-      <thead>
-        <tr>
-          <th>Waktu</th>
-          <th>Inlet (bar)</th>
-          <th>Outlet (bar)</th>
-          <th>Temp (°C)</th>
-          <th>Gas Flow</th>
-          <th>Corr Flow</th>
-          <th>Turbin</th>
-          <th>EVC</th>
-          <th>Volume Hari Ini</th>
-        </tr>
-      </thead>
-      <tbody id="hourlyBody">
-        <tr><td colspan="9" class="empty">Belum ada data pencatatan.</td></tr>
-      </tbody>
-    </table>
-  </div>
-</main>
-
-<!-- PAGE: DAILY -->
-<main class="page" id="page-daily">
-  <div class="page-header">
-    <h2>Pencatatan Harian</h2>
-    <button class="btn-export" onclick="exportCSV('daily')">Export CSV</button>
-  </div>
-  <div class="table-wrap">
-    <table id="dailyTable">
-      <thead>
-        <tr>
-          <th>Tanggal</th>
-          <th>EVC Meter</th>
-          <th>Konsumsi Harian</th>
-        </tr>
-      </thead>
-      <tbody id="dailyBody">
-        <tr>
-          <td colspan="3" class="empty">
-            Belum ada data pencatatan.
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</main>
-
 <!-- PAGE: HISTORY -->
 <main class="page" id="page-history">
 
