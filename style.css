@@ -11,7 +11,7 @@
   --stroke: rgba(255,255,255,.08);
 
   --text:#f2f5f7;
-  --muted:#9aa4b2;
+  --muted:#8E8E93;
 
   --blue:#0a84ff;
   --green:#30d158;
@@ -469,7 +469,7 @@ color:#30d158;
 
 #dateNow{
 font-size:10px;
-color:#9aa4b2;
+color:#8E8E93;
 }
 
 @keyframes pulse{
@@ -643,7 +643,7 @@ color:#FF453A;
 }
 
 .trend-flat{
-color:#9aa4b2;
+color:#8E8E93;
 }
 
 .card{
