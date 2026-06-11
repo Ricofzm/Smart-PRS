@@ -96,6 +96,11 @@ async function loadData() {
     set("update", d.ReceiveDateTime || now.toLocaleTimeString("id-ID"));
     set("inlet", fmt(d.PressureInlet));
     set("outlet", fmt(d.Pressure));
+    const diff =
+Number(d.PressureInlet || 0) -
+Number(d.Pressure || 0);
+
+set("diff", diff.toFixed(1));
     set("temp", fmt(d.Temperature));
     set("gasflow", fmt(d.GasFlow));
     set("corrflow", fmt(d.CorrectionFlow));
