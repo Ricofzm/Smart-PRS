@@ -44,11 +44,7 @@ color: var(--text);
 
 /* ===== NAVBAR (iOS floating glass) ===== */
 .navbar{
-content:"";
-
 position:absolute;
-inset:0;
-
 background:
 linear-gradient(
 90deg,
@@ -56,21 +52,13 @@ transparent,
 rgba(255,255,255,.08),
 transparent
 );
-
-pointer-events:none;
-
 height:120px;
-
 padding:0 30px;
-
 border-radius:28px;
-
 border:
 1px solid rgba(10,132,255,.25);
-
 box-shadow:
 0 0 40px rgba(10,132,255,.12);
-
 }
 
 .page{
