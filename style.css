@@ -71,10 +71,6 @@ box-shadow:
 z-index:1000;
 }
 
-.page{
-  padding:140px 16px 110px;
-}
-
 .logo{
   height:82px;
   width:auto;
@@ -108,7 +104,7 @@ rgba(255,255,255,.1);
 /* ===== PAGE ===== */
 .page{
   display:none;
-  padding:90px 16px 100px;
+  padding:145px 16px 100px;
 }
 .page.active{ display:block; }
 
