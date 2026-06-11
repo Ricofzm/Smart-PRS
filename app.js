@@ -16,6 +16,7 @@ const state = {
   consumption: [],
   hourlyData: [],
   dailyData: []
+  diff:[]
 };
 
 const sparkCharts = {};
