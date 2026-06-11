@@ -613,6 +613,13 @@ rgba(10,132,255,.35);
 
 }
 
+#chartTitle{
+  font-size:18px;
+  font-weight:600;
+  color:#fff;
+  margin-bottom:15px;
+}
+
 #chartTrend{
 margin-top:8px;
 font-size:12px;
@@ -707,19 +714,39 @@ color:#9aa4b2;
   color:#30d158;
 }
 
+.chart-info{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
 .metric-value{
-display:flex;
-align-items:flex-end;
-gap:8px;
+  margin-bottom:12px;
 }
 
 #liveValue{
-font-size:70px;
-font-weight:700;
-line-height:1;
+  font-size:72px;
+  font-weight:700;
+  line-height:1;
 }
 
 #liveUnit{
-font-size:22px;
-opacity:.7;
+  font-size:20px;
+  margin-bottom:8px;
+}
+
+@media(max-width:900px){
+
+  .chart-panel.show{
+    grid-template-columns:1fr;
+  }
+
+  .chart-info{
+    text-align:center;
+  }
+
+  #liveValue{
+    font-size:58px;
+  }
+
 }
