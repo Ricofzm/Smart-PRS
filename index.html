@@ -36,8 +36,9 @@
   
 </nav>
 <!-- PAGE: DASHBOARD -->
-<main class="page active" id="page-dashboard">
-  <div class="grid">
+<div class="dashboard-layout">
+
+  <section class="kpi-row">
     <div class="card" id="card-inlet" onclick="toggleChart('Inlet Pressure','inlet')">
       <h3>Inlet Pressure</h3>
       <p id="inlet">-</p>
@@ -54,13 +55,21 @@
       <canvas id="spark-outlet" class="sparkline"></canvas>
     </div>
     <div
-      class="card"
-      id="card-temp"
-      onclick="toggleChart('Temperature','temp')">
-      <h3>Temperature</h3>
-      <p id="temp">-</p>
-      <span class="unit">°C</span>
-      <canvas id="spark-temp" class="sparkline"></canvas>
+    class="card"
+    id="card-diff"
+    onclick="showMetric('diff')">
+    
+    <h3>Differential Pressure</h3>
+    
+    <p id="diff">-</p>
+    
+    <span class="unit">bar</span>
+    
+    <canvas
+    id="spark-diff"
+    class="sparkline">
+    </canvas>
+    
     </div>
     <div class="card" id="card-corrflow"
       onclick="toggleChart('Correction Flow','corrFlow')">
@@ -69,18 +78,12 @@
       <span class="unit">m³/h</span>
       <canvas id="spark-corrflow" class="sparkline"></canvas>
     </div>
-    
-    
-    <div class="card analytics-card" id="card-stok">
+    <div class="card" id="card-stok">
       <h3>Stok Aman</h3>
       <p id="stok">-</p>
     </div>
-    <div class="card" id="card-consumption" onclick="toggleChart('Consumption','consumption')">
-      <h3>Consumption</h3>
-      <p id="consumption">-</p>
-      <span class="unit">bar/h</span>
-      <canvas id="spark-consumption" class="sparkline"></canvas>
-    </div>
+  </section>
+  <section class="chart-section">
     <div id="chartPanel" class="chart-panel">
 
       <div class="chart-info">
@@ -268,6 +271,21 @@
       <p id="evc">-</p>
       <span class="unit">m³</span>
       <canvas id="spark-evc" class="sparkline"></canvas>
+    </div>
+    <div
+      class="card"
+      id="card-temp"
+      onclick="toggleChart('Temperature','temp')">
+      <h3>Temperature</h3>
+      <p id="temp">-</p>
+      <span class="unit">°C</span>
+      <canvas id="spark-temp" class="sparkline"></canvas>
+    </div>
+    <div class="card" id="card-consumption" onclick="toggleChart('Consumption','consumption')">
+      <h3>Consumption</h3>
+      <p id="consumption">-</p>
+      <span class="unit">bar/h</span>
+      <canvas id="spark-consumption" class="sparkline"></canvas>
     </div>
   </div>
 </main>
