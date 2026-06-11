@@ -553,6 +553,11 @@ function refreshChart() {
   const last =
   values[values.length - 1] || 0;
   
+  document.getElementById("liveValue")
+  .innerText =
+  Number(last).toFixed(2);
+  
+  
   const prev =
   values[values.length - 2] || last;
   
@@ -766,6 +771,21 @@ function toggleChart(title, key) {
       );
       
       panel.dataset.key = key;
+
+      const units = {
+        inlet:"bar",
+        outlet:"bar",
+        temp:"°C",
+        gasFlow:"m³/h",
+        corrFlow:"m³/h",
+        turbin:"m³",
+        evc:"m³",
+        today:"m³",
+        consumption:"bar/h"
+      };
+      
+      document.getElementById("liveUnit").innerText =
+      units[key] || "";
       
       setTimeout(()=>{
 
@@ -781,9 +801,12 @@ function toggleChart(title, key) {
       
       },150);
     
-      document.getElementById(
-        "chartTitle"
-      ).innerText = title;
+      const titleEl =
+      document.getElementById("chartTitle");
+      
+      if(titleEl){
+        titleEl.innerText = title;
+      }
     
       const ctx =
       document.getElementById("detailChart");
@@ -835,6 +858,18 @@ function toggleChart(title, key) {
       
       const last =
       values[values.length - 1] || 0;
+      
+      document.getElementById("liveValue")
+      .innerText =
+      Number(last).toFixed(2);
+      
+      const valueEl =
+      document.getElementById("liveValue");
+      
+      if(valueEl){
+        valueEl.innerText =
+        Number(last).toFixed(2);
+      }
       
       const prev =
       values[values.length - 2] || last;
