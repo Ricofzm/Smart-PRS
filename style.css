@@ -554,56 +554,31 @@ background:#0a84ff;
 
 .chart-panel{
 
-grid-column:1/-1;
+display:grid;
 
-margin-top:20px;
+grid-template-columns:
+260px 1fr;
+
+gap:25px;
+
+min-height:300px;
+
+padding:24px;
+
+margin-top:18px;
 
 background:
 linear-gradient(
 180deg,
 rgba(0,25,60,.35),
-rgba(5,10,20,.8)
+rgba(5,10,20,.85)
 );
 
 border-radius:24px;
-padding:25px;
 
-backdrop-filter:blur(20px);
+border:
+1px solid rgba(10,132,255,.2);
 
-max-height:0;
-overflow:hidden;
-
-transform:scale(.9);
-opacity:0;
-
-transition:
-transform .35s ease,
-opacity .35s ease,
-max-height .35s ease;
-
-  min-height:320px;
-
-  border:
-  1px solid rgba(10,132,255,.2);
-
-  box-shadow:
-  0 0 40px rgba(10,132,255,.1);
-  
-}
-
-.chart-panel.show{
-
-max-height:none;
-
-transform:scale(1);
-opacity:1;
-
-display:grid;
-
-grid-template-columns:
-220px 1fr;
-
-gap:25px;
 }
 
 .chart-panel canvas{
