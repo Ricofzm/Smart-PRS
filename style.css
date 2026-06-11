@@ -39,6 +39,7 @@ transparent 40%
 
 #050814;
 
+color: var(--text);
 }
 
 /* ===== NAVBAR (iOS floating glass) ===== */
