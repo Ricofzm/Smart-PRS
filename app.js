@@ -15,7 +15,7 @@ const state = {
   today: [],
   consumption: [],
   hourlyData: [],
-  dailyData: []
+  dailyData: [],
   diff:[]
 };
 
@@ -155,7 +155,7 @@ set("diff", diff.toFixed(1));
       state.today,
       Number(daily?.[0]?.dailyVolume ?? 0)
     );
-    push(state.diff, d.diff);
+    push(state.diff, diff);
 
     syncStateLength();
 
@@ -809,27 +809,11 @@ function showMetric(key){
       
       },150);
       
-      const titles = {
-       inlet:"Inlet Pressure",
-       outlet:"Outlet Pressure",
-       diff:"Differential Pressure",
-       temp:"Temperature",
-       gasFlow:"Gas Flow",
-       corrFlow:"Flow Rate",
-       turbin:"Turbin Meter",
-       evc:"EVC Meter",
-       today:"Today Volume",
-       consumption:"Consumption"
-      };
-      
-      titleEl.innerText = titles[key] || "-";
-    
       const titleEl =
       document.getElementById("chartTitle");
       
-      if(titleEl){
-        titleEl.innerText = title;
-      }
+      titleEl.innerText =
+      titles[key] || "-";
     
       const ctx =
       document.getElementById("detailChart");
