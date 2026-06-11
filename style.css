@@ -40,6 +40,12 @@ transparent 40%
 #050814;
 
 color: var(--text);
+
+font-family:
+  Inter,
+  -apple-system,
+  BlinkMacSystemFont,
+  sans-serif;
 }
 
 /* ===== NAVBAR (iOS floating glass) ===== */
@@ -257,23 +263,24 @@ border-color:#BF5AF2;
 }
 
 .card h3{
-  font-size:16px;
-  font-weight:600;
-  color:var(--muted);
-  margin-bottom:20px;
-  letter-spacing:0px;
+  font-size:13px;
+  font-weight:500;
+  color:#8E8E93;
+  margin-bottom:14px;
+  letter-spacing:.2px;
 }
 
 .card p{
   font-size:38px;
   font-weight:700;
   line-height:1;
+  color:#FFFFFF;
 }
 
 .unit{
   font-size:24px;
-  color:var(--muted);
-  opacity:.8;
+  color:#8E8E93;
+  font-weight:500;
 }
 
 /* ===== PAGE HEADER ===== */
@@ -614,9 +621,9 @@ rgba(10,132,255,.35);
 }
 
 #chartTitle{
-  font-size:18px;
+  font-size:15px;
   font-weight:600;
-  color:#fff;
+  color:#FFFFFF;
   margin-bottom:15px;
 }
 
@@ -673,10 +680,6 @@ color:#9aa4b2;
   position:relative;
   z-index:2;
 }
-.unit{
-  position:relative;
-  z-index:2;
-}
 
 #stok{
   display:flex;
@@ -725,14 +728,25 @@ color:#9aa4b2;
 }
 
 #liveValue{
-  font-size:72px;
-  font-weight:700;
+  font-size:62px;
+  font-weight:600;
+  color:white;
   line-height:1;
+  .card p,
+  .stok-value{
+  
+  font-variant-numeric:
+  tabular-nums;
+  
+  font-feature-settings:
+  "tnum";
+  }
 }
 
 #liveUnit{
-  font-size:20px;
+  font-size:18px;
   margin-bottom:8px;
+  color:#8E8E93;
 }
 
 @media(max-width:900px){
