@@ -94,13 +94,13 @@ async function loadData() {
        UI UPDATE
     ========================= */
     set("update", d.ReceiveDateTime || now.toLocaleTimeString("id-ID"));
-    set("inlet", d.PressureInlet);
-    set("outlet", d.Pressure);
-    set("temp", d.Temperature);
-    set("gasflow", d.GasFlow);
-    set("corrflow", d.CorrectionFlow);
-    set("turbin", d.TurbinMeter);
-    set("evc", d.CorrectionMeter);
+    set("inlet", fmt(d.PressureInlet));
+    set("outlet", fmt(d.Pressure));
+    set("temp", fmt(d.Temperature));
+    set("gasflow", fmt(d.GasFlow));
+    set("corrflow", fmt(d.CorrectionFlow));
+    set("turbin", fmt(d.TurbinMeter));
+    set("evc", fmt(d.CorrectionMeter));
     set("today",
       Number(daily?.[0]?.dailyVolume ?? 0).toFixed(3)
     );
@@ -241,6 +241,10 @@ function setCard(id, level) {
   }
 
   el.classList.add(level);
+}
+
+function fmt(val){
+  return Number(val || 0).toFixed(1);
 }
 
 /* =========================
@@ -543,19 +547,18 @@ function refreshChart() {
   "chartStats"
   ).innerHTML =
   `
-  Min ${min.toFixed(2)}
+  Min ${min.toFixed(1)}
   |
-  Max ${max.toFixed(2)}
+  Max ${max.toFixed(1)}
   |
-  Avg ${avg.toFixed(2)}
+  Avg ${avg.toFixed(1)}
   `;
   
   const last =
   values[values.length - 1] || 0;
   
-  document.getElementById("liveValue")
-  .innerText =
-  Number(last).toFixed(2);
+  document.getElementById("liveValue").innerText =
+  last.toFixed(1);
   
   
   const prev =
@@ -849,11 +852,11 @@ function toggleChart(title, key) {
       "chartStats"
       ).innerHTML =
       `
-      Min ${min.toFixed(2)}
+      Min ${min.toFixed(1)}
       |
-      Max ${max.toFixed(2)}
+      Max ${max.toFixed(1)}
       |
-      Avg ${avg.toFixed(2)}
+      Avg ${avg.toFixed(1)}
       `;
       
       const last =
