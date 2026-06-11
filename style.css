@@ -43,19 +43,26 @@ transparent 40%
 
 /* ===== NAVBAR (iOS floating glass) ===== */
 .navbar{
+content:"";
+
+position:absolute;
+inset:0;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.08),
+transparent
+);
+
+pointer-events:none;
 
 height:120px;
 
 padding:0 30px;
 
 border-radius:28px;
-
-background:
-linear-gradient(
-90deg,
-rgba(0,30,70,.85),
-rgba(5,10,20,.95)
-);
 
 border:
 1px solid rgba(10,132,255,.25);
@@ -117,7 +124,7 @@ rgba(255,255,255,.1);
 
 /* ===== CARD (iOS glass cards) ===== */
 .card{
-  min-height:220px;
+  min-height:150px;
   position:relative;
   cursor:pointer;
   background:
@@ -263,7 +270,7 @@ border-color:#BF5AF2;
 }
 
 .card p{
-  font-size:64px;
+  font-size:38px;
   font-weight:700;
   line-height:1;
 }
@@ -589,6 +596,12 @@ max-height:500px;
 transform:scale(1);
 opacity:1;
 
+display:grid;
+
+grid-template-columns:
+220px 1fr;
+
+gap:25px;
 }
 
 .chart-panel canvas{
@@ -634,13 +647,13 @@ color:#9aa4b2;
 
   left:0;
   right:0;
-  bottom:25px;
-  top:90px;
+  bottom:10px;
+  top:45px;
 
   width:100% !important;
   height:auto !important;
 
-  opacity:.9;
+  opacity:.18;
 
   filter:
   drop-shadow(
@@ -697,4 +710,21 @@ color:#9aa4b2;
 
 .status-green{
   color:#30d158;
+}
+
+.metric-value{
+display:flex;
+align-items:flex-end;
+gap:8px;
+}
+
+#liveValue{
+font-size:70px;
+font-weight:700;
+line-height:1;
+}
+
+#liveUnit{
+font-size:22px;
+opacity:.7;
 }
