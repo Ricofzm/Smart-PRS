@@ -155,6 +155,7 @@ set("diff", diff.toFixed(1));
       state.today,
       Number(daily?.[0]?.dailyVolume ?? 0)
     );
+    push(state.diff, d.diff);
 
     syncStateLength();
 
