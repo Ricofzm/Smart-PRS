@@ -764,3 +764,12 @@ color:#8E8E93;
   }
 
 }
+
+/* sementara sembunyikan card analytics */
+
+#card-turbin,
+#card-evc,
+#card-gasflow,
+#card-today{
+display:none;
+}
