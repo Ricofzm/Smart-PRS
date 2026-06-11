@@ -62,15 +62,6 @@
       <span class="unit">°C</span>
       <canvas id="spark-temp" class="sparkline"></canvas>
     </div>
-    <div
-      class="card analytics-card"
-      id="card-gasflow"
-      onclick="toggleChart('Gas Flow','gasFlow')">
-      <h3>Gas Flow</h3>
-      <p id="gasflow">-</p>
-      <span class="unit">m³/h</span>
-      <canvas id="spark-gasflow" class="sparkline"></canvas>
-    </div>
     <div class="card" id="card-corrflow"
       onclick="toggleChart('Correction Flow','corrFlow')">
       <h3>Flow Rate</h3>
@@ -78,24 +69,8 @@
       <span class="unit">m³/h</span>
       <canvas id="spark-corrflow" class="sparkline"></canvas>
     </div>
-    <div class="card analytics-card" id="card-turbin" onclick="toggleChart('Turbin Meter','turbin')">
-      <h3>Turbin Meter</h3>
-      <p id="turbin">-</p>
-      <span class="unit">m³</span>
-      <canvas id="spark-turbin" class="sparkline"></canvas>
-    </div>
-    <div class="card analytics-card" id="card-evc" onclick="toggleChart('EVC Meter','evc')">
-      <h3>EVC Meter</h3>
-      <p id="evc">-</p>
-      <span class="unit">m³</span>
-      <canvas id="spark-evc" class="sparkline"></canvas>
-    </div>
-    <div class="card analytics-card" id="card-today" onclick="toggleChart('Today Volume','today')">
-      <h3>Today Volume</h3>
-      <p id="today">-</p>
-      <span class="unit">m³</span>
-      <canvas id="spark-today" class="sparkline"></canvas>
-    </div>
+    
+    
     <div class="card analytics-card" id="card-stok">
       <h3>Stok Aman</h3>
       <p id="stok">-</p>
@@ -264,6 +239,39 @@
 
 </main>
 
+
+<main class="page" id="page-analytics">
+  <div class="grid">
+    <div
+      class="card analytics-card"
+      id="card-gasflow"
+      onclick="toggleChart('Gas Flow','gasFlow')">
+      <h3>Gas Flow</h3>
+      <p id="gasflow">-</p>
+      <span class="unit">m³/h</span>
+      <canvas id="spark-gasflow" class="sparkline"></canvas>
+    </div>
+    <div class="card analytics-card" id="card-turbin" onclick="toggleChart('Turbin Meter','turbin')">
+      <h3>Turbin Meter</h3>
+      <p id="turbin">-</p>
+      <span class="unit">m³</span>
+      <canvas id="spark-turbin" class="sparkline"></canvas>
+    </div>
+    <div class="card analytics-card" id="card-today" onclick="toggleChart('Today Volume','today')">
+      <h3>Today Volume</h3>
+      <p id="today">-</p>
+      <span class="unit">m³</span>
+      <canvas id="spark-today" class="sparkline"></canvas>
+    </div>
+    <div class="card analytics-card" id="card-evc" onclick="toggleChart('EVC Meter','evc')">
+      <h3>EVC Meter</h3>
+      <p id="evc">-</p>
+      <span class="unit">m³</span>
+      <canvas id="spark-evc" class="sparkline"></canvas>
+    </div>
+  </div>
+</main>
+
 <nav class="bottom-nav">
 
   <button
@@ -309,12 +317,12 @@
   
   <button
   class="tab-btn"
-  onclick="showPage('Analytics', this)"
+  onclick="showPage('analytics', this)"
   >
   <svg viewBox="0 0 24 24">
-    <path d="M12 8v5l3 3"/>
-    <circle cx="12" cy="12" r="9"/>
-    </svg>
+  <path d="M4 18L10 12L14 15L20 8"/>
+  <path d="M4 20H20"/>
+  </svg>
   <span>Analytics</span>
   </button>
   
