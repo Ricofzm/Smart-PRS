@@ -739,7 +739,8 @@ function showMetric(key){
           corrFlow:"corrflow",
           turbin:"turbin",
           evc:"evc",
-          consumption:"difInlet"
+          consumption:"difInlet",
+          diff:"diff"
         };
       
         values =
@@ -808,6 +809,21 @@ function showMetric(key){
         });
       
       },150);
+      
+      const titles = {
+        inlet:"Inlet Pressure",
+        outlet:"Outlet Pressure",
+        temp:"Temperature",
+        gasFlow:"Gas Flow",
+        corrFlow:"Flow Rate",
+        turbin:"Turbin Meter",
+        evc:"EVC Meter",
+        today:"Today Volume",
+        consumption:"Consumption",
+        diff:"Differential Pressure"
+      };
+      
+      const title = titles[key] || key;
       
       const titleEl =
       document.getElementById("chartTitle");
