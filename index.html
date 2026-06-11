@@ -107,12 +107,24 @@
       <canvas id="spark-consumption" class="sparkline"></canvas>
     </div>
     <div id="chartPanel" class="chart-panel">
-      <div class="chart-header">
-      <h3 id="chartTitle">Chart</h3>
-      <div id="chartStats"></div>
-      <div id="chartTrend"></div>
-    </div>
-      <canvas id="detailChart"></canvas>
+
+      <div class="chart-info">
+    
+          <div class="metric-value">
+            <span id="liveValue">0</span>
+            <small id="liveUnit">bar</small>
+          </div>
+    
+          <div id="chartTrend"></div>
+    
+          <div id="chartStats"></div>
+    
+      </div>
+    
+      <div class="chart-graph">
+          <canvas id="detailChart"></canvas>
+      </div>
+    
     </div>
   </div>
 </main>
