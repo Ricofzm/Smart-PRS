@@ -699,7 +699,7 @@ async function loadHistory(){
   }
 }
 
-function toggleChart(title, key) {
+function showMetric(key){
 
       let labels = [];
       let values = [];
@@ -754,12 +754,7 @@ function toggleChart(title, key) {
       if (
         panel.classList.contains("show") &&
         panel.dataset.key === key
-      ){
-        panel.classList.remove("show");
-        return;
-      }
-      
-      panel.classList.add("show");
+      )
       
       panel.animate(
       [
@@ -1174,3 +1169,20 @@ const cardColors = {
  corrflow:"#32D74B",
  stok:"#BF5AF2"
 };
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+loadData();
+
+showMetric(
+"inlet"
+);
+
+setInterval(
+loadData,
+10000
+);
+
+});
