@@ -24,14 +24,6 @@ let historyMode = "hourly";
 let lastCons = null;
 
 /* =========================
-   INIT
-========================= */
-document.addEventListener("DOMContentLoaded", () => {
-  loadData();
-  setInterval(loadData, 10000);
-});
-
-/* =========================
    MAIN FETCH
 ========================= */
 async function loadData() {
@@ -109,6 +101,16 @@ set("diff", diff.toFixed(1));
     set("today",
       Number(daily?.[0]?.dailyVolume ?? 0).toFixed(3)
     );
+    
+    const diffData =
+    state.hourlyData
+    .slice()
+    .reverse()
+    .map(r=>
+     Number(r.inlet) -
+     Number(r.outlet)
+    );
+    
 
     const avgCons = getAvgConsumption(state);
 
@@ -518,7 +520,8 @@ function refreshChart() {
       corrFlow:"corrflow",
       turbin:"turbin",
       evc:"evc",
-      consumption:"difInlet"
+      consumption:"difInlet",
+      diff:"diff"
     };
 
     labels = state.hourlyData
@@ -803,6 +806,21 @@ function showMetric(key){
         });
       
       },150);
+      
+      const titles = {
+       inlet:"Inlet Pressure",
+       outlet:"Outlet Pressure",
+       diff:"Differential Pressure",
+       temp:"Temperature",
+       gasFlow:"Gas Flow",
+       corrFlow:"Flow Rate",
+       turbin:"Turbin Meter",
+       evc:"EVC Meter",
+       today:"Today Volume",
+       consumption:"Consumption"
+      };
+      
+      titleEl.innerText = titles[key] || "-";
     
       const titleEl =
       document.getElementById("chartTitle");
