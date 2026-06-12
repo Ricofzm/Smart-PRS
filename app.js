@@ -566,6 +566,14 @@ async function loadHistory(){
 
 function toggleChart(title, key) {
 
+      // tutup stok panel kalau lagi kebuka
+      const stockPanel =
+      document.getElementById("stockPanel");
+    
+      if(stockPanel){
+        stockPanel.classList.remove("show");
+      }
+    
       let labels = [];
       let values = [];
       
