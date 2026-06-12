@@ -69,9 +69,6 @@ async function loadData() {
     state.hourlyData = hourly;
     state.dailyData = daily;
 
-    renderHourly(hourly);
-    renderDaily(daily);
-
     const now = new Date();
     
     const set = (id, val) => {
@@ -303,41 +300,6 @@ function riskToLevel(risk) {
 }
 
 /* =========================
-   TABLE RENDER
-========================= */
-function renderHourly(data) {
-  const tbody = document.getElementById("hourlyBody");
-  if (!tbody) return;
-
-  tbody.innerHTML = data.map(r => `
-    <tr>
-      <td>${r.time ?? "-"}</td>
-      <td>${r.inlet ?? "-"}</td>
-      <td>${r.outlet ?? "-"}</td>
-      <td>${r.temp ?? "-"}</td>
-      <td>${r.gasflow ?? "-"}</td>
-      <td>${r.corrflow ?? "-"}</td>
-      <td>${r.turbin ?? "-"}</td>
-      <td>${r.evc ?? "-"}</td>
-      <td>${r.today ?? "-"}</td>
-    </tr>
-  `).join("");
-}
-
-function renderDaily(data) {
-  const tbody = document.getElementById("dailyBody");
-  if (!tbody) return;
-
-  tbody.innerHTML = data.map(r => `
-    <tr>
-      <td>${r.time ?? "-"}</td>
-      <td>${r.evc ?? "-"}</td>
-      <td>${r.dailyVolume ?? "-"}</td>
-    </tr>
-  `).join("");
-}
-
-/* =========================
    SPARKLINE (STABLE)
 ========================= */
 function updateSparkline(id, data, color) {
@@ -532,27 +494,24 @@ function refreshChart() {
 function showPage(pageName, el){
 
   document.querySelectorAll(".page")
-  .forEach(page =>
-    page.classList.remove("active")
+  .forEach(p =>
+    p.classList.remove("active")
   );
 
   document.querySelectorAll(".tab-btn")
-  .forEach(btn =>
-    btn.classList.remove("active")
+  .forEach(b =>
+    b.classList.remove("active")
   );
 
   document
   .getElementById("page-" + pageName)
   .classList.add("active");
 
-  if(el){
-    el.classList.add("active");
-  }
+  el.classList.add("active");
 
   if(pageName === "history"){
     loadHistory();
   }
-
 }
 
 async function loadHistory(){
@@ -937,40 +896,6 @@ function switchHistory(mode, el){
 
   }
   loadHistory();
-}
-
-function exportCSV(type){
-
-  if(type === "hourly"){
-
-    const today =
-    new Date()
-    .toISOString()
-    .split("T")[0];
-
-    window.open(
-      API +
-      "/export-hourly?date=" +
-      today
-    );
-
-  }
-
-  if(type === "daily"){
-
-    const month =
-    new Date()
-    .toISOString()
-    .slice(0,7);
-
-    window.open(
-      API +
-      "/export?month=" +
-      month
-    );
-
-  }
-
 }
 
 function calculateStockHours(pressureInlet, avgConsumption) {
