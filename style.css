@@ -73,11 +73,10 @@ body{
 }
 
 /* ===== PAGE ===== */
-.page{
-  display:none;
-  padding:90px 16px 100px;
+#page-history{
+  padding:90px 12px 100px;
 }
-.page.active{ display:block; }
+.page-history.active{ display:block; }
 
 /* ===== GRID ===== */
 .grid{
@@ -613,4 +612,17 @@ color:#9aa4b2;
 
 .status-green{
   color:#30d158;
+}
+
+.history-top{
+  position:sticky;
+  top:75px;
+  z-index:50;
+
+  background:
+  rgba(11,15,23,.95);
+
+  backdrop-filter:blur(20px);
+
+  padding-bottom:12px;
 }
