@@ -95,12 +95,7 @@ async function loadData() {
       ? Number(consRaw)
       : 0;
     
-    set("consumption", cons.toFixed(2));
-    push(state.consumption, cons);
-    if (!d || Object.keys(d).length === 0) {
-      set("update", "NO DATA");
-      return;
-    }
+    
     /* =========================
        UI UPDATE
     ========================= */
