@@ -902,8 +902,8 @@ function switchHistory(mode, el){
       <th>Temp</th>
       <th>Gas Flow</th>
       <th>Corr Flow</th>
-      <th>EVC</th>
-      <th>Turbin</th>
+      <th>EVC Meter</th>
+      <th>Turbin Meter</th>
       
     </tr>
     `;
