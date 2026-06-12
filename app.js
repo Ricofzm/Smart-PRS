@@ -1043,3 +1043,93 @@ function exportHistory(){
   }
 
 }
+
+function toggleStockPanel(){
+
+  const panel =
+  document.getElementById("stockPanel");
+
+  panel.classList.toggle("show");
+
+  if(panel.classList.contains("show")){
+
+    updateStockPanel();
+
+    setTimeout(()=>{
+
+      const y =
+      panel.getBoundingClientRect().top +
+      window.pageYOffset - 80;
+
+      window.scrollTo({
+        top:y,
+        behavior:"smooth"
+      });
+
+    },100);
+
+  }
+
+}
+
+function updateStockPanel(){
+
+  const inlet =
+  Number(
+  document.getElementById("inlet")
+  .innerText || 0
+  );
+
+  const avgCons =
+  getAvgConsumption(state);
+
+  const baseHours =
+  avgCons > 0
+  ? inlet / 10 / avgCons
+  : 0;
+
+  const standbyHours = 15;
+
+  const standbyFull = true;
+
+  const totalHours =
+  standbyFull
+  ? baseHours + standbyHours
+  : baseHours;
+
+  document.getElementById(
+  "stockDetail"
+  ).innerHTML = `
+  
+  <div class="stock-row">
+    <span>Pressure Inlet</span>
+    <span>${inlet.toFixed(1)} bar</span>
+  </div>
+
+  <div class="stock-row">
+    <span>Konsumsi Rata-rata</span>
+    <span>${avgCons.toFixed(2)} bar/jam</span>
+  </div>
+
+  <div class="stock-row">
+    <span>Stok Dasar</span>
+    <span>${baseHours.toFixed(1)} jam</span>
+  </div>
+
+  <div class="stock-row">
+    <span>Kredel Standby</span>
+    <span>
+      ${
+        standbyFull
+        ? "FULL (+15 Jam)"
+        : "OFF"
+      }
+    </span>
+  </div>
+
+  <div class="stock-total">
+    ${totalHours.toFixed(1)} Jam
+  </div>
+
+  `;
+}
