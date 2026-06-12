@@ -943,7 +943,7 @@ function calculateStockHours(pressureInlet, avgConsumption) {
   };
 }
 
-getConsumptionTrend(state) {
+function getConsumptionTrend(state) {
   const data = state.consumption.slice(-20);
 
   if (data.length < 5) return "stable";
