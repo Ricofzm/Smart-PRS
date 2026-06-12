@@ -640,3 +640,27 @@ color:#9aa4b2;
   color:#9aa4b2;
   margin-bottom:10px;
 }
+
+.stock-panel{
+display:none;
+margin-top:12px;
+padding:16px;
+background:#1c1c1e;
+border-radius:18px;
+}
+
+.stock-panel.show{
+display:block;
+}
+
+.stock-row{
+display:flex;
+justify-content:space-between;
+margin:8px 0;
+}
+
+.stock-total{
+font-size:28px;
+font-weight:700;
+margin-top:12px;
+}
