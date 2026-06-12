@@ -63,7 +63,7 @@
       <canvas id="spark-temp" class="sparkline"></canvas>
     </div>
     <div
-      class="card analytics-card"
+      class="card"
       id="card-gasflow"
       onclick="toggleChart('Gas Flow','gasFlow')">
       <h3>Gas Flow</h3>
@@ -78,25 +78,25 @@
       <span class="unit">m³/h</span>
       <canvas id="spark-corrflow" class="sparkline"></canvas>
     </div>
-    <div class="card analytics-card" id="card-turbin" onclick="toggleChart('Turbin Meter','turbin')">
+    <div class="card" id="card-turbin" onclick="toggleChart('Turbin Meter','turbin')">
       <h3>Turbin Meter</h3>
       <p id="turbin">-</p>
       <span class="unit">m³</span>
       <canvas id="spark-turbin" class="sparkline"></canvas>
     </div>
-    <div class="card analytics-card" id="card-evc" onclick="toggleChart('EVC Meter','evc')">
+    <div class="card" id="card-evc" onclick="toggleChart('EVC Meter','evc')">
       <h3>EVC Meter</h3>
       <p id="evc">-</p>
       <span class="unit">m³</span>
       <canvas id="spark-evc" class="sparkline"></canvas>
     </div>
-    <div class="card analytics-card" id="card-today" onclick="toggleChart('Today Volume','today')">
+    <div class="card" id="card-today" onclick="toggleChart('Today Volume','today')">
       <h3>Today Volume</h3>
       <p id="today">-</p>
       <span class="unit">m³</span>
       <canvas id="spark-today" class="sparkline"></canvas>
     </div>
-    <div class="card analytics-card" id="card-stok">
+    <div class="card" id="card-stok" onclick="toggleStockPanel()">
       <h3>Stok Aman</h3>
       <p id="stok">-</p>
     </div>
@@ -120,6 +120,16 @@
     
           <div id="chartStats"></div>
     
+      </div>
+      
+      <div id="stockPanel" class="stock-panel">
+
+        <div class="panel-header">
+          Detail Stok Aman
+        </div>
+      
+        <div id="stockDetail"></div>
+      
       </div>
     
       <div class="chart-graph">
