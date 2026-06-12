@@ -679,15 +679,13 @@ function toggleChart(title, key) {
       }
     
       const colorMap = {
-        inlet:"#0A84FF",
         outlet:"#30D158",
         temp:"#FF9F0A",
-        gasFlow:"#64D2FF",
         corrFlow:"#32D74B",
         turbin:"#FFD60A",
         evc:"#BF5AF2",
         today:"#FF375F",
-        consumption:"#FF453A"
+        
       };
       
       if(!values.length){
