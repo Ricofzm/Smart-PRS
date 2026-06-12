@@ -107,22 +107,22 @@
       <canvas id="spark-consumption" class="sparkline"></canvas>
     </div>
     <div id="chartPanel" class="chart-panel">
-
       <div class="chart-info">
         <h2 id="chartTitle"></h2>
-    
           <div class="metric-value">
             <span id="liveValue">0</span>
             <small id="liveUnit">bar</small>
           </div>
-    
           <div id="chartTrend"></div>
     
           <div id="chartStats"></div>
     
       </div>
-      
-      <div id="stockPanel" class="stock-panel">
+      <div class="chart-graph">
+          <canvas id="detailChart"></canvas>
+      </div>
+    </div>
+    <div id="stockPanel" class="stock-panel">
 
         <div class="panel-header">
           Detail Stok Aman
@@ -131,12 +131,6 @@
         <div id="stockDetail"></div>
       
       </div>
-    
-      <div class="chart-graph">
-          <canvas id="detailChart"></canvas>
-      </div>
-    
-    </div>
   </div>
 </main>
 
