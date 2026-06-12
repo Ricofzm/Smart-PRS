@@ -26,6 +26,10 @@ let historyMode = "hourly";
    INIT
 ========================= */
 document.addEventListener("DOMContentLoaded", () => {
+  
+  loadData();
+  
+  setInterval(loadData, 10000);
 
   const today =
   new Date().toISOString().split("T")[0];
@@ -39,10 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("historyMonth").value =
   month;
 
-  loadData();
   
-  setInterval(loadData, 10000);
-
 });
 
 /* =========================
