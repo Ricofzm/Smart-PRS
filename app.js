@@ -134,17 +134,17 @@ async function loadData() {
     ).innerText =
     `Avg ${avgCons.toFixed(2)} Bar/Jam`;
     
+    const totalHours =
+    standbyFull
+    ? engine.hoursLeft + 15
+    : engine.hoursLeft;
+    
     document.getElementById(
     "heroStockHours"
     ).innerText =
     `${totalHours.toFixed(1)} JAM`;
     
     const standbyFull = true; // sementara
-    
-    const totalHours =
-    standbyFull
-    ? engine.hoursLeft + 15
-    : engine.hoursLeft;
     
     const trend = getConsumptionTrend(state);
     const risk = getStockRisk(totalHours, trend);
@@ -281,10 +281,8 @@ function setCard(id, level) {
 ========================= */
 function updateAlarm(inlet, outlet, temp, gasflow, corrflow, risk) {
 
-  setCard("card-inlet", getLevel(inlet, 5, 250));
   setCard("card-outlet", getLevel(outlet, 2, 4));
   setCard("card-temp", getLevel(temp, 25, 40));
-  setCard("card-gasflow", getLevel(gasflow, 5, 250));
   setCard("card-corrflow", getLevel(corrflow, 275, 500));
 }
 
@@ -359,15 +357,13 @@ function updateSparkline(id, data, color) {
 }
 
 function updateAllSparklines() {
-  updateSparkline("spark-inlet", state.inlet, "#0A84FF");
+  
   updateSparkline("spark-outlet", state.outlet, "#30D158");
   updateSparkline("spark-temp", state.temp, "#FF9F0A");
-  updateSparkline("spark-gasflow", state.gasFlow, "#64D2FF");
   updateSparkline("spark-corrflow", state.corrFlow, "#32D74B");
   updateSparkline("spark-turbin", state.turbin, "#FFD60A");
   updateSparkline("spark-evc", state.evc, "#BF5AF2");
   updateSparkline("spark-today", state.today, "#FF375F");
-  updateSparkline("spark-consumption", state.consumption, "#FF453A");
 }
 
 /* =========================
