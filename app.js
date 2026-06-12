@@ -928,6 +928,22 @@ function switchHistory(mode, el){
   loadHistory();
 }
 
+function calculateStockHours(pressureInlet, avgConsumption) {
+
+  const stock = Math.max(Number(pressureInlet || 0), 1) / 10;
+
+  const safeConsumption = avgConsumption > 0
+    ? avgConsumption
+    : 1; // anti division by zero
+
+  const hoursLeft = stock / safeConsumption;
+
+  return {
+    stock: Number(stock.toFixed(2)),
+    hoursLeft: Number(hoursLeft.toFixed(2))
+  };
+}
+
 function getStockRisk(hoursLeft, trend) {
 
   if (hoursLeft <= 3) {
