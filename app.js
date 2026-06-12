@@ -107,9 +107,11 @@ async function loadData() {
     set("corrflow", d.CorrectionFlow);
     set("turbin", d.TurbinMeter);
     set("evc", d.CorrectionMeter);
+    push(state.consumption, cons);
     set("today",
       Number(daily?.[0]?.dailyVolume ?? 0).toFixed(3)
     );
+    
 
     const avgCons = getAvgConsumption(state);
 
@@ -271,7 +273,7 @@ function setCard(id, level) {
 /* =========================
    ALARM
 ========================= */
-function updateAlarm(outlet, temp, corrflow)
+function updateAlarm(outlet, temp, corrflow){
 
   setCard("card-outlet", getLevel(outlet, 2, 4));
   setCard("card-temp", getLevel(temp, 25, 40));
