@@ -27,8 +27,25 @@ let lastCons = null;
    INIT
 ========================= */
 document.addEventListener("DOMContentLoaded", () => {
+
+  const today =
+  new Date().toISOString().split("T")[0];
+
+  const month =
+  new Date().toISOString().slice(0,7);
+
+  document.getElementById("historyDate").value =
+  today;
+
+  document.getElementById("historyMonth").value =
+  month;
+
   loadData();
-  setInterval(loadData, 10000);
+
+  loadHistory();
+
+  setInterval(loadData,10000);
+
 });
 
 /* =========================
@@ -509,25 +526,30 @@ function refreshChart() {
   </span>`;
   
 }
-function showPage(pageName, el) {
+function showPage(pageName, el){
 
   document.querySelectorAll(".page")
-    .forEach(page =>
-      page.classList.remove("active")
-    );
+  .forEach(page =>
+    page.classList.remove("active")
+  );
 
   document.querySelectorAll(".tab-btn")
-    .forEach(btn =>
-      btn.classList.remove("active")
-    );
+  .forEach(btn =>
+    btn.classList.remove("active")
+  );
 
   document
-    .getElementById("page-" + pageName)
-    .classList.add("active");
+  .getElementById("page-" + pageName)
+  .classList.add("active");
 
   if(el){
     el.classList.add("active");
   }
+
+  if(pageName === "history"){
+    loadHistory();
+  }
+
 }
 
 async function loadHistory(){
