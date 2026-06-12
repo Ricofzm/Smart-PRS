@@ -118,13 +118,21 @@ async function loadData() {
 
     const avgCons = getAvgConsumption(state);
 
-    const engine = calculateStockHours(
+    const engine =
+    calculateStockHours(
       d.PressureInlet,
       avgCons
     );
     
+    const standbyFull = true; // sementara
+    
+    const totalHours =
+    standbyFull
+    ? engine.hoursLeft + 15
+    : engine.hoursLeft;
+    
     const trend = getConsumptionTrend(state);
-    const risk = getStockRisk(engine.hoursLeft, trend);
+    const risk = getStockRisk(totalHours, trend);
     
     try {
       updateAlarm(
@@ -167,7 +175,7 @@ async function loadData() {
     
     updateAllSparklines();
     
-    applyRiskUI(risk, engine.hoursLeft, trend);
+    applyRiskUI(risk, totalHours, trend);
 
     
   } catch (err) {
@@ -1076,8 +1084,9 @@ function updateStockPanel(){
 
   const inlet =
   Number(
-  document.getElementById("inlet")
-  .innerText || 0
+  state.inlet[
+  state.inlet.length - 1
+  ] || 0
   );
 
   const avgCons =
