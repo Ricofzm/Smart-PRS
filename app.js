@@ -1014,34 +1014,6 @@ function applyRiskUI(risk) {
 
 }
 
-  // OPTIONAL TEXT FEEDBACK
-  const stokEl = document.getElementById("stok");
-
-  if (stokEl) {
-  
-    const statusClass =
-      risk === "CRITICAL"
-        ? "status-red"
-        : risk === "WARNING" || risk === "CAUTION"
-        ? "status-yellow"
-        : "status-green";
-  
-    stokEl.innerHTML = `
-      <div class="stok-value">
-        ${hoursLeft.toFixed(1)}
-      </div>
-  
-      <div class="stok-unit">
-        Jam
-      </div>
-  
-      <div class="stok-status ${statusClass}">
-        ${risk} • ${trend}
-      </div>
-    `;
-  }
-}
-
 function exportHistory(){
 
   if(historyMode === "hourly"){
