@@ -30,6 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const today =
   new Date().toISOString().split("T")[0];
+  document.getElementById(
+  "historyDate"
+  ).value = today;
 
   const month =
   new Date().toISOString().slice(0,7);
@@ -553,6 +556,14 @@ function showPage(pageName, el){
 }
 
 async function loadHistory(){
+  
+  tbody.innerHTML = `
+  <tr>
+  <td colspan="10" class="empty">
+  Loading...
+  </td>
+  </tr>
+  `;
 
   let url;
 
@@ -620,6 +631,11 @@ async function loadHistory(){
     </tr>
     `).join("");
   }
+  document.getElementById(
+  "historyInfo"
+  ).innerText =
+  `${data.length} record ditemukan`;
+  
 }
 
 function toggleChart(title, key) {
@@ -920,6 +936,7 @@ function switchHistory(mode, el){
     `;
 
   }
+  loadHistory();
 }
 
 function exportCSV(type){
