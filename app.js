@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
   loadData();
 
   loadHistory();
+  
+  setInterval(loadData, 10000);
 
 });
 
@@ -510,6 +512,11 @@ function showPage(pageName, el){
 }
 
 async function loadHistory(){
+  
+  const tbody =
+  document.getElementById(
+    "historyBody"
+  );
   
   tbody.innerHTML = `
   <tr>
