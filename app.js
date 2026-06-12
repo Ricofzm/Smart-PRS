@@ -498,59 +498,63 @@ function showPage(pageName, el){
   }
 }
 
-function loadHistory(){
+async function loadHistory(){
 
   const tbody =
   document.getElementById("historyBody");
 
-  const data =
-  historyMode === "hourly"
-  ? state.hourlyData
-  : state.dailyData;
+  tbody.innerHTML = `
+  <tr>
+    <td colspan="10" class="empty">
+      Loading...
+    </td>
+  </tr>
+  `;
 
-  if(!data.length){
+  let url = "";
+
+  if(historyMode === "hourly"){
+
+    const date =
+    document.getElementById("historyDate").value;
+
+    url =
+    `${API}/history?type=hourly&date=${date}`;
+
+  }else{
+
+    const month =
+    document.getElementById("historyMonth").value;
+
+    url =
+    `${API}/history?type=daily&month=${month}`;
+  }
+
+  try{
+
+    const res = await fetch(url);
+
+    const json = await res.json();
+
+    const data =
+    historyMode === "hourly"
+    ? (json.hourly || json.data || [])
+    : (json.daily || json.data || []);
+
+    renderHistory(data);
+
+  }catch(err){
+
+    console.error(err);
 
     tbody.innerHTML = `
     <tr>
       <td colspan="10" class="empty">
-        Tidak ada data
+        Gagal load data
       </td>
     </tr>
     `;
-
-    return;
   }
-
-  if(historyMode === "hourly"){
-
-    tbody.innerHTML =
-    data.map(r=>`
-    <tr>
-      <td>${r.time}</td>
-      <td>${r.inlet.toFixed(2)}</td>
-      <td>${r.outlet.toFixed(2)}</td>
-      <td>${r.temp.toFixed(2)}</td>
-      <td>${r.gasflow.toFixed(2)}</td>
-      <td>${r.corrflow.toFixed(2)}</td>
-    </tr>
-    `).join("");
-
-  }else{
-
-    tbody.innerHTML =
-    data.map(r=>`
-    <tr>
-      <td>${r.time}</td>
-      <td>${Number(r.dailyVolume).toFixed(3)}</td>
-      <td>${Number(r.evc).toFixed(3)}</td>
-    </tr>
-    `).join("");
-  }
-
-  document.getElementById(
-    "historyInfo"
-  ).innerText =
-  `${data.length} record ditemukan`;
 }
 
 function toggleChart(title, key) {
@@ -800,6 +804,54 @@ function toggleChart(title, key) {
           }
         }
       });
+}
+
+function renderHistory(data){
+
+  const tbody =
+  document.getElementById("historyBody");
+
+  if(!data.length){
+
+    tbody.innerHTML = `
+    <tr>
+      <td colspan="10" class="empty">
+        Tidak ada data
+      </td>
+    </tr>
+    `;
+
+    return;
+  }
+
+  if(historyMode === "hourly"){
+
+    tbody.innerHTML =
+    data.map(r=>`
+      <tr>
+        <td>${r.time}</td>
+        <td>${r.inlet}</td>
+        <td>${r.outlet}</td>
+        <td>${r.temp}</td>
+        <td>${r.gasflow}</td>
+        <td>${r.corrflow}</td>
+      </tr>
+    `).join("");
+
+  }else{
+
+    tbody.innerHTML =
+    data.map(r=>`
+      <tr>
+        <td>${r.time}</td>
+        <td>${r.dailyVolume}</td>
+        <td>${r.evc}</td>
+      </tr>
+    `).join("");
+  }
+
+  document.getElementById("historyInfo").innerText =
+  `${data.length} record ditemukan`;
 }
 
 function switchHistory(mode, el){
