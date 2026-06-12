@@ -705,7 +705,9 @@ margin:12px 0 18px;
 
 .hero-stock,
 .hero-kredel{
-background:var(--card-bg);
+background:var(--glass);
+border:1px solid var(--stroke);
+backdrop-filter:blur(var(--blur));
 border-radius:20px;
 padding:16px;
 }
