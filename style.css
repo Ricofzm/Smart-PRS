@@ -750,3 +750,11 @@ padding:0 10px;
 background:#2c2c2e;
 color:white;
 }
+
+@media(max-width:768px){
+
+.hero-prs{
+grid-template-columns:1fr;
+}
+
+}
