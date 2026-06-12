@@ -73,10 +73,18 @@ body{
 }
 
 /* ===== PAGE ===== */
+.page{
+  display:none;
+  padding:90px 16px 100px;
+}
+
+.page.active{
+  display:block;
+}
+
 #page-history{
   padding:90px 12px 100px;
 }
-.page-history.active{ display:block; }
 
 /* ===== GRID ===== */
 .grid{
