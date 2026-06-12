@@ -35,15 +35,77 @@
   </div>
   
 </nav>
+
+<div class="hero-prs">
+
+  <div class="hero-stock">
+
+    <div class="hero-title">
+      STOK AMAN
+    </div>
+
+    <div id="heroStockHours"
+         class="hero-hours">
+      0 JAM
+    </div>
+
+    <div class="hero-info">
+      <span id="heroInlet">
+        Inlet 0 Bar
+      </span>
+
+      <span id="heroAvg">
+        Avg 0 Bar/Jam
+      </span>
+    </div>
+
+  </div>
+
+  <div class="hero-kredel">
+
+    <div class="hero-title">
+      PARKIRAN KREDEL
+    </div>
+
+    <div class="kredel-row">
+
+      <div>
+        ⛽ K1
+      </div>
+
+      <div>
+        STANDBY
+      </div>
+
+      <div>
+        200 Bar
+      </div>
+
+    </div>
+
+    <div class="kredel-row">
+
+      <div>
+        ⛽ K2
+      </div>
+
+      <div>
+        RUNNING
+      </div>
+
+      <div>
+        180 Bar
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
 <!-- PAGE: DASHBOARD -->
 <main class="page active" id="page-dashboard">
   <div class="grid">
-    <div class="card" id="card-inlet" onclick="toggleChart('Inlet Pressure','inlet')">
-      <h3>Inlet Pressure</h3>
-      <p id="inlet">-</p>
-      <span class="unit">bar</span>
-      <canvas id="spark-inlet" class="sparkline"></canvas>
-    </div>
     <div
       class="card"
       id="card-outlet"
@@ -61,15 +123,6 @@
       <p id="temp">-</p>
       <span class="unit">°C</span>
       <canvas id="spark-temp" class="sparkline"></canvas>
-    </div>
-    <div
-      class="card"
-      id="card-gasflow"
-      onclick="toggleChart('Gas Flow','gasFlow')">
-      <h3>Gas Flow</h3>
-      <p id="gasflow">-</p>
-      <span class="unit">m³/h</span>
-      <canvas id="spark-gasflow" class="sparkline"></canvas>
     </div>
     <div class="card" id="card-corrflow"
       onclick="toggleChart('Correction Flow','corrFlow')">
@@ -99,12 +152,6 @@
     <div class="card" id="card-stok" onclick="toggleStockPanel()">
       <h3>Stok Aman</h3>
       <p id="stok">-</p>
-    </div>
-    <div class="card" id="card-consumption" onclick="toggleChart('Consumption','consumption')">
-      <h3>Consumption</h3>
-      <p id="consumption">-</p>
-      <span class="unit">bar/h</span>
-      <canvas id="spark-consumption" class="sparkline"></canvas>
     </div>
     <div id="chartPanel" class="chart-panel">
       <div class="chart-info">
