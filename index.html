@@ -61,41 +61,76 @@
 
   </div>
 
+  <div class="hero-prs">
+
+  <div class="hero-stock">
+
+    <div class="hero-header">
+      STOK AMAN
+    </div>
+
+    <div id="heroStockHours"
+         class="hero-hours">
+      0 JAM
+    </div>
+
+    <div id="heroInlet"
+         class="hero-info">
+      Inlet 0 Bar
+    </div>
+
+    <div id="heroAvg"
+         class="hero-info">
+      Avg 0 Bar/Jam
+    </div>
+
+  </div>
+
   <div class="hero-kredel">
 
-    <div class="hero-title">
+    <div class="hero-header">
       PARKIRAN KREDEL
     </div>
 
-    <div class="kredel-row">
+    <div class="kredel-item">
 
-      <div>
-        ⛽ K1
+      <div class="kredel-top">
+        ⛽ Kredel 1
       </div>
 
-      <div>
-        STANDBY
-      </div>
+      <select>
+        <option>Standby</option>
+        <option>Running</option>
+      </select>
 
-      <div>
-        200 Bar
-      </div>
+      <input
+      type="number"
+      placeholder="Bar">
+
+      <input
+      type="text"
+      placeholder="TS 001-00012">
 
     </div>
 
-    <div class="kredel-row">
+    <div class="kredel-item">
 
-      <div>
-        ⛽ K2
+      <div class="kredel-top">
+        ⛽ Kredel 2
       </div>
 
-      <div>
-        RUNNING
-      </div>
+      <select>
+        <option>Running</option>
+        <option>Standby</option>
+      </select>
 
-      <div>
-        180 Bar
-      </div>
+      <input
+      type="number"
+      placeholder="Bar">
+
+      <input
+      type="text"
+      placeholder="TS 001-00015">
 
     </div>
 
@@ -149,10 +184,6 @@
       <span class="unit">m³</span>
       <canvas id="spark-today" class="sparkline"></canvas>
     </div>
-    <div class="card" id="card-stok" onclick="toggleStockPanel()">
-      <h3>Stok Aman</h3>
-      <p id="stok">-</p>
-    </div>
     <div id="chartPanel" class="chart-panel">
       <div class="chart-info">
         <h2 id="chartTitle"></h2>
@@ -161,23 +192,12 @@
             <small id="liveUnit">bar</small>
           </div>
           <div id="chartTrend"></div>
-    
           <div id="chartStats"></div>
-    
       </div>
       <div class="chart-graph">
           <canvas id="detailChart"></canvas>
       </div>
     </div>
-    <div id="stockPanel" class="stock-panel">
-
-        <div class="panel-header">
-          Detail Stok Aman
-        </div>
-      
-        <div id="stockDetail"></div>
-      
-      </div>
   </div>
 </main>
 
