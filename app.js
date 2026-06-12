@@ -37,17 +37,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const month =
   new Date().toISOString().slice(0,7);
 
-  document.getElementById("historyDate").value =
-  today;
-
   document.getElementById("historyMonth").value =
   month;
 
   loadData();
 
   loadHistory();
-
-  setInterval(loadData,10000);
 
 });
 
