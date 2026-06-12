@@ -146,12 +146,9 @@ async function loadData() {
     
     try {
       updateAlarm(
-        Number(d.PressureInlet),
         Number(d.Pressure),
         Number(d.Temperature),
-        Number(d.GasFlow),
         Number(d.CorrectionFlow),
-        risk
       );
     } catch (e) {
       console.error("updateAlarm crash:", e);
@@ -274,7 +271,7 @@ function setCard(id, level) {
 /* =========================
    ALARM
 ========================= */
-function updateAlarm(inlet, outlet, temp, gasflow, corrflow, risk) {
+function updateAlarm(outlet, temp, corrflow)
 
   setCard("card-outlet", getLevel(outlet, 2, 4));
   setCard("card-temp", getLevel(temp, 25, 40));
@@ -602,14 +599,12 @@ function toggleChart(title, key) {
         )
       
         const map = {
-          inlet:"inlet",
           outlet:"outlet",
           temp:"temp",
-          gasFlow:"gasflow",
           corrFlow:"corrflow",
           turbin:"turbin",
           evc:"evc",
-          consumption:"difInlet"
+          
         };
       
         values =
