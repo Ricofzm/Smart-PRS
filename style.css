@@ -676,3 +676,43 @@ font-size:13px;
 }
 
 }
+
+.stock-panel{
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.stock-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:14px;
+
+background:var(--glass);
+border:1px solid var(--stroke);
+border-radius:16px;
+}
+
+.stock-row label{
+font-size:14px;
+font-weight:600;
+}
+
+.stock-row select{
+background:#1f2937;
+color:white;
+border:none;
+padding:10px;
+border-radius:12px;
+}
+
+.save-stock{
+height:50px;
+border:none;
+border-radius:16px;
+background:#0a84ff;
+color:white;
+font-weight:600;
+}
