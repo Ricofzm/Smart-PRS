@@ -134,6 +134,8 @@ async function loadData() {
     ).innerText =
     `Avg ${avgCons.toFixed(2)} Bar/Jam`;
     
+    const standbyFull = true;
+    
     const totalHours =
     standbyFull
     ? engine.hoursLeft + 15
@@ -143,8 +145,6 @@ async function loadData() {
     "heroStockHours"
     ).innerText =
     `${totalHours.toFixed(1)} JAM`;
-    
-    const standbyFull = true; // sementara
     
     const trend = getConsumptionTrend(state);
     const risk = getStockRisk(totalHours, trend);
@@ -988,20 +988,31 @@ function getStockRisk(hoursLeft, trend) {
   return "SAFE";
 }
 
-function applyRiskUI(risk, hoursLeft, trend) {
+function applyRiskUI(risk) {
 
-  const el = document.getElementById("card-stok");
-  if (!el) return;
+  const hero =
+  document.querySelector(".hero-prs");
 
-  el.classList.remove("normal", "warning", "alarm");
+  if(!hero) return;
 
-  if (risk === "CRITICAL") {
-    el.classList.add("alarm");
-  } else if (risk === "WARNING") {
-    el.classList.add("warning");
-  } else {
-    el.classList.add("normal");
+  hero.classList.remove(
+    "safe",
+    "warning",
+    "critical"
+  );
+
+  if(risk === "CRITICAL"){
+    hero.classList.add("critical");
+  }else if(
+    risk === "WARNING" ||
+    risk === "CAUTION"
+  ){
+    hero.classList.add("warning");
+  }else{
+    hero.classList.add("safe");
   }
+
+}
 
   // OPTIONAL TEXT FEEDBACK
   const stokEl = document.getElementById("stok");
