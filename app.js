@@ -928,49 +928,6 @@ function switchHistory(mode, el){
   loadHistory();
 }
 
-function calculateStockHours(pressureInlet, avgConsumption) {
-
-  const stock = Math.max(Number(pressureInlet || 0), 1) / 10;
-
-  const safeConsumption = avgConsumption > 0
-    ? avgConsumption
-    : 1; // anti division by zero
-
-  const hoursLeft = stock / safeConsumption;
-
-  return {
-    stock: Number(stock.toFixed(2)),
-    hoursLeft: Number(hoursLeft.toFixed(2))
-  };
-}
-
-function getConsumptionTrend(state) {
-  const data = state.consumption.slice(-20);
-
-  if (data.length < 5) return "stable";
-
-  let ema1 = 0;
-  let ema2 = 0;
-
-  const k = 2 / (data.length + 1);
-
-  const half = Math.floor(data.length / 2);
-
-  for (let i = 0; i < half; i++) {
-    ema1 = data[i] * k + ema1 * (1 - k);
-  }
-
-  for (let i = half; i < data.length; i++) {
-    ema2 = data[i] * k + ema2 * (1 - k);
-  }
-
-  const diff = ema1 !== 0 ? ((ema2 - ema1) / ema1) * 100 : 0;
-
-  if (diff > 5) return "rising";
-  if (diff < -5) return "dropping";
-  return "stable";
-}
-
 function getStockRisk(hoursLeft, trend) {
 
   if (hoursLeft <= 3) {
