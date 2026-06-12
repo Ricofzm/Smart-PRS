@@ -146,7 +146,6 @@ async function loadData() {
     ).innerText =
     `${totalHours.toFixed(1)} JAM`;
     
-    const trend = getConsumptionTrend(state);
     const risk = getStockRisk(totalHours, trend);
     
     try {
