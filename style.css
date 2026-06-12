@@ -112,32 +112,6 @@ body{
   background:var(--glass2);
 }
 
-.card::after{
-  content:"";
-
-  position:absolute;
-
-  left:50%;
-  bottom:8px;
-
-  transform:translateX(-50%);
-
-  width:36px;
-  height:5px;
-
-  border-radius:999px;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.08),
-      rgba(255,255,255,.25),
-      rgba(255,255,255,.08)
-    );
-
-  opacity:.8;
-}
-
 .card.chart-active::after{
   width:56px;
 
@@ -610,6 +584,27 @@ display:flex;
 align-items:center;
 justify-content:space-between;
 gap:16px;
+
+  margin-bottom:14px;
+
+  background:
+  linear-gradient(
+    180deg,
+    rgba(255,255,255,.08),
+    rgba(255,255,255,.03)
+  );
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:28px;
+
+  padding:20px;
+
+  backdrop-filter:blur(30px);
+
+  box-shadow:
+  0 20px 50px rgba(0,0,0,.35);
+
 }
 
 .hero-left{
@@ -639,4 +634,45 @@ margin-top:6px;
 display:flex;
 justify-content:space-between;
 font-size:13px;
+
+  background:
+  rgba(255,255,255,.05);
+
+  border:
+  1px solid rgba(255,255,255,.08);
+
+  border-radius:14px;
+
+  padding:10px 12px;
+
+}
+
+.hero-label{
+  font-size:11px;
+  letter-spacing:2px;
+  color:#9aa4b2;
+}
+
+.hero-hours{
+  font-size:48px;
+  font-weight:700;
+  line-height:1;
+}
+
+@media(min-width:1024px){
+
+.page{
+  max-width:1400px;
+  margin:auto;
+}
+
+.grid{
+  grid-template-columns:
+  repeat(4,1fr);
+}
+
+.hero-prs{
+  grid-column:1/-1;
+}
+
 }
