@@ -498,57 +498,28 @@ function showPage(pageName, el){
   }
 }
 
-async function loadHistory(){
+function loadHistory(){
 
   const tbody =
   document.getElementById("historyBody");
 
-  tbody.innerHTML = `
-  <tr>
-    <td colspan="10" class="empty">
-      Loading...
-    </td>
-  </tr>
-  `;
-
-  let url;
-
-  if(historyMode === "hourly"){
-
-    const date =
-    document.getElementById(
-      "historyDate"
-    ).value;
-
-    if(!date) return;
-
-    url =
-    API +
-    "/history?type=hourly&date=" +
-    date;
-
-  }else{
-
-    const month =
-    document.getElementById(
-      "historyMonth"
-    ).value;
-
-    if(!month) return;
-
-    url =
-    API +
-    "/history?type=daily&month=" +
-    month;
-  }
-
-  const res = await fetch(url);
-  const json = await res.json();
-
   const data =
   historyMode === "hourly"
-  ? (json.hourly || json.data || [])
-  : (json.daily || json.data || []);
+  ? state.hourlyData
+  : state.dailyData;
+
+  if(!data.length){
+
+    tbody.innerHTML = `
+    <tr>
+      <td colspan="10" class="empty">
+        Tidak ada data
+      </td>
+    </tr>
+    `;
+
+    return;
+  }
 
   if(historyMode === "hourly"){
 
@@ -556,11 +527,11 @@ async function loadHistory(){
     data.map(r=>`
     <tr>
       <td>${r.time}</td>
-      <td>${r.inlet}</td>
-      <td>${r.outlet}</td>
-      <td>${r.temp}</td>
-      <td>${r.gasflow}</td>
-      <td>${r.corrflow}</td>
+      <td>${r.inlet.toFixed(2)}</td>
+      <td>${r.outlet.toFixed(2)}</td>
+      <td>${r.temp.toFixed(2)}</td>
+      <td>${r.gasflow.toFixed(2)}</td>
+      <td>${r.corrflow.toFixed(2)}</td>
     </tr>
     `).join("");
 
@@ -570,18 +541,16 @@ async function loadHistory(){
     data.map(r=>`
     <tr>
       <td>${r.time}</td>
-      <td>${Number(r.dailyVolume)
-        .toFixed(3)}</td>
-      <td>${Number(r.evc)
-        .toFixed(3)}</td>
+      <td>${Number(r.dailyVolume).toFixed(3)}</td>
+      <td>${Number(r.evc).toFixed(3)}</td>
     </tr>
     `).join("");
   }
+
   document.getElementById(
-  "historyInfo"
+    "historyInfo"
   ).innerText =
   `${data.length} record ditemukan`;
-  
 }
 
 function toggleChart(title, key) {
