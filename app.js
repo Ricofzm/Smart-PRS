@@ -843,8 +843,8 @@ function renderHistory(data){
         <td>${r.temp}</td>
         <td>${r.gasflow}</td>
         <td>${r.corrflow}</td>
-        <td>${r.evc}</td>
-        <td>${r.turbin}</td>
+        <td>${r.CorrectionMeter}</td>
+<td>${r.TurbinMeter}</td>
       </tr>
     `).join("");
 
