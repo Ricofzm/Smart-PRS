@@ -1053,6 +1053,18 @@ function exportHistory(){
 }
 
 function toggleStockPanel(){
+  
+  const chartPanel =
+  document.getElementById("chartPanel");
+
+  if(chartPanel){
+    chartPanel.classList.remove("show");
+  }
+
+  const panel =
+  document.getElementById("stockPanel");
+
+  panel.classList.toggle("show");
 
   const panel =
   document.getElementById("stockPanel");
