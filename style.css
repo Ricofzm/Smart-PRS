@@ -656,11 +656,42 @@ display:block;
 .stock-row{
 display:flex;
 justify-content:space-between;
-margin:8px 0;
+align-items:center;
+gap:16px;
+padding:10px 0;
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.stock-row span:first-child{
+color:#8e8e93;
+font-size:.9rem;
+}
+
+.stock-row span:last-child{
+font-weight:600;
+text-align:right;
 }
 
 .stock-total{
-font-size:28px;
+margin-top:16px;
+padding-top:16px;
+text-align:center;
+font-size:2rem;
 font-weight:700;
-margin-top:12px;
+border-top:1px solid rgba(255,255,255,.1);
+}
+
+#stockPanel{
+width:100%;
+max-width:600px;
+margin:16px auto;
+padding:16px;
+border-radius:20px;
+background:#1c1c1e;
+}
+
+#stockDetail{
+display:flex;
+flex-direction:column;
+gap:12px;
 }
