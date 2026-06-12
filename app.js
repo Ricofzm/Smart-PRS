@@ -1075,3 +1075,35 @@ function applyRiskUI(risk, hoursLeft, trend) {
     `;
   }
 }
+
+function exportHistory(){
+
+  if(historyMode === "hourly"){
+
+    const date =
+    document.getElementById(
+    "historyDate"
+    ).value;
+
+    window.open(
+      API +
+      "/export-hourly?date=" +
+      date
+    );
+
+  }else{
+
+    const month =
+    document.getElementById(
+    "historyMonth"
+    ).value;
+
+    window.open(
+      API +
+      "/export?month=" +
+      month
+    );
+
+  }
+
+}
