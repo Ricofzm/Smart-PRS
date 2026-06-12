@@ -124,6 +124,21 @@ async function loadData() {
       avgCons
     );
     
+    document.getElementById(
+    "heroInlet"
+    ).innerText =
+    `Inlet ${Number(d.PressureInlet).toFixed(1)} Bar`;
+    
+    document.getElementById(
+    "heroAvg"
+    ).innerText =
+    `Avg ${avgCons.toFixed(2)} Bar/Jam`;
+    
+    document.getElementById(
+    "heroStockHours"
+    ).innerText =
+    `${totalHours.toFixed(1)} JAM`;
+    
     const standbyFull = true; // sementara
     
     const totalHours =
@@ -565,14 +580,6 @@ async function loadHistory(){
 }
 
 function toggleChart(title, key) {
-
-      // tutup stok panel kalau lagi kebuka
-      const stockPanel =
-      document.getElementById("stockPanel");
-    
-      if(stockPanel){
-        stockPanel.classList.remove("show");
-      }
     
       let labels = [];
       let values = [];
@@ -1058,102 +1065,4 @@ function exportHistory(){
 
   }
 
-}
-
-function toggleStockPanel(){
-  
-  const chartPanel =
-  document.getElementById("chartPanel");
-
-  if(chartPanel){
-    chartPanel.classList.remove("show");
-  }
-
-  const panel =
-  document.getElementById("stockPanel");
-
-  panel.classList.toggle("show");
-
-  if(panel.classList.contains("show")){
-
-    updateStockPanel();
-
-    setTimeout(()=>{
-
-      const y =
-      panel.getBoundingClientRect().top +
-      window.pageYOffset - 80;
-
-      window.scrollTo({
-        top:y,
-        behavior:"smooth"
-      });
-
-    },100);
-
-  }
-
-}
-
-function updateStockPanel(){
-
-  const inlet =
-  Number(
-  state.inlet[
-  state.inlet.length - 1
-  ] || 0
-  );
-
-  const avgCons =
-  getAvgConsumption(state);
-
-  const baseHours =
-  avgCons > 0
-  ? inlet / 10 / avgCons
-  : 0;
-
-  const standbyHours = 15;
-
-  const standbyFull = true;
-
-  const totalHours =
-  standbyFull
-  ? baseHours + standbyHours
-  : baseHours;
-
-  document.getElementById(
-  "stockDetail"
-  ).innerHTML = `
-  
-  <div class="stock-row">
-    <span>Pressure Inlet</span>
-    <span>${inlet.toFixed(1)} bar</span>
-  </div>
-
-  <div class="stock-row">
-    <span>Konsumsi Rata-rata</span>
-    <span>${avgCons.toFixed(2)} bar/jam</span>
-  </div>
-
-  <div class="stock-row">
-    <span>Stok Dasar</span>
-    <span>${baseHours.toFixed(1)} jam</span>
-  </div>
-
-  <div class="stock-row">
-    <span>Kredel Standby</span>
-    <span>
-      ${
-        standbyFull
-        ? "FULL (+15 Jam)"
-        : "OFF"
-      }
-    </span>
-  </div>
-
-  <div class="stock-total">
-    ${totalHours.toFixed(1)} Jam
-  </div>
-
-  `;
 }
