@@ -499,12 +499,15 @@ function showPage(pageName, el){
 }
 
 async function loadHistory(){
-  
+
+  const tbody =
+  document.getElementById("historyBody");
+
   tbody.innerHTML = `
   <tr>
-  <td colspan="10" class="empty">
-  Loading...
-  </td>
+    <td colspan="10" class="empty">
+      Loading...
+    </td>
   </tr>
   `;
 
@@ -541,10 +544,7 @@ async function loadHistory(){
 
   const res = await fetch(url);
   const json = await res.json();
-  
-  console.log(json);
-  console.log(data);
-  
+
   const data =
   historyMode === "hourly"
   ? (json.hourly || json.data || [])
