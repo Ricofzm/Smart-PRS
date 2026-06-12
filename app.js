@@ -539,25 +539,16 @@ async function loadHistory(){
     month;
   }
 
-  try{
-
-    const res = await fetch(url);
-    
-    if(!res.ok)
-    throw new Error();
-    
-    const data = await res.json();
-    
-  }catch(err){
-    
-      tbody.innerHTML = `
-      <tr>
-      <td colspan="10" class="empty">
-      Gagal memuat data
-      </td>
-      </tr>
-      `;
-  }
+  const res = await fetch(url);
+  const json = await res.json();
+  
+  console.log(json);
+  console.log(data);
+  
+  const data =
+  historyMode === "hourly"
+  ? (json.hourly || json.data || [])
+  : (json.daily || json.data || []);
 
   const tbody =
   document.getElementById(
