@@ -21,7 +21,6 @@ const state = {
 const sparkCharts = {};
 let detailChart = null;
 let historyMode = "hourly";
-let lastCons = null;
 
 /* =========================
    INIT
@@ -41,8 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
   month;
 
   loadData();
-
-  loadHistory();
   
   setInterval(loadData, 10000);
 
@@ -129,9 +126,6 @@ async function loadData() {
     const trend = getConsumptionTrend(state);
     const risk = getStockRisk(engine.hoursLeft, trend);
     
-    console.log("TREND:", trend);
-    console.log("RISK:", risk);
-    
     try {
       updateAlarm(
         Number(d.PressureInlet),
@@ -167,7 +161,9 @@ async function loadData() {
     /* =========================
        RENDER
     ========================= */
-    refreshChart();
+    if(detailChart){
+      refreshChart();
+    }
     
     updateAllSparklines();
     
@@ -267,8 +263,6 @@ function updateAlarm(inlet, outlet, temp, gasflow, corrflow, risk) {
   setCard("card-temp", getLevel(temp, 25, 40));
   setCard("card-gasflow", getLevel(gasflow, 5, 250));
   setCard("card-corrflow", getLevel(corrflow, 275, 500));
-
-  setCard("card-stok", riskToLevel(risk));
 }
 
 function getLevel(value, min, max) {
@@ -286,13 +280,6 @@ function getLevel(value, min, max) {
     return "warning";
   }
 
-  return "normal";
-}
-
-function riskToLevel(risk) {
-  if (risk === "CRITICAL") return "alarm";
-  if (risk === "WARNING") return "warning";
-  if (risk === "CAUTION") return "warning";
   return "normal";
 }
 
@@ -513,11 +500,6 @@ function showPage(pageName, el){
 
 async function loadHistory(){
   
-  const tbody =
-  document.getElementById(
-    "historyBody"
-  );
-  
   tbody.innerHTML = `
   <tr>
   <td colspan="10" class="empty">
@@ -557,8 +539,25 @@ async function loadHistory(){
     month;
   }
 
-  const res = await fetch(url);
-  const data = await res.json();
+  try{
+
+    const res = await fetch(url);
+    
+    if(!res.ok)
+    throw new Error();
+    
+    const data = await res.json();
+    
+  }catch(err){
+    
+      tbody.innerHTML = `
+      <tr>
+      <td colspan="10" class="empty">
+      Gagal memuat data
+      </td>
+      </tr>
+      `;
+  }
 
   const tbody =
   document.getElementById(
@@ -624,7 +623,11 @@ function toggleChart(title, key) {
         state.hourlyData
         .slice()
         .reverse()
-        .map(r=>r.time.substring(11,16));
+        .map(r =>
+          r.time
+          ? r.time.substring(11,16)
+          : "--"
+        )
       
         const map = {
           inlet:"inlet",
