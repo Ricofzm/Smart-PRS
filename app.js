@@ -550,11 +550,6 @@ async function loadHistory(){
   ? (json.hourly || json.data || [])
   : (json.daily || json.data || []);
 
-  const tbody =
-  document.getElementById(
-    "historyBody"
-  );
-
   if(historyMode === "hourly"){
 
     tbody.innerHTML =
