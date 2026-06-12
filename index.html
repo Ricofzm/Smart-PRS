@@ -36,12 +36,22 @@
   
 </nav>
 
-  <div class="hero-prs">
+ <div class="hero-prs">
 
-  <div class="hero-stock">
+  <div class="hero-top">
 
-    <div class="hero-header">
-      STOK AMAN
+    <div>
+      <div class="hero-title">
+        STOK AMAN
+      </div>
+
+      <div id="heroInlet" class="hero-info">
+        Inlet 0 Bar
+      </div>
+
+      <div id="heroAvg" class="hero-info">
+        Avg 0 Bar/Jam
+      </div>
     </div>
 
     <div id="heroStockHours"
@@ -49,63 +59,41 @@
       0 JAM
     </div>
 
-    <div id="heroInlet"
-         class="hero-info">
-      Inlet 0 Bar
-    </div>
-
-    <div id="heroAvg"
-         class="hero-info">
-      Avg 0 Bar/Jam
-    </div>
-
   </div>
 
-  <div class="hero-kredel">
+  <div class="hero-divider"></div>
 
-    <div class="hero-header">
-      PARKIRAN KREDEL
-    </div>
+  <div class="hero-kredel-row">
 
-    <div class="kredel-item">
+    <div class="kredel-box">
 
-      <div class="kredel-top">
-        ⛽ Kredel 1
+      <div class="kredel-title">
+        ⛽ K1 FULL
       </div>
 
-      <select>
-        <option>Standby</option>
-        <option>Running</option>
-      </select>
+      <div id="k1Bar">
+        200 Bar
+      </div>
 
-      <input
-      type="number"
-      placeholder="Bar">
-
-      <input
-      type="text"
-      placeholder="TS 001-00012">
+      <div id="k1Ts">
+        001-00012
+      </div>
 
     </div>
 
-    <div class="kredel-item">
+    <div class="kredel-box">
 
-      <div class="kredel-top">
-        ⛽ Kredel 2
+      <div class="kredel-title">
+        ⛽ K2 RUNNING
       </div>
 
-      <select>
-        <option>Running</option>
-        <option>Standby</option>
-      </select>
+      <div id="k2Bar">
+        180 Bar
+      </div>
 
-      <input
-      type="number"
-      placeholder="Bar">
-
-      <input
-      type="text"
-      placeholder="TS 001-00015">
+      <div id="k2Ts">
+        001-00015
+      </div>
 
     </div>
 
