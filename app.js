@@ -1066,11 +1066,6 @@ function toggleStockPanel(){
 
   panel.classList.toggle("show");
 
-  const panel =
-  document.getElementById("stockPanel");
-
-  panel.classList.toggle("show");
-
   if(panel.classList.contains("show")){
 
     updateStockPanel();
