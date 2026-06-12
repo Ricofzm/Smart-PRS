@@ -536,10 +536,9 @@ async function loadHistory(){
 
     const json = await res.json();
 
-    const data =
-    historyMode === "hourly"
-    ? (json.hourly || json.data || [])
-    : (json.daily || json.data || []);
+    const data = Array.isArray(json)
+    ? json
+    : (json.hourly || json.daily || json.data || []);
 
     renderHistory(data);
 
