@@ -1049,7 +1049,7 @@ function exportHistory(){
 async function loadTSLog(){
 
   const res =
-  await fetch(`${API_URL}/ts-log`);
+  await fetch(`${API}/ts-log`);
 
   const data =
   await res.json();
@@ -1059,7 +1059,7 @@ async function loadTSLog(){
 
   if(!data.length){
 
-    body.innerHTML=`
+    body.innerHTML = `
       <tr>
         <td colspan="4" class="empty">
           Belum ada data
@@ -1084,9 +1084,7 @@ async function loadTSLog(){
 async function loadTSHistory(){
 
 const res =
-await fetch(
-API_URL + "/ts-log"
-);
+await fetch(API + "/ts-log");
 
 const data =
 await res.json();
