@@ -1046,6 +1046,41 @@ function exportHistory(){
 
 }
 
+async function loadTSLog(){
+
+  const res =
+  await fetch(`${API_URL}/ts-log`);
+
+  const data =
+  await res.json();
+
+  const body =
+  document.getElementById("tsBody");
+
+  if(!data.length){
+
+    body.innerHTML=`
+      <tr>
+        <td colspan="4" class="empty">
+          Belum ada data
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  body.innerHTML =
+  data.map(r=>`
+    <tr>
+      <td>${r.ts_name}</td>
+      <td>${Number(r.total_volume).toFixed(2)}</td>
+      <td>${r.start_evc}</td>
+      <td>${r.end_evc}</td>
+    </tr>
+  `).join("");
+
+}
+
 async function loadTSHistory(){
 
 const res =
