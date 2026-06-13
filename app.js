@@ -1046,34 +1046,58 @@ function exportHistory(){
 
 }
 
-async function loadTSLog() {
+async function loadTSHistory(){
 
-  const tbody = document.getElementById("tsBody");
+const res =
+await fetch(
+API_URL + "/ts-log"
+);
 
-  try {
+const data =
+await res.json();
 
-    const res = await fetch(API + "/ts-log");
-    const json = await res.json();
+renderTSHistory(data);
 
-    if (!json.length) {
-      tbody.innerHTML = `
-        <tr><td colspan="4" class="empty">No TS Data</td></tr>
-      `;
-      return;
-    }
+}
 
-    tbody.innerHTML = json.map(r => `
-      <tr>
-        <td>${r.ts}</td>
-        <td>${Number(r.volume).toFixed(2)}</td>
-        <td>${r.startEvc}</td>
-        <td>${r.endEvc}</td>
-      </tr>
-    `).join("");
+function renderTSHistory(rows){
 
-  } catch (e) {
-    tbody.innerHTML = `
-      <tr><td colspan="4" class="empty">Error load TS</td></tr>
-    `;
-  }
+const wrap =
+document.getElementById(
+"tsHistory"
+);
+
+wrap.innerHTML = "";
+
+rows.forEach(r=>{
+
+wrap.innerHTML += `
+<div class="ts-card">
+
+<div class="ts-title">
+${r.ts_name}
+→
+${r.nextTS}
+</div>
+
+<div>
+Volume :
+${Number(
+r.total_volume
+).toFixed(2)}
+ Sm³
+</div>
+
+<div>
+EVC :
+${r.start_evc}
+ →
+${r.end_evc}
+</div>
+
+</div>
+`;
+
+});
+
 }
