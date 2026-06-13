@@ -269,6 +269,33 @@
 
 </main>
 
+<main class="page" id="page-ts">
+
+  <div class="page-header">
+    <h2>TS LOG</h2>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>TS</th>
+          <th>Volume</th>
+          <th>Start EVC</th>
+          <th>End EVC</th>
+        </tr>
+      </thead>
+
+      <tbody id="tsBody">
+        <tr>
+          <td colspan="4" class="empty">Loading...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
 <nav class="bottom-nav">
 
   <button
@@ -305,6 +332,16 @@
     </svg>
   <span>History</span>
   </button>
+  
+  <button
+  class="tab-btn"
+  onclick="showPage('ts', this)"
+>
+  <svg viewBox="0 0 24 24">
+    <path d="M4 6h16M4 12h16M4 18h16"/>
+  </svg>
+  <span>TS Log</span>
+</button>
 
 </nav>
 
