@@ -1071,12 +1071,13 @@ async function loadTSLog(){
 
   body.innerHTML =
   data.map(r=>`
-    <tr>
-      <td>${r.ts_name}</td>
-      <td>${Number(r.total_volume).toFixed(2)}</td>
-      <td>${r.start_evc}</td>
-      <td>${r.end_evc}</td>
-    </tr>
+  <tr>
+    <td>${r.ts_name}</td>
+    <td>${r.nextTS || "-"}</td>
+    <td>${Number(r.total_volume).toFixed(2)}</td>
+    <td>${new Date(r.end_time)
+        .toLocaleString("id-ID")}</td>
+  </tr>
   `).join("");
 
 }
