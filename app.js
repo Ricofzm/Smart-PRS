@@ -510,6 +510,9 @@ function showPage(pageName, el){
   if(pageName === "history"){
     loadHistory();
   }
+  if(pageName === "ts"){
+    loadTSLog();
+  }
 }
 
 async function loadHistory(){
@@ -1041,4 +1044,36 @@ function exportHistory(){
 
   }
 
+}
+
+async function loadTSLog() {
+
+  const tbody = document.getElementById("tsBody");
+
+  try {
+
+    const res = await fetch(API + "/ts-log");
+    const json = await res.json();
+
+    if (!json.length) {
+      tbody.innerHTML = `
+        <tr><td colspan="4" class="empty">No TS Data</td></tr>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = json.map(r => `
+      <tr>
+        <td>${r.ts}</td>
+        <td>${Number(r.volume).toFixed(2)}</td>
+        <td>${r.startEvc}</td>
+        <td>${r.endEvc}</td>
+      </tr>
+    `).join("");
+
+  } catch (e) {
+    tbody.innerHTML = `
+      <tr><td colspan="4" class="empty">Error load TS</td></tr>
+    `;
+  }
 }
