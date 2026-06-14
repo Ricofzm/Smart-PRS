@@ -1162,88 +1162,9 @@ async function loadStock(){
   tsStock =
   await res.json();
 
-  renderStock();
-  renderHeroTS();
-
-}
-
-function renderStock(){
-
-  const wrap =
-  document.getElementById("tsList");
-
-  wrap.innerHTML = "";
-
-  tsStock.forEach((r,i)=>{
-
-    wrap.innerHTML += `
-    <div class="stock-row">
-
-      <input
-        value="${r.ts}"
-        onchange="
-        tsStock[${i}].ts=this.value
-        "
-      >
-
-      <select
-        onchange="
-        tsStock[${i}].status=this.value
-        "
-      >
-
-        <option
-        ${r.status==="RUNNING"?"selected":""}>
-        RUNNING
-        </option>
-
-        <option
-        ${r.status==="FULL"?"selected":""}>
-        FULL
-        </option>
-
-        <option
-        ${r.status==="EMPTY"?"selected":""}>
-        EMPTY
-        </option>
-
-      </select>
-
-    </div>
-    `;
-  });
-
-}
-
-function addTS(){
-
-  tsStock.push({
-    ts:"",
-    status:"EMPTY"
-  });
-
-  renderStock();
-
-}
-
-async function saveStock(){
-
-  await fetch(
-    API + "/stock",
-    {
-      method:"POST",
-      headers:{
-        "Content-Type":
-        "application/json"
-      },
-      body:
-      JSON.stringify(tsStock)
-    }
-  );
-
-  alert("Stock tersimpan");
   
   renderHeroTS();
+
 }
 
 function renderHeroTS(){
