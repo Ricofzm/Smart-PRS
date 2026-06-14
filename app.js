@@ -52,6 +52,11 @@ document.addEventListener("DOMContentLoaded", () => {
 ========================= */
 async function loadData() {
   try {
+    
+    if(tsStock.length === 0){
+      await loadStock();
+    }
+    
     setLoading(true);
 
     const res = await fetch(API);
