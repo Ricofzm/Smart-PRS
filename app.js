@@ -53,7 +53,15 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadData() {
   try {
     
-    await loadStock();
+    if(tsStock.length === 0){
+
+      try{
+        await loadStock();
+      }catch(e){
+        console.error("Stock load fail",e);
+      }
+    
+    }
     
     setLoading(true);
 
@@ -520,9 +528,7 @@ function showPage(pageName, el){
   if(pageName === "ts"){
     loadTSLog();
   }
-  if(pageName === "stock"){
-  loadStock();
-}
+  
 }
 
 async function loadHistory(){
