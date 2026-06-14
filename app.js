@@ -138,7 +138,10 @@ async function loadData() {
     ).innerText =
     `Avg ${avgCons.toFixed(2)} Bar/Jam`;
     
-    const standbyFull = true;
+    const standbyFull =
+    tsStock.some(
+      x => x.status === "FULL"
+    );
     
     const totalHours =
     standbyFull
