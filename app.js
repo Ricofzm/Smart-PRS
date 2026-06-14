@@ -54,7 +54,13 @@ async function loadData() {
   try {
     
     if(tsStock.length === 0){
-      await loadStock();
+
+      try{
+        await loadStock();
+      }catch(e){
+        console.error("Stock load fail",e);
+      }
+    
     }
     
     setLoading(true);
