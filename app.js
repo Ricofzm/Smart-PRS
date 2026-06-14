@@ -53,15 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadData() {
   try {
     
-    if(tsStock.length === 0){
-
-      try{
-        await loadStock();
-      }catch(e){
-        console.error("Stock load fail",e);
-      }
-    
-    }
+    await loadStock();
     
     setLoading(true);
 
