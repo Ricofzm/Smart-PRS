@@ -1281,3 +1281,33 @@ function renderHeroTS(){
 
   `;
 }
+
+async function copyTSReport(){
+
+  try{
+
+    const res =
+    await fetch(
+      API + "/ts-switch-report"
+    );
+
+    const text =
+    await res.text();
+
+    await navigator.clipboard.writeText(text);
+
+    alert(
+      "Report berhasil dicopy"
+    );
+
+  }catch(err){
+
+    console.error(err);
+
+    alert(
+      "Gagal membuat report"
+    );
+
+  }
+
+}
