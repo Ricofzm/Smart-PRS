@@ -1240,3 +1240,30 @@ function closeStockModal(){
   document.getElementById("stockModal")
   .classList.add("hidden");
 }
+
+async function saveStock(){
+
+  const newTS = document.getElementById("tsInput").value;
+
+  const running = tsStock.find(x => x.status === "RUNNING");
+
+  const payload = [
+    {
+      ts: running?.ts || "-",
+      status: "RUNNING"
+    },
+    {
+      ts: newTS,
+      status: "FULL"
+    }
+  ];
+
+  await fetch(API + "/stock", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  await loadStock();
+  closeStockModal();
+}
