@@ -716,3 +716,26 @@ background:#0a84ff;
 color:white;
 font-weight:600;
 }
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-box{
+  background:#111827;
+  padding:20px;
+  border-radius:16px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  width:250px;
+}
+
+.hidden{
+  display:none;
+}
