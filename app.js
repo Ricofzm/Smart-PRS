@@ -1230,3 +1230,13 @@ async function copyTSReport(){
   }
 
 }
+
+function openStockModal(){
+  document.getElementById("stockModal")
+  .classList.remove("hidden");
+}
+
+function closeStockModal(){
+  document.getElementById("stockModal")
+  .classList.add("hidden");
+}
