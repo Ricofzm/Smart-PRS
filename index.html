@@ -51,37 +51,55 @@
 <main class="page active" id="page-dashboard">
    <div class="hero-prs">
 
-    <div class="hero-left">
-  
-      <div class="hero-label">
-        SAFE STOCK
-      </div>
-  
-      <div id="heroStockHours"
-      class="hero-hours">
-        22 JAM
-      </div>
-  
-      <div class="hero-meta">
-        <span id="heroInlet"></span>
-        •
-        <span id="heroAvg"></span>
-      </div>
-  
+  <div class="hero-left">
+
+    <div class="hero-label">
+      SAFE STOCK
     </div>
-  
-    <div class="hero-separator"></div>
-  
-    <div
-      class="hero-right"
-      id="heroTS">
+
+    <div id="heroStockHours" class="hero-hours">
+      22 JAM
     </div>
-    <button onclick="openStockModal()" class="btn-edit-stock">
-      Edit Stock
-    </button>
-  
+
+    <div class="hero-meta">
+      <span id="heroInlet">Inlet -- bar</span>
+      •
+      <span id="heroAvg">Flow -- m³/h</span>
+    </div>
+
   </div>
 
+  <div class="hero-separator"></div>
+
+  <div class="hero-right" id="heroTS">
+
+    <div class="ts-pill">
+      <div>
+        <div class="ts-label">RUNNING</div>
+        <div class="ts-value" id="runningTS">
+          TS005
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-pill">
+      <div>
+        <div class="ts-label">STANDBY</div>
+        <div class="ts-value" id="standbyTS">
+          TS002
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button
+    onclick="openStockModal()"
+    class="btn-edit-stock">
+    ✏️ Edit
+  </button>
+
+</div>
   <div class="grid">
     <div
       class="card"
