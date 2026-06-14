@@ -1182,24 +1182,26 @@ function renderHeroTS(){
     x => x.status === "FULL"
   );
 
-  hero.innerHTML = `
+  heroTS.innerHTML = `
+  <div class="ts-pill">
+    <span class="ts-label">
+      RUNNING
+    </span>
+    <span class="ts-value">
+      ${runningTS}
+    </span>
+  </div>
   
-  <div class="kredel-item">
-    <span>RUNNING</span>
-    <strong>
-      ${running?.ts || "-"}
-    </strong>
+  <div class="ts-pill">
+    <span class="ts-label">
+      STANDBY
+    </span>
+    <span class="ts-value">
+      ${standbyTS}
+    </span>
   </div>
-
-  <div class="kredel-item">
-    <span>STANDBY</span>
-    <strong>
-      ${standby?.ts || "-"}
-    </strong>
-  </div>
-
   `;
-}
+  }
 
 async function copyTSReport(){
 
