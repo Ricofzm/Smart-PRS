@@ -1149,6 +1149,7 @@ async function loadStock(){
   await res.json();
 
   renderStock();
+  renderHeroTS();
 
 }
 
@@ -1227,5 +1228,42 @@ async function saveStock(){
   );
 
   alert("Stock tersimpan");
+  
+  renderHeroTS();
+}
 
+function renderHeroTS(){
+
+  const hero =
+  document.getElementById("heroTS");
+
+  if(!hero) return;
+
+  const running =
+  tsStock.find(
+    x => x.status === "RUNNING"
+  );
+
+  const standby =
+  tsStock.find(
+    x => x.status === "FULL"
+  );
+
+  hero.innerHTML = `
+  
+  <div class="kredel-item">
+    <span>RUNNING</span>
+    <strong>
+      ${running?.ts || "-"}
+    </strong>
+  </div>
+
+  <div class="kredel-item">
+    <span>STANDBY</span>
+    <strong>
+      ${standby?.ts || "-"}
+    </strong>
+  </div>
+
+  `;
 }
