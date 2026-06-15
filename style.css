@@ -400,7 +400,7 @@ tbody tr:hover{
 .live-indicator{
   display:flex;
   align-items:center;
-  gap:6px;
+  gap:2px;
   font-size:11px;
   color:#30d158;
 }
