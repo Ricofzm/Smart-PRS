@@ -823,8 +823,8 @@ transform:translateY(0);
 .btn-edit-stock{
 
 position:absolute;
-top:14px;
-right:14px;
+
+right:5px;
 bottom:6px;
 
 width:36px;
