@@ -104,7 +104,7 @@ letter-spacing:1px;
 
 .update-row{
 display:flex;
-align-items:center;
+align-items:column;
 gap:4px;
 }
 
