@@ -86,7 +86,6 @@ align-items:center;
 .nav-center{
 display:flex;
 align-items:column;
-gap:4px;
 }
 
 .live-info{
