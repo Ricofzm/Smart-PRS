@@ -627,18 +627,73 @@ margin-top:6px;
 .kredel-item{
 display:flex;
 justify-content:space-between;
+align-items:center;
+
 font-size:13px;
 
-  background:
-  rgba(255,255,255,.05);
+background:rgba(255,255,255,.05);
 
-  border:
-  1px solid rgba(255,255,255,.08);
+border-radius:14px;
 
-  border-radius:14px;
+padding:10px 12px;
 
-  padding:10px 12px;
+transition:.3s;
+}
 
+.kredel-item.running{
+
+border:2px solid #30d158;
+
+padding:14px 16px;
+
+transform:scale(1.03);
+
+box-shadow:
+0 0 20px rgba(48,209,88,.20);
+
+position:relative;
+
+overflow:hidden;
+}
+
+.kredel-item.running::after{
+
+content:"";
+
+position:absolute;
+left:0;
+bottom:0;
+
+height:3px;
+width:40%;
+
+background:#30d158;
+
+border-radius:999px;
+
+animation:runLine 2.2s linear infinite;
+}
+@keyframes runLine{
+
+0%{
+transform:translateX(-120%);
+}
+
+100%{
+transform:translateX(350%);
+}
+
+}
+
+.kredel-item.standby{
+
+background:rgba(255,255,255,.03);
+
+border:1px solid rgba(255,255,255,.05);
+
+opacity:.75;
+
+padding:9px 12px;
 }
 
 .hero-label{
