@@ -59,23 +59,81 @@ body{
 
 /* ===== NAVBAR (iOS floating glass) ===== */
 .navbar{
-  position:fixed;
-  top:12px;
-  left:12px;
-  right:12px;
-  height:54px;
+position:fixed;
+top:12px;
+left:12px;
+right:12px;
 
-  background:var(--glass);
-  backdrop-filter: blur(var(--blur));
-  border:1px solid var(--stroke);
-  border-radius:16px;
+height:64px;
 
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 14px;
+background:
+rgba(20,25,35,.78);
 
-  z-index:1000;
+backdrop-filter:blur(30px);
+
+border:1px solid rgba(255,255,255,.08);
+
+border-radius:18px;
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+padding:0 16px;
+
+z-index:1000;
+}
+
+.nav-left{
+display:flex;
+align-items:center;
+}
+
+.nav-center{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.live-text{
+font-size:12px;
+font-weight:700;
+color:#30d158;
+letter-spacing:1px;
+}
+
+.nav-right{
+display:flex;
+flex-direction:column;
+gap:4px;
+}
+
+.date-row,
+.time-row{
+display:flex;
+align-items:center;
+gap:6px;
+
+font-size:11px;
+color:#fff;
+}
+
+.date-row svg,
+.time-row svg{
+width:14px;
+height:14px;
+
+fill:none;
+stroke:rgba(255,255,255,.8);
+stroke-width:2;
+}
+
+.nav-divider{
+width:1px;
+height:28px;
+
+background:
+rgba(255,255,255,.08);
 }
 
 .logo{
