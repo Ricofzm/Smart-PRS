@@ -96,6 +96,23 @@ color:#30d158;
 letter-spacing:1px;
 }
 
+.update-row{
+display:flex;
+align-items:center;
+gap:4px;
+}
+
+.live-sub{
+font-size:9px;
+color:#7f8a98;
+}
+
+#lastUpdate{
+font-size:9px;
+font-weight:600;
+color:#fff;
+}
+
 .nav-right{
 display:flex;
 flex-direction:column;
