@@ -23,10 +23,39 @@
 }
 
 body{
-  background: radial-gradient(circle at top, #111827, #070a10);
+  body{
+  min-height:100vh;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(0,122,255,.35),
+      transparent 35%
+    ),
+
+    radial-gradient(
+      circle at 80% 30%,
+      rgba(123,92,255,.25),
+      transparent 35%
+    ),
+
+    radial-gradient(
+      circle at 50% 90%,
+      rgba(0,255,180,.12),
+      transparent 40%
+    ),
+
+    linear-gradient(
+      135deg,
+      #060b16,
+      #081120,
+      #05080f
+    );
+
+  background-attachment:fixed;
+
   color:var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
-  min-height:100vh;
 }
 
 /* ===== NAVBAR (iOS floating glass) ===== */
@@ -207,12 +236,6 @@ tbody td{
 
 tbody tr:hover{
   background:rgba(255,255,255,.04);
-}
-
-.empty{
-  text-align:center;
-  padding:30px;
-  color:var(--muted);
 }
 
 /* ========================= */
