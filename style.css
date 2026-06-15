@@ -397,14 +397,6 @@ tbody tr:hover{
     0 0 15px rgba(10,132,255,.4);
 }
 
-.live-indicator{
-  display:flex;
-  align-items:center;
-  gap:2px;
-  font-size:11px;
-  color:#30d158;
-}
-
 .dot{
   width:8px;
   height:8px;
@@ -426,12 +418,6 @@ tbody tr:hover{
 display:flex;
 flex-direction:column;
 line-height:1.1;
-}
-
-#update{
-font-size:11px;
-font-weight:600;
-color:#30d158;
 }
 
 #dateNow{
