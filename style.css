@@ -112,15 +112,6 @@ body{
   background:var(--glass2);
 }
 
-.card.chart-active::after{
-  width:56px;
-
-  background:#0a84ff;
-
-  box-shadow:
-    0 0 12px rgba(10,132,255,.4);
-}
-
 /* ===== STATUS CARD ===== */
 
 .card.normal{
