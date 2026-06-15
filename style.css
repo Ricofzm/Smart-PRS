@@ -111,12 +111,12 @@ align-items:center;
   gap: 3px; /* jarak antara "Last Update :" sama jamnya */
 }
 
-.live-sub{
+#live-sub{
   font-size:7px;
   color:#7f8a98;
 }
 
-.update{
+#update{
 font-size:9px;
 font-weight:600;
 color:#fff;
