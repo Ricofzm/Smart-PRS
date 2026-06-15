@@ -413,11 +413,9 @@ function refreshChart() {
     const map = {
       outlet:"outlet",
       temp:"temp",
-      gasFlow:"gasflow",
       corrFlow:"corrflow",
       turbin:"turbin",
       evc:"evc",
-      consumption:"difInlet"
     };
 
     labels = state.hourlyData
