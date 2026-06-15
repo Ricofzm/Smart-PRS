@@ -785,7 +785,7 @@ transform:translateY(0);
 
 position:absolute;
 right:14px;
-bottom:14px;
+bottom:0;
 
 height:32px;
 padding:0 12px;
