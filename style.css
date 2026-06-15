@@ -78,14 +78,9 @@ body{
   z-index:1000;
 }
 
-.logo{
+.logo-video{
   height:52px;
-  width:auto;
-
-  filter:
-    drop-shadow(
-      0 0 10px rgba(10,132,255,.25)
-    );
+  mix-blend-mode:multiply;
 }
 
 .nav-title{
