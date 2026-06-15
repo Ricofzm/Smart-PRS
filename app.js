@@ -411,7 +411,6 @@ function refreshChart() {
   }else{
 
     const map = {
-      inlet:"inlet",
       outlet:"outlet",
       temp:"temp",
       gasFlow:"gasflow",
