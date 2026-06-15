@@ -44,7 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("historyMonth").value =
   month;
 
-  
+  startClock();
+  setInterval(startClock,1000);
+    
 });
 
 /* =========================
@@ -1195,4 +1197,29 @@ async function saveStock(){
 
   await loadStock();
   closeStockModal();
+}
+
+function startClock(){
+
+  const now = new Date();
+
+  document.getElementById("dateNow").innerText =
+  now.toLocaleDateString(
+    "id-ID",
+    {
+      day:"2-digit",
+      month:"2-digit",
+      year:"numeric"
+    }
+  );
+
+  document.getElementById("clockNow").innerText =
+  now.toLocaleTimeString(
+    "id-ID",
+    {
+      hour:"2-digit",
+      minute:"2-digit"
+    }
+  );
+
 }
