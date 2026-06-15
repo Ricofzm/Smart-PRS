@@ -1098,60 +1098,6 @@ async function loadTSLog(){
 
 }
 
-async function loadTSHistory(){
-
-const res =
-await fetch(API + "/ts-log");
-
-const data =
-await res.json();
-
-renderTSHistory(data);
-
-}
-
-function renderTSHistory(rows){
-
-const wrap =
-document.getElementById(
-"tsHistory"
-);
-
-wrap.innerHTML = "";
-
-rows.forEach(r=>{
-
-wrap.innerHTML += `
-<div class="ts-card">
-
-<div class="ts-title">
-${r.ts_name}
-→
-${r.nextTS}
-</div>
-
-<div>
-Volume :
-${Number(
-r.total_volume
-).toFixed(2)}
- Sm³
-</div>
-
-<div>
-EVC :
-${r.start_evc}
- →
-${r.end_evc}
-</div>
-
-</div>
-`;
-
-});
-
-}
-
 async function loadStock(){
 
   const res =
