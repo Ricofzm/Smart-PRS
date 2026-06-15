@@ -92,7 +92,6 @@ align-items:center;
 .live-info{
   display:flex;
   flex-direction: column;
-  align-items: center; /* tambahin ini */
   gap: 2px; /* jarak antara LIVE sama Last Update */
 }
 
