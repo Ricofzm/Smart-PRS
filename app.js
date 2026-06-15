@@ -5,7 +5,7 @@ const API = "https://smart-prs-api.enrikofzm.workers.dev";
 ========================= */
 const state = {
   labels: [],
-  
+  inlet: [],
   outlet: [],
   temp: [],
   gasFlow: [],
