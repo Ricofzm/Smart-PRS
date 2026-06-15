@@ -86,7 +86,6 @@ align-items:center;
 .nav-center{
   display:flex;
   flex-direction: column; /* ini yang bener, bukan align-items */
-  align-items: center; /* biar LIVE + Last Update rata tengah */
   line-height: 1;
 }
 
