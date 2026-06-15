@@ -379,11 +379,20 @@ tbody tr:hover{
   color:#30d158;
 }
 
-.live-indicator .dot{
+.dot{
   width:8px;
   height:8px;
+
   border-radius:50%;
+
   background:#30d158;
+
+  box-shadow:
+    0 0 10px rgba(48,209,88,.8),
+    0 0 20px rgba(48,209,88,.4);
+
+  flex-shrink:0;
+
   animation:pulse 1.2s infinite;
 }
 
