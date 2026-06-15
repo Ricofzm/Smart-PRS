@@ -1167,11 +1167,6 @@ async function loadStock(){
 
 function renderHeroTS(){
 
-  const hero =
-  document.getElementById("heroTS");
-
-  if(!hero) return;
-
   const running =
   tsStock.find(
     x => x.status === "RUNNING"
@@ -1182,25 +1177,14 @@ function renderHeroTS(){
     x => x.status === "FULL"
   );
 
-  hero.innerHTML = `
-    <div class="ts-pill">
-      <span class="ts-label">
-        RUNNING
-      </span>
-      <span class="ts-value">
-        ${running?.ts || "-"}
-      </span>
-    </div>
+  document.getElementById("runningTS")
+  .textContent =
+  running?.ts || "-";
 
-    <div class="ts-pill">
-      <span class="ts-label">
-        STANDBY
-      </span>
-      <span class="ts-value">
-        ${standby?.ts || "-"}
-      </span>
-    </div>
-  `;
+  document.getElementById("standbyTS")
+  .textContent =
+  standby?.ts || "-";
+
 }
 
 async function copyTSReport(){
