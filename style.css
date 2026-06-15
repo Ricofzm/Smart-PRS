@@ -784,31 +784,41 @@ transform:translateY(0);
 .btn-edit-stock{
 
 position:absolute;
+top:14px;
 right:14px;
-bottom:0;
 
-height:32px;
-padding:0 12px;
+width:36px;
+height:36px;
 
+padding:0;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:transparent;
 border:none;
-border-radius:999px;
 
-background:
-rgba(10,132,255,.15);
+color:#9aa4b2;
 
-color:#0a84ff;
-
-font-size:12px;
-font-weight:600;
-
-border:
-1px solid rgba(10,132,255,.25);
-
-backdrop-filter:blur(20px);
+cursor:pointer;
 
 transition:.2s;
 }
 
+.btn-edit-stock svg{
+width:18px;
+height:18px;
+
+fill:none;
+stroke:currentColor;
+stroke-width:2;
+}
+
+.btn-edit-stock:hover{
+color:#0a84ff;
+transform:scale(1.08);
+}
 .btn-edit-stock:active{
 transform:scale(.96);
 }
