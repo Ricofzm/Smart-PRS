@@ -80,7 +80,11 @@ body{
 
 .logo{
   height:52px;
-  mix-blend-mode:multiply;
+  width:auto;
+
+  filter:
+    drop-shadow(0 0 8px rgba(10,132,255,.25))
+    contrast(1.1);
 }
 
 .nav-title{
