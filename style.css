@@ -92,6 +92,7 @@ align-items:center;
 .live-info{
   display:flex;
   flex-direction: column;
+  align-items: center;
   gap: 2px; /* jarak antara LIVE sama Last Update */
 }
 
