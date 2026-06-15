@@ -86,7 +86,13 @@ align-items:center;
 .nav-center{
 display:flex;
 align-items:center;
-gap:4px;
+gap:8px;
+}
+
+.live-info{
+display:flex;
+flex-direction:column;
+line-height:1.1;
 }
 
 .live-text{
@@ -103,7 +109,7 @@ gap:4px;
 }
 
 .live-sub{
-font-size:2px;
+font-size:9px;
 color:#7f8a98;
 }
 
