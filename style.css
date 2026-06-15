@@ -84,34 +84,38 @@ align-items:center;
 }
 
 .nav-center{
-display:flex;
-align-items:column;
+  display:flex;
+  flex-direction: column; /* ini yang bener, bukan align-items */
+  align-items: center; /* biar LIVE + Last Update rata tengah */
+  line-height: 1;
 }
 
 .live-info{
-display:flex;
-flex-direction:column;
-line-height:1.1;
+  display:flex;
+  flex-direction: column;
+  align-items: center; /* tambahin ini */
+  gap: 2px; /* jarak antara LIVE sama Last Update */
 }
 
 .live-text{
-font-size:11px;
-font-weight:700;
-color:#30d158;
-letter-spacing:1px;
+  font-size:11px;
+  font-weight:700;
+  color:#30d158;
+  letter-spacing:1px;
 }
 
 .update-row{
-display:flex;
-align-items:column;
+  display:flex;
+  align-items: center; /* ini juga salah tadi, harusnya center */
+  gap: 3px; /* jarak antara "Last Update :" sama jamnya */
 }
 
 .live-sub{
-font-size:9px;
-color:#7f8a98;
+  font-size:9px;
+  color:#7f8a98;
 }
 
-#lastUpdate{
+.update{
 font-size:9px;
 font-weight:600;
 color:#fff;
