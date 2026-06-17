@@ -966,6 +966,7 @@ transform:scale(.96);
 }
 
 #card-outlet svg{
+  top:3px;
 width:14px;
 height:14px;
 
