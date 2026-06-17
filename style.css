@@ -651,7 +651,7 @@ color:#9aa4b2;
   z-index:50;
 
   background:
-  rgba(11,15,23,.95);
+  transparent;
 
   backdrop-filter:blur(20px);
 
