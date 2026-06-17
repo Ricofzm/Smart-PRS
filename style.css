@@ -958,11 +958,8 @@ transform:scale(.96);
 }
 
 .btn-report{
-background:
-linear-gradient(
-90deg,
-transparent,
-#30d158,
-transparent
-);
+  background:var(--glass);
+  backdrop-filter: blur(var(--blur));
+  border:1px solid var(--stroke);
+  border-radius:16px;
 }
