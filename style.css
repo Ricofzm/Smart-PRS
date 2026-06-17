@@ -956,3 +956,13 @@ transform:scale(1.08);
 .btn-edit-stock:active{
 transform:scale(.96);
 }
+
+.btn-report{
+background:
+linear-gradient(
+90deg,
+transparent,
+#30d158,
+transparent
+);
+}
