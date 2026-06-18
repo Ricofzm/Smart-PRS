@@ -244,10 +244,25 @@ rgba(255,255,255,.08);
 .card h3{
   display:flex;
   align-items:center;
+  gap:8px;
+
   font-size:11px;
   color:var(--muted);
   margin-bottom:10px;
   letter-spacing:1px;
+}
+
+.card-icon{
+  width:14px;
+  height:14px;
+
+  flex-shrink:0;
+
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+
+  opacity:.8;
 }
 
 .card p{
@@ -964,14 +979,4 @@ transform:scale(.96);
   backdrop-filter: blur(var(--blur));
   border:1px solid var(--stroke);
   border-radius:16px;
-}
-
-#card-outlet svg{
-  
-width:14px;
-height:14px;
-
-fill:none;
-stroke:rgba(255,255,255,.8);
-stroke-width:2;
 }
