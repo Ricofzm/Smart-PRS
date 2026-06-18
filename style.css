@@ -977,7 +977,7 @@ transform:scale(.96);
 .btn-report{
   background:var(--glass);
   backdrop-filter: blur(var(--blur));
-  border:1px solid var(--stroke);
+  border:2px solid var(--stroke);
   border-radius:20px;
   
   display:flex;
