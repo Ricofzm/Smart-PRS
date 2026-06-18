@@ -96,7 +96,7 @@ align-items:center;
   gap: 2px; /* jarak antara LIVE sama Last Update */
 }
 
-#live-text{
+.live-text{
   position: relative;
   font-size:11px;
   font-weight:700;
@@ -414,7 +414,7 @@ tbody tr:hover{
     0 0 15px rgba(10,132,255,.4);
 }
 
-#dot{
+.dot{
   width:8px;
   height:8px;
 
