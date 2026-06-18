@@ -979,4 +979,20 @@ transform:scale(.96);
   backdrop-filter: blur(var(--blur));
   border:1px solid var(--stroke);
   border-radius:16px;
+  
+  display:flex;
+  align-items:center;
+  gap:6px;
+  
+  font-size:11px;
+  color:#fff;
+}
+
+.btn-report svg{
+width:14px;
+height:14px;
+
+fill:none;
+stroke:rgba(255,255,255,.8);
+stroke-width:2;
 }
