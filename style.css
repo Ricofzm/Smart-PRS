@@ -978,8 +978,7 @@ transform:scale(.96);
   background:var(--glass);
   backdrop-filter: blur(var(--blur));
   border:1px solid var(--stroke);
-  border-radius:
-  28px 28px 0 0;
+  border-radius:20px;
   
   display:flex;
   align-items:center;
