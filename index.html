@@ -344,6 +344,36 @@
 </main>
 
 <main class="page" id="page-ts">
+  
+    <div id="reportModal" class="modal hidden">
+  
+    <div class="modal-box report-box">
+  
+      <div class="report-toolbar">
+  
+        <button onclick="editReport()">
+          Edit
+        </button>
+  
+        <button onclick="copyReportText()">
+          Copy
+        </button>
+  
+        <button onclick="closeReportModal()">
+          ✕
+        </button>
+  
+      </div>
+  
+      <textarea
+        id="reportText"
+        class="report-editor"
+        spellcheck="false">
+      </textarea>
+  
+    </div>
+  
+  </div>
 
   <div class="page-header">
   <h2>TS LOG</h2>
