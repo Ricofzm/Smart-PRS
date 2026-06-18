@@ -1144,11 +1144,13 @@ async function copyTSReport(){
     const text =
     await res.text();
 
-    await navigator.clipboard.writeText(text);
+    document
+      .getElementById("reportText")
+      .value = text;
 
-    alert(
-      "Report berhasil dicopy"
-    );
+    document
+      .getElementById("reportModal")
+      .classList.remove("hidden");
 
   }catch(err){
 
@@ -1159,6 +1161,41 @@ async function copyTSReport(){
     );
 
   }
+
+}
+
+function closeReportModal(){
+
+  document
+    .getElementById("reportModal")
+    .classList.add("hidden");
+
+}
+
+function editReport(){
+
+  const area =
+  document.getElementById(
+    "reportText"
+  );
+
+  area.focus();
+
+}
+
+async function copyReportText(){
+
+  const text =
+  document.getElementById(
+    "reportText"
+  ).value;
+
+  await navigator.clipboard
+    .writeText(text);
+
+  alert(
+    "Report berhasil dicopy"
+  );
 
 }
 
