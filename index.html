@@ -181,9 +181,19 @@
       <canvas id="spark-corrflow" class="sparkline"></canvas>
     </div>
     <div class="card" id="card-turbin" onclick="toggleChart('Turbin Meter','turbin')">
-      <h3><svg class="card-icon" viewBox="0 0 24 24">
-        <path d="M12 14l4-4"/>
-        <path d="M3.34 19a10 10 0 1 1 17.32 0"/>
+      <h3><svg class="card-icon"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24">
+      
+      <path d="
+      M12 12
+      m-8 0
+      a8 8 0 1 0 16 0
+      a6 6 0 1 1 -12 0
+      a4 4 0 1 0 8 0
+      a2 2 0 1 1 -4 0
+      "/>
+      
       </svg>Turbin Meter</h3>
       <p id="turbin">-</p>
       <span class="unit">m³</span>
