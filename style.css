@@ -1053,3 +1053,53 @@ monospace;
 
 resize:none;
 }
+
+.ts-hero{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+margin-bottom:20px;
+}
+
+.ts-card{
+background:#111827;
+border-radius:20px;
+padding:20px;
+overflow:hidden;
+position:relative;
+}
+
+.ts-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:12px;
+}
+
+.ts-header span{
+font-size:12px;
+opacity:.7;
+}
+
+.ts-header strong{
+font-size:22px;
+}
+
+.ts-skid{
+position:relative;
+}
+
+.ts-skid img{
+width:100%;
+display:block;
+}
+
+.running img{
+filter:
+drop-shadow(0 0 10px #00ff88);
+}
+
+.standby img{
+opacity:.5;
+filter:grayscale(1);
+}
