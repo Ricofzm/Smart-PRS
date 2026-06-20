@@ -1107,28 +1107,23 @@ filter:grayscale(1);
 
 .ts-tag{
   position:absolute;
-  top:8px;
-  right:8px;
+
+  top:6%;
+  right:4%;
+
   z-index:10;
 
-  padding:4px 10px;
+  color:#fff;
 
-  border-radius:8px;
-
-  background:#d1d5db;
-  border:1px solid #9ca3af;
-
-  color:#111;
-  font-size:13px;
+  font-size:clamp(14px,1.2vw,18px);
   font-weight:800;
-  font-family:monospace;
 
-  box-shadow:
-  0 4px 12px rgba(0,0,0,.15);
-}
+  letter-spacing:1px;
 
-.standby-tag{
-  background:#f3f4f6;
+  text-shadow:
+    0 2px 4px rgba(0,0,0,.8);
+
+  pointer-events:none;
 }
 
 .flow-line{
