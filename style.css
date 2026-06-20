@@ -1105,6 +1105,32 @@ opacity:.5;
 filter:grayscale(1);
 }
 
+.ts-tag{
+  position:absolute;
+  top:8px;
+  right:8px;
+  z-index:10;
+
+  padding:4px 10px;
+
+  border-radius:8px;
+
+  background:#d1d5db;
+  border:1px solid #9ca3af;
+
+  color:#111;
+  font-size:13px;
+  font-weight:800;
+  font-family:monospace;
+
+  box-shadow:
+  0 4px 12px rgba(0,0,0,.15);
+}
+
+.standby-tag{
+  background:#f3f4f6;
+}
+
 .flow-line{
 
 position:absolute;
