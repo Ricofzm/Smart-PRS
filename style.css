@@ -1113,15 +1113,17 @@ filter:grayscale(1);
 
   z-index:10;
 
-  color:#A0D6B4;
-
   font-size:clamp(14px,1.2vw,18px);
   font-weight:800;
 
   letter-spacing:1px;
 
+  color:#39ff88;
+
   text-shadow:
-    0 2px 4px rgba(0,0,0,.8);
+    0 0 6px rgba(57,255,136,0.9),
+    0 0 14px rgba(57,255,136,0.6),
+    0 2px 4px rgba(0,0,0,0.8);
 
   pointer-events:none;
 }
