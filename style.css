@@ -1092,11 +1092,12 @@ position:relative;
 .ts-skid img{
 width:100%;
 display:block;
+max-width:none;
 }
 
 .running img{
-filter:
-drop-shadow(0 0 10px #00ff88);
+  filter:
+  drop-shadow(0 0 8px rgba(0,255,120,.6));
 }
 
 .standby img{
