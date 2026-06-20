@@ -1129,6 +1129,14 @@ function renderHeroTS(){
   document.getElementById("standbyTS")
   .textContent =
   standby?.ts || "-";
+  
+  document.getElementById("TSrunning")
+  .textContent =
+  running?.ts || "-";
+
+  document.getElementById("TSstandby")
+  .textContent =
+  standby?.ts || "-";
 
 }
 
