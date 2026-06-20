@@ -1129,16 +1129,6 @@ function renderHeroTS(){
   document.getElementById("standbyTS")
   .textContent =
   standby?.ts || "-";
-  
-   document
-  .querySelector(".running .serial")
-  .textContent =
-  running?.ts || "-";
-
-  document
-  .querySelector(".standby .serial")
-  .textContent =
-  standby?.ts || "-";
 
 }
 
