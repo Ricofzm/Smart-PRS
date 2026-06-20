@@ -1108,8 +1108,8 @@ filter:grayscale(1);
 .ts-tag{
   position:absolute;
 
-  top:8%;
-  right:7%;
+  top:12%;
+  right:10%;
 
   z-index:10;
 
