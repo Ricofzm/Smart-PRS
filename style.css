@@ -1161,3 +1161,51 @@ background-position:16px 0;
 }
 
 }
+
+.pipe-img{
+  width:100%;
+  position:relative;
+  z-index:2;
+}
+
+.pipe-flow{
+  position:absolute;
+  inset:0;
+
+  background:
+  repeating-linear-gradient(
+    180deg,
+    rgba(0,255,120,0) 0px,
+    rgba(0,255,120,.9) 10px,
+    rgba(0,255,120,0) 20px
+  );
+
+  animation: gasDown 1.2s linear infinite;
+
+  filter:
+    drop-shadow(0 0 6px #00ff88)
+    drop-shadow(0 0 14px #00ff88);
+
+  z-index:1;
+}
+
+@keyframes gasDown{
+  from{
+    background-position:0 0;
+  }
+  to{
+    background-position:0 100px;
+  }
+}
+
+.pipe-flow{
+  mask-image:url(pipe-only.png);
+  mask-size:contain;
+  mask-repeat:no-repeat;
+  mask-position:center;
+
+  -webkit-mask-image:url(pipe-only.png);
+  -webkit-mask-size:contain;
+  -webkit-mask-repeat:no-repeat;
+  -webkit-mask-position:center;
+}
