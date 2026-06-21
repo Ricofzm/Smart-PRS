@@ -107,16 +107,29 @@ async function loadData() {
     
     const avgFlow = getAvgFlow(state);
 
-    // estimasi stock dari inlet
-    const remainingStock =
-      (Number(d.PressureInlet) || 0) * 5; // scaling biar realistis
+    const SWITCH_PRESSURE = 50;
+
+    const dropRate =
+    getPressureDropRate(hourly);
+    
+    const currentPressure =
+    Number(d.PressureInlet);
+    
+    const remainingPressure =
+    Math.max(
+      currentPressure - SWITCH_PRESSURE,
+      0
+    );
     
     const hoursLeft =
-      avgFlow > 0 ? remainingStock / avgFlow : 0;
+    dropRate > 0
+    ? remainingPressure / dropRate
+    : 0;
     
-    // convert ke jam realtime
-    const predictDate = new Date(
-      Date.now() + hoursLeft * 3600000
+    let predictDate =
+    new Date(
+      Date.now() +
+      hoursLeft * 3600000
     );
     
 
@@ -325,7 +338,6 @@ function getAvgFlow(state) {
 
   return data.reduce((a, b) => a + b, 0) / data.length;
 }
-
 /* =========================
    ALARM
 ========================= */
@@ -1319,4 +1331,35 @@ if (diffMin < 3) {
   predictDate = lastPredict;
 } else {
   lastPredict = predictDate;
+}
+
+function getPressureDropRate(hourly){
+
+  const arr =
+  hourly
+  .slice(0,12)
+  .map(r=>Number(r.inlet))
+  .reverse();
+
+  if(arr.length < 2) return 0;
+
+  let drops = [];
+
+  for(let i=1;i<arr.length;i++){
+
+    const d = arr[i-1] - arr[i];
+
+    if(d > 0){
+      drops.push(d);
+    }
+
+  }
+
+  if(!drops.length) return 0;
+
+  return (
+    drops.reduce((a,b)=>a+b,0)
+    /
+    drops.length
+  );
 }
