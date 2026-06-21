@@ -1128,40 +1128,6 @@ filter:grayscale(1);
   pointer-events:none;
 }
 
-.flow-line{
-
-position:absolute;
-
-left:20%;
-right:20%;
-
-top:48%;
-
-height:4px;
-
-background:
-repeating-linear-gradient(
-90deg,
-#00ff88 0 8px,
-transparent 8px 16px
-);
-
-animation:
-flowMove .8s linear infinite;
-}
-
-@keyframes flowMove{
-
-from{
-background-position:0 0;
-}
-
-to{
-background-position:16px 0;
-}
-
-}
-
 .pipe-img{
   position:absolute;
 inset:0;
@@ -1178,38 +1144,17 @@ opacity:.85;
 filter:
 drop-shadow(0 0 3px #00ff88)
 drop-shadow(0 0 8px #00ff88);
+
+animation:flowScan 1.8s linear infinite;
 }
-
-.pipe-flow{
-  position:absolute;
-inset:0;
-
-background:
-linear-gradient(
-180deg,
-transparent 0%,
-rgba(0,255,136,.95) 45%,
-rgba(125,255,191,1) 50%,
-rgba(0,255,136,.95) 55%,
-transparent 100%
-);
-
-animation:
-gasSweep 2s linear infinite;
-
-mix-blend-mode:screen;
-
-z-index:4;
-}
-
-@keyframes gasSweep{
+@keyframes flowScan{
 
 0%{
-transform:translateY(-120%);
+transform:translateY(-100%);
 }
 
 100%{
-transform:translateY(120%);
+transform:translateY(100%);
 }
 
 }
