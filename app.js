@@ -15,7 +15,8 @@ const state = {
   today: [],
   consumption: [],
   hourlyData: [],
-  dailyData: []
+  dailyData: [],
+  flowAvg: []
 };
 
 const sparkCharts = {};
@@ -96,6 +97,28 @@ async function loadData() {
 
     set("dateNow", dateStr);
     
+    const flow = Number(d.CorrectionFlow || 0);
+
+    state.flowAvg.push(flow);
+    
+    if (state.flowAvg.length > 12) {
+      state.flowAvg.shift();
+    }
+    
+    const avgFlow = getAvgFlow(state);
+
+    // estimasi stock dari inlet
+    const remainingStock =
+      (Number(d.PressureInlet) || 0) * 5; // scaling biar realistis
+    
+    const hoursLeft =
+      avgFlow > 0 ? remainingStock / avgFlow : 0;
+    
+    // convert ke jam realtime
+    const predictDate = new Date(
+      Date.now() + hoursLeft * 3600000
+    );
+    
 
     /* =========================
        CONSUMPTION
@@ -127,7 +150,6 @@ async function loadData() {
       Number(daily?.[0]?.dailyVolume ?? 0).toFixed(3)
     );
     
-
     const avgCons = getAvgConsumption(state);
 
     const engine =
@@ -172,6 +194,15 @@ async function loadData() {
       );
     } catch (e) {
       console.error("updateAlarm crash:", e);
+    }
+    
+    const el = document.getElementById("predictTime");
+
+    if (el) {
+      el.textContent = predictDate.toLocaleTimeString("id-ID", {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
     }
 
     /* =========================
@@ -286,6 +317,13 @@ function setCard(id, level) {
   }
 
   el.classList.add(level);
+}
+
+function getAvgFlow(state) {
+  const data = state.flowAvg;
+  if (!data.length) return 0;
+
+  return data.reduce((a, b) => a + b, 0) / data.length;
 }
 
 /* =========================
@@ -1267,4 +1305,18 @@ function startClock(){
     }
   );
 
+}
+
+let lastPredict = null;
+
+if (!lastPredict) lastPredict = predictDate;
+
+const diffMin =
+Math.abs(predictDate - lastPredict) / 60000;
+
+if (diffMin < 3) {
+  // kalau perubahan kecil, ignore biar smooth
+  predictDate = lastPredict;
+} else {
+  lastPredict = predictDate;
 }
