@@ -1145,25 +1145,16 @@ filter:
 drop-shadow(0 0 3px #00ff88)
 drop-shadow(0 0 8px #00ff88);
 
-mask-image:
-linear-gradient(
-180deg,
-transparent 0%,
-black 15%,
-black 85%,
-transparent 100%
-);
-
-animation:flowScan 1.8s linear infinite;
+animation:flowDraw 2.5s linear infinite;
 }
-@keyframes flowScan{
+@keyframes flowDraw{
 
 0%{
-transform:translateY(-100%);
+clip-path: inset(0 0 100% 0);
 }
 
 100%{
-transform:translateY(100%);
+clip-path: inset(0 0 0 0);
 }
 
 }
