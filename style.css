@@ -1199,12 +1199,12 @@ background-position:16px 0;
 }
 
 .pipe-flow{
-  mask-image:url(pipe-only.png);
+  mask-image:url(pipe-only.PNG);
   mask-size:contain;
   mask-repeat:no-repeat;
   mask-position:center;
 
-  -webkit-mask-image:url(pipe-only.png);
+  -webkit-mask-image:url(pipe-only.PNG);
   -webkit-mask-size:contain;
   -webkit-mask-repeat:no-repeat;
   -webkit-mask-position:center;
