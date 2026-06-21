@@ -1145,7 +1145,7 @@ filter:
 drop-shadow(0 0 3px #00ff88)
 drop-shadow(0 0 8px #00ff88);
 
-animation:flowDraw 2.5s linear infinite;
+animation:flowDraw 2s linear infinite;
 }
 @keyframes flowDraw{
 
