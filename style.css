@@ -1151,14 +1151,17 @@ animation:flowDraw 2.5s linear infinite;
 
 0%{
 clip-path: inset(0 0 100% 0);
+opacity:.4;
+}
+
+50%{
+clip-path: inset(0 0 0 0);
+opacity:1;
 }
 
 100%{
-clip-path: inset(0 0 0 0);
-}
-
-0%{
-clip-path: inset(0 0 100% 0);
+clip-path: inset(100% 0 0 0);
+opacity:.4;
 }
 
 }
