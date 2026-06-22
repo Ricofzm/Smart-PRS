@@ -106,38 +106,39 @@ async function loadData() {
     const avgCons = getAvgConsumption(state);
 
     /* =========================
-       SAFE STOCK ENGINE (CAPACITY)
+       ENGINE: SAFE STOCK
     ========================= */
     const stockEngine = calculateStockHours(
       d.PressureInlet,
       avgCons
     );
-
+    
     const standbyFull = tsStock.some(x => x.status === "FULL");
-
-    const safeStockHours =
-      standbyFull
-        ? stockEngine.hoursLeft + 15
-        : stockEngine.hoursLeft;
-
+    
+    const safeStockHours = standbyFull
+      ? stockEngine.hoursLeft + 15
+      : stockEngine.hoursLeft;
+    
+    
     /* =========================
-       PREDICT SWITCH ENGINE (TIME DROP)
+       ENGINE: SWITCH PREDICTION
     ========================= */
     const dropRate = getPressureDropRate(hourly);
-
+    
     const currentPressure = Number(d.PressureInlet || 0);
     const remainingPressure = Math.max(currentPressure - SWITCH_PRESSURE, 0);
-
+    
     const rawHoursLeft =
       dropRate > 0 ? remainingPressure / dropRate : 0;
-
-    window._smoothHours =
-      window._smoothHours
-        ? window._smoothHours * 0.7 + rawHoursLeft * 0.3
+    
+    /* smoothing biar ga jitter */
+    window._switchSmooth =
+      window._switchSmooth
+        ? window._switchSmooth * 0.75 + rawHoursLeft * 0.25
         : rawHoursLeft;
-
-    const predictHoursLeft = window._smoothHours;
-
+    
+    const predictHoursLeft = window._switchSmooth;
+    
     const predictDate = new Date(
       Date.now() + predictHoursLeft * 3600000
     );
@@ -145,14 +146,14 @@ async function loadData() {
     /* =========================
        HERO UI
     ========================= */
+    document.getElementById("heroStockHours").innerText =
+    `${safeStockHours.toFixed(1)} JAM`;
+  
     document.getElementById("heroInlet").innerText =
       `Inlet ${Number(d.PressureInlet).toFixed(1)} Bar`;
-
+    
     document.getElementById("heroAvg").innerText =
-      `Avg ${avgCons.toFixed(2)} Bar/Jam`;
-
-    document.getElementById("heroStockHours").innerText =
-      `${safeStockHours.toFixed(1)} JAM`;
+      `Avg ${avgCons.toFixed(2)} Flow`;
 
     /* =========================
        RISK ENGINE
