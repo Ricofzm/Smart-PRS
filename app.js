@@ -1187,7 +1187,7 @@ async function loadTSLog(){
   `);
   
   rows.push(
-  data.slice(1).map(r=>`
+  data.map(r=>`
   <tr>
     <td>${r.ts_name}</td>
     <td>${r.nextTS || "-"}</td>
