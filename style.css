@@ -1274,3 +1274,40 @@ opacity:.9;
 .hero-prs{
   opacity:1;
 }
+
+.hero-peek-dots{
+  position:absolute;
+  top:14px;
+  right:16px;
+
+  display:flex;
+  gap:6px;
+
+  z-index:10;
+}
+
+.hero-peek-dots span{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+
+  background:rgba(255,255,255,.25);
+  backdrop-filter:blur(10px);
+
+  transition:.2s;
+}
+
+/* active dot (hero utama) */
+.hero-peek-dots span:last-child{
+  background:#0a84ff;
+  box-shadow:0 0 10px rgba(10,132,255,.5);
+}
+
+.hero-peek-dots:hover span{
+  opacity:.6;
+}
+
+.hero-peek-dots:hover span:last-child{
+  opacity:1;
+  transform:scale(1.1);
+}
