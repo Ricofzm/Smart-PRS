@@ -183,22 +183,32 @@ async function loadData() {
     /* =========================
        PROGRESS BAR (FIXED → PREDICT SWITCH ONLY)
     ========================= */
-    const progress = Math.max(
-      0,
-      Math.min(
-        100,
-        (1 - predictHoursLeft / MAX_SWITCH_WINDOW) * 100
-      )
-    );
+    const progressBase = MAX_SWITCH_WINDOW;
 
+    const progress =
+      progressBase > 0
+        ? ((progressBase - predictHoursLeft) / progressBase) * 100
+        : 0;
+    
+    const safePercent = Math.max(0, Math.min(100, progress));
+    
+    /* smoothing UI biar iOS feel */
+    window._progressSmooth =
+      window._progressSmooth
+        ? window._progressSmooth * 0.8 + safePercent * 0.2
+        : safePercent;
+    
+    const finalPercent = window._progressSmooth;
+    
     const percentEl = document.getElementById("tsPercent");
     const fillEl = document.getElementById("tsProgressFill");
-
-    if (percentEl) percentEl.textContent = progress.toFixed(0) + "%";
-
+    
+    if (percentEl) {
+      percentEl.textContent = finalPercent.toFixed(0) + "%";
+    }
+    
     if (fillEl) {
-      fillEl.style.transition = "width 0.8s ease-out";
-      fillEl.style.width = progress + "%";
+      fillEl.style.width = finalPercent + "%";
     }
 
     /* =========================
