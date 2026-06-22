@@ -1416,36 +1416,41 @@ function getPressureDropRate(hourly){
   return count > 0 ? totalDrop / count : 0;
 }
 
-const layers = [
-  document.querySelector(".prs"),
-  document.querySelector(".operator"),
-  document.querySelector(".gauge")
-];
-
 function setHero(index){
 
-  layers.forEach(el=>{
+  const layers = {
+    0: document.querySelector('.hero-operator'),
+    1: document.querySelector('.hero-gauge'),
+    2: document.querySelector('.hero-prs')
+  };
+
+  const all = Object.values(layers);
+
+  all.forEach(el=>{
     el.classList.remove(
-      "active",
-      "back-right",
-      "far-right"
+      'active',
+      'back-right',
+      'far-right'
     );
   });
 
-  layers[index].classList.add("active");
-
-  layers[(index+1)%3]
-    .classList.add("back-right");
-
-  layers[(index+2)%3]
-    .classList.add("far-right");
+  document
+    .querySelectorAll('.hero-peek-dots span')
+    .forEach(dot=>{
+      dot.classList.remove('active');
+    });
 
   document
-    .querySelectorAll(".hero-peek-dots span")
-    .forEach((dot,i)=>{
-      dot.classList.toggle(
-        "active",
-        i===index
-      );
-    });
+    .querySelectorAll('.hero-peek-dots span')[index]
+    .classList.add('active');
+
+  layers[index].classList.add('active');
+
+  const order =
+    all.filter((_,i)=>i!==index);
+
+  order[0].classList.add('back-right');
+  order[1].classList.add('far-right');
 }
+
+setHero(2);
