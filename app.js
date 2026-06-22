@@ -210,6 +210,11 @@ async function loadData() {
       fillEl.style.width = finalPercent + "%";
     }
     if (!fillEl) console.log("progress fill belum ke-render");
+    console.log({
+      predictHoursLeft,
+      MAX_SWITCH_WINDOW,
+      progress: safePercent
+    });
 
     /* =========================
        STATE UPDATE
