@@ -1148,10 +1148,13 @@ async function loadTSLog(){
   );
   
   body.innerHTML = rows.join("");
-  
-  setTimeout(() => {
-    updateTSProgress(lastTSPercent);
-  }, 50);
+
+  // paksa 1 frame render
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      updateTSProgress(lastTSPercent);
+    });
+  });
   
 }
 
@@ -1355,12 +1358,13 @@ function updateTSProgress(finalPercent) {
   const percentEl = document.getElementById("tsPercent");
   const fillEl = document.getElementById("tsProgressFill");
 
-  if (!percentEl || !fillEl) {
-    // retry nanti
-    setTimeout(() => updateTSProgress(finalPercent), 300);
-    return;
-  }
+  if (!percentEl || !fillEl) return; // STOP aja
 
   percentEl.textContent = finalPercent.toFixed(0) + "%";
   fillEl.style.width = finalPercent + "%";
+  console.log("TS progress DOM check:", {
+    percentEl: !!document.getElementById("tsPercent"),
+    fillEl: !!document.getElementById("tsProgressFill"),
+    value: finalPercent
+  });
 }
