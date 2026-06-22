@@ -1367,3 +1367,79 @@ opacity:.9;
 
   opacity:.25;
 }
+
+.hero-gauge{
+  position:relative;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  padding:20px;
+
+  background:
+  linear-gradient(
+    135deg,
+    rgba(255,255,255,.08),
+    rgba(255,255,255,.03)
+  );
+
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.gauge-svg{
+  width:100%;
+  max-width:260px;
+  height:140px;
+}
+
+.gauge-track{
+  fill:none;
+  stroke:rgba(255,255,255,.12);
+  stroke-width:8;
+  stroke-linecap:round;
+}
+
+.gauge-fill{
+  fill:none;
+  stroke:#ffffff;
+  stroke-width:8;
+  stroke-linecap:round;
+
+  stroke-dasharray:283;
+  stroke-dashoffset:283;
+
+  transition:.6s ease;
+}
+
+.gauge-needle{
+  stroke:#ffffff;
+  stroke-width:3;
+
+  transform-origin:120px 120px;
+
+  transition:
+  transform .6s cubic-bezier(.2,.8,.2,1);
+}
+
+.gauge-center{
+  fill:#ffffff;
+}
+
+.gauge-value{
+  margin-top:-10px;
+
+  font-size:48px;
+  font-weight:700;
+  line-height:1;
+}
+
+.gauge-label{
+  margin-top:6px;
+
+  font-size:12px;
+  letter-spacing:2px;
+
+  color:#9aa4b2;
+}
