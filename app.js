@@ -1,6 +1,6 @@
 const API = "https://smart-prs-api.enrikofzm.workers.dev";
 
-const SWITCH_PRESSURE = 50;
+const SWITCH_POINT = 20;
 const FULL_PRESSURE = 220;
 
 /* =========================
@@ -123,25 +123,25 @@ async function loadData() {
     /* =========================
        ENGINE: SWITCH PREDICTION
     ========================= */
-    const dropRate = getPressureDropRate(hourly);
+    const currentPressure =
+      Number(d.PressureInlet || 0);
     
-    const currentPressure = Number(d.PressureInlet || 0);
-    const remainingPressure = Math.max(currentPressure - SWITCH_PRESSURE, 0);
+    const usablePressure =
+      Math.max(
+        currentPressure - SWITCH_POINT,
+        0
+      );
     
-    const rawHoursLeft =
-      dropRate > 0 ? remainingPressure / dropRate : 0;
+    const predictHoursLeft =
+      avgCons > 0
+        ? usablePressure / avgCons
+        : 0;
     
-    /* smoothing biar ga jitter */
-    window._switchSmooth =
-      window._switchSmooth
-        ? window._switchSmooth * 0.75 + rawHoursLeft * 0.25
-        : rawHoursLeft;
-    
-    const predictHoursLeft = window._switchSmooth;
-    
-    const predictDate = new Date(
-      Date.now() + predictHoursLeft * 3600000
-    );
+    const predictDate =
+      new Date(
+        Date.now() +
+        predictHoursLeft * 3600000
+      );
 
     /* =========================
        HERO UI
@@ -183,23 +183,26 @@ async function loadData() {
     /* =========================
        PROGRESS BAR (FIXED → PREDICT SWITCH ONLY)
     ========================= */
-    console.log({
-      inlet: currentPressure,
-      dropRate,
-      remainingPressure,
-      rawHoursLeft,
-      predictHoursLeft
-    });
     const progress =
     (
       (FULL_PRESSURE - currentPressure) /
-      (FULL_PRESSURE - SWITCH_PRESSURE)
+      (FULL_PRESSURE - SWITCH_POINT)
     ) * 100;
     
-    const finalPercent =
-    Math.max(0, Math.min(100, progress));
+    const safePercent =
+    Math.max(
+      0,
+      Math.min(100, progress)
+    );
     
-    lastTSPercent = finalPercent;
+    window._progressSmooth =
+    window._progressSmooth
+    ? window._progressSmooth * 0.8 +
+      safePercent * 0.2
+    : safePercent;
+    
+    const finalPercent =
+    window._progressSmooth;
     
     updateTSProgress(finalPercent);
     
@@ -1149,13 +1152,6 @@ async function loadTSLog(){
   );
   
   body.innerHTML = rows.join("");
-
-  // paksa 1 frame render
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      updateTSProgress(lastTSPercent);
-    });
-  });
   
 }
 
@@ -1329,30 +1325,6 @@ function startClock(){
     }
   );
 
-}
-
-function getPressureDropRate(hourly){
-
-  const arr = hourly
-    .slice(0, 12)
-    .map(r => Number(r.inlet))
-    .reverse();
-
-  if (arr.length < 3) return 0;
-
-  let totalDrop = 0;
-  let count = 0;
-
-  for (let i = 1; i < arr.length; i++) {
-    const diff = arr[i - 1] - arr[i];
-
-    if (diff > 0 && diff < 10) {
-      totalDrop += diff;
-      count++;
-    }
-  }
-
-  return count > 0 ? totalDrop / count : 0;
 }
 
 function updateTSProgress(finalPercent) {
