@@ -183,16 +183,10 @@ async function loadData() {
     /* =========================
        PROGRESS BAR (FIXED → PREDICT SWITCH ONLY)
     ========================= */
-    const progressBase = MAX_SWITCH_WINDOW;
-
-    const clampedHours = Math.min(
-      Math.max(predictHoursLeft, 0),
-      progressBase
-    );
-    
     const progress =
-      ((progressBase - clampedHours) / progressBase) * 100;
-        const safePercent = Math.max(0, Math.min(100, progress));
+    (predictHoursLeft <= 0)
+    ? 100
+    : Math.min(100, (1 - predictHoursLeft / MAX_SWITCH_WINDOW) * 100);
     
     /* smoothing UI biar iOS feel */
     window._progressSmooth =
@@ -205,16 +199,13 @@ async function loadData() {
     const percentEl = document.getElementById("tsPercent");
     const fillEl = document.getElementById("tsProgressFill");
     
-    if (percentEl && fillEl) {
-      percentEl.textContent = finalPercent.toFixed(0) + "%";
-      fillEl.style.width = finalPercent + "%";
+    if (!percentEl || !fillEl) {
+      console.log("TS progress DOM belum ready");
+      return;
     }
-    if (!fillEl) console.log("progress fill belum ke-render");
-    console.log({
-      predictHoursLeft,
-      MAX_SWITCH_WINDOW,
-      progress: safePercent
-    });
+    
+    percentEl.textContent = finalPercent.toFixed(0) + "%";
+    fillEl.style.width = finalPercent + "%";
     
     if (predictHoursLeft > MAX_SWITCH_WINDOW) {
       fillEl.style.width = "2%";
