@@ -217,6 +217,38 @@ async function loadData() {
         minute: "2-digit"
       });
     }
+    
+    const FULL_PRESSURE = 220;
+    const SWITCH_PRESSURE = 50;
+    
+    const remainPercent =
+    (
+      (currentPressure - SWITCH_PRESSURE)
+      /
+      (FULL_PRESSURE - SWITCH_PRESSURE)
+    ) * 100;
+    
+    const safePercent =
+    Math.max(
+      0,
+      Math.min(100, remainPercent)
+    );
+    
+    const percentEl =
+    document.getElementById("tsPercent");
+    
+    const fillEl =
+    document.getElementById("tsProgressFill");
+    
+    if(percentEl){
+      percentEl.textContent =
+      safePercent.toFixed(0) + "%";
+    }
+    
+    if(fillEl){
+      fillEl.style.width =
+      safePercent + "%";
+    }
 
     /* =========================
        STATE UPDATE (SAFE)
