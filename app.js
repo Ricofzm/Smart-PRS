@@ -185,10 +185,12 @@ async function loadData() {
     ========================= */
     const progressBase = MAX_SWITCH_WINDOW;
 
-    const progress =
-      progressBase > 0
-        ? ((progressBase - predictHoursLeft) / progressBase) * 100
-        : 0;
+    const progress = predictHoursLeft <= 0
+    ? 100
+    : Math.min(
+        100,
+        ((MAX_SWITCH_WINDOW - predictHoursLeft) / MAX_SWITCH_WINDOW) * 100
+      );
     
     const safePercent = Math.max(0, Math.min(100, progress));
     
@@ -203,13 +205,11 @@ async function loadData() {
     const percentEl = document.getElementById("tsPercent");
     const fillEl = document.getElementById("tsProgressFill");
     
-    if (percentEl) {
+    if (percentEl && fillEl) {
       percentEl.textContent = finalPercent.toFixed(0) + "%";
-    }
-    
-    if (fillEl) {
       fillEl.style.width = finalPercent + "%";
     }
+    if (!fillEl) console.log("progress fill belum ke-render");
 
     /* =========================
        STATE UPDATE
