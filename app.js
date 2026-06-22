@@ -183,6 +183,13 @@ async function loadData() {
     /* =========================
        PROGRESS BAR (FIXED → PREDICT SWITCH ONLY)
     ========================= */
+
+    console.log({
+ currentPressure,
+ avgCons,
+ predictHoursLeft,
+ finalPercent
+});
     const progress =
     (
       (FULL_PRESSURE - currentPressure) /
