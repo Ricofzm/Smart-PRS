@@ -1,5 +1,9 @@
 const API = "https://smart-prs-api.enrikofzm.workers.dev";
 
+const SWITCH_PRESSURE = 50;
+const FULL_PRESSURE = 220;
+const MAX_SWITCH_WINDOW = 12;
+
 /* =========================
    STATE
 ========================= */
@@ -28,26 +32,18 @@ let tsStock = [];
    INIT
 ========================= */
 document.addEventListener("DOMContentLoaded", () => {
-  
   loadData();
-  
   setInterval(loadData, 10000);
 
-  const today =
-  new Date().toISOString().split("T")[0];
-  document.getElementById(
-  "historyDate"
-  ).value = today;
+  const today = new Date().toISOString().split("T")[0];
+  document.getElementById("historyDate").value = today;
 
-  const month =
-  new Date().toISOString().slice(0,7);
-
+  const month = new Date().toISOString().slice(0,7);
   document.getElementById("historyMonth").value =
   month;
 
   startClock();
   setInterval(startClock,1000);
-    
 });
 
 /* =========================
@@ -55,126 +51,39 @@ document.addEventListener("DOMContentLoaded", () => {
 ========================= */
 async function loadData() {
   try {
-    
-    if(tsStock.length === 0){
 
-      try{
+    if (tsStock.length === 0) {
+      try {
         await loadStock();
-      }catch(e){
-        console.error("Stock load fail",e);
+      } catch (e) {
+        console.error("Stock load fail", e);
       }
-    
     }
-    
+
     setLoading(true);
 
     const res = await fetch(API);
     if (!res.ok) throw new Error("API ERROR");
 
     const json = await res.json();
+
     const d = json.realtime || {};
     const hourly = json.hourly || [];
     const daily = json.daily || [];
-    
+
     state.hourlyData = hourly;
     state.dailyData = daily;
 
     const now = new Date();
-    
+
+    /* =========================
+       BASIC UI
+    ========================= */
     const set = (id, val) => {
       const el = document.getElementById(id);
       if (el) el.innerText = val ?? "-";
     };
-    
-    const dateStr =
-    now.toLocaleDateString(
-    "id-ID",
-    {
-      day:"2-digit",
-      month:"2-digit",
-      year:"numeric"
-    });
 
-    set("dateNow", dateStr);
-    
-    const flow = Number(d.CorrectionFlow || 0);
-
-    state.flowAvg.push(flow);
-    
-    if (state.flowAvg.length > 12) {
-      state.flowAvg.shift();
-    }
-    
-    const avgFlow = getAvgFlow(state);
-    
-    const SWITCH_PRESSURE = 50;
-    const FULL_PRESSURE = 220;
-
-    const dropRate = getPressureDropRate(hourly);
-
-    const currentPressure = Number(d.PressureInlet || 0);
-    
-    
-    const remainingPressure =
-      Math.max(currentPressure - SWITCH_PRESSURE, 0);
-    
-    let lastHoursLeft = null;
-    
-    // jam estimasi
-    const hoursLeft =
-      dropRate > 0 ? remainingPressure / dropRate : 0;
-    
-    // smoothing biar gak loncat
-    const smoothHours =
-      lastHoursLeft
-        ? (lastHoursLeft * 0.7 + hoursLeft * 0.3)
-        : hoursLeft;
-    
-    lastHoursLeft = smoothHours;
-    
-    let predictDate = new Date(
-      Date.now() + smoothHours * 3600000
-    );
-    
-    if (!window.lastPredict) {
-      window.lastPredict = predictDate;
-    }
-    
-    const diffMin =
-    Math.abs(
-      predictDate - window.lastPredict
-    ) / 60000;
-    
-    if (diffMin < 3) {
-    
-      predictDate =
-      window.lastPredict;
-    
-    } else {
-    
-      window.lastPredict =
-      predictDate;
-    
-    }
-    
-    
-    /* =========================
-       CONSUMPTION
-    ========================= */
-    const latestHourly = Array.isArray(hourly) && hourly.length
-      ? hourly[0] // ⚠️ karena query kamu DESC
-      : null;
-    
-    const consRaw = latestHourly?.difInlet;
-    
-    const cons = Number.isFinite(Number(consRaw))
-      ? Number(consRaw)
-      : 0;
-    
-    
-    /* =========================
-       UI UPDATE
-    ========================= */
     set("update", d.ReceiveDateTime || now.toLocaleTimeString("id-ID"));
     set("inlet", d.PressureInlet);
     set("outlet", d.Pressure);
@@ -183,107 +92,116 @@ async function loadData() {
     set("corrflow", d.CorrectionFlow);
     set("turbin", d.TurbinMeter);
     set("evc", d.CorrectionMeter);
+
+    set("today", Number(daily?.[0]?.dailyVolume ?? 0).toFixed(3));
+
+    /* =========================
+       CONSUMPTION
+    ========================= */
+    const latestHourly = hourly?.[0] || null;
+    const cons = Number(latestHourly?.difInlet || 0);
+
     push(state.consumption, cons);
-    set("today",
-      Number(daily?.[0]?.dailyVolume ?? 0).toFixed(3)
-    );
-    
+
     const avgCons = getAvgConsumption(state);
 
-    const engine =
-    calculateStockHours(
+    /* =========================
+       SAFE STOCK ENGINE (CAPACITY)
+    ========================= */
+    const stockEngine = calculateStockHours(
       d.PressureInlet,
       avgCons
     );
-    
-    document.getElementById(
-    "heroInlet"
-    ).innerText =
-    `Inlet ${Number(d.PressureInlet).toFixed(1)} Bar`;
-    
-    document.getElementById(
-    "heroAvg"
-    ).innerText =
-    `Avg ${avgCons.toFixed(2)} Bar/Jam`;
-    
-    const standbyFull =
-    tsStock.some(
-      x => x.status === "FULL"
+
+    const standbyFull = tsStock.some(x => x.status === "FULL");
+
+    const safeStockHours =
+      standbyFull
+        ? stockEngine.hoursLeft + 15
+        : stockEngine.hoursLeft;
+
+    /* =========================
+       PREDICT SWITCH ENGINE (TIME DROP)
+    ========================= */
+    const dropRate = getPressureDropRate(hourly);
+
+    const currentPressure = Number(d.PressureInlet || 0);
+    const remainingPressure = Math.max(currentPressure - SWITCH_PRESSURE, 0);
+
+    const rawHoursLeft =
+      dropRate > 0 ? remainingPressure / dropRate : 0;
+
+    window._smoothHours =
+      window._smoothHours
+        ? window._smoothHours * 0.7 + rawHoursLeft * 0.3
+        : rawHoursLeft;
+
+    const predictHoursLeft = window._smoothHours;
+
+    const predictDate = new Date(
+      Date.now() + predictHoursLeft * 3600000
     );
-    
-    const totalHours =
-    standbyFull
-    ? engine.hoursLeft + 15
-    : engine.hoursLeft;
-    
-    console.log("tsStock", tsStock);
 
-console.log("standbyFull", standbyFull);
+    /* =========================
+       HERO UI
+    ========================= */
+    document.getElementById("heroInlet").innerText =
+      `Inlet ${Number(d.PressureInlet).toFixed(1)} Bar`;
 
-console.log(
-  "engine.hoursLeft",
-  engine.hoursLeft
-);
+    document.getElementById("heroAvg").innerText =
+      `Avg ${avgCons.toFixed(2)} Bar/Jam`;
 
-console.log(
-  "totalHours",
-  standbyFull
-  ? engine.hoursLeft + 15
-  : engine.hoursLeft
-);
-    
-    document.getElementById(
-    "heroStockHours"
-    ).innerText =
-    `${totalHours.toFixed(1)} JAM`;
-    
+    document.getElementById("heroStockHours").innerText =
+      `${safeStockHours.toFixed(1)} JAM`;
+
+    /* =========================
+       RISK ENGINE
+    ========================= */
     const trend = getConsumptionTrend(state);
-    const risk = getStockRisk(totalHours, trend);
-    
-    try {
-      updateAlarm(
-        Number(d.Pressure),
-        Number(d.Temperature),
-        Number(d.CorrectionFlow),
-      );
-    } catch (e) {
-      console.error("updateAlarm crash:", e);
-    }
-    
-    const el = document.getElementById("predictTime");
+    const risk = getStockRisk(safeStockHours, trend);
 
+    applyRiskUI(risk);
+
+    updateAlarm(
+      Number(d.Pressure),
+      Number(d.Temperature),
+      Number(d.CorrectionFlow)
+    );
+
+    /* =========================
+       PREDICT UI
+    ========================= */
+    const el = document.getElementById("predictTime");
     if (el) {
       el.textContent = predictDate.toLocaleTimeString("id-ID", {
         hour: "2-digit",
         minute: "2-digit"
       });
     }
-    
-    const progress =
-    (currentPressure - SWITCH_PRESSURE) /
-    (FULL_PRESSURE - SWITCH_PRESSURE) * 100;
-  
-    const safePercent =
-    Math.max(0, Math.min(100, progress));
-    
-    const percentEl =
-    document.getElementById("tsPercent");
-    
-    const fillEl =
-    document.getElementById("tsProgressFill");
-    
-    if(percentEl){
-      percentEl.textContent =
-      safePercent.toFixed(0) + "%";
-    }
-    
-    if(fillEl){
+
+    /* =========================
+       PROGRESS BAR (FIXED → PREDICT SWITCH ONLY)
+    ========================= */
+    const progress = Math.max(
+      0,
+      Math.min(
+        100,
+        (1 - predictHoursLeft / MAX_SWITCH_WINDOW) * 100
+      )
+    );
+
+    const percentEl = document.getElementById("tsPercent");
+    const fillEl = document.getElementById("tsProgressFill");
+
+    if (percentEl) percentEl.textContent = progress.toFixed(0) + "%";
+
+    if (fillEl) {
       fillEl.style.transition = "width 0.8s ease-out";
-      fillEl.style.width = safePercent + "%";
+      fillEl.style.width = progress + "%";
     }
 
     /* =========================
-       STATE UPDATE (SAFE)
+       STATE UPDATE
     ========================= */
     state.labels.push(now.toLocaleTimeString("id-ID"));
 
@@ -294,25 +212,17 @@ console.log(
     push(state.corrFlow, d.CorrectionFlow);
     push(state.turbin, d.TurbinMeter);
     push(state.evc, d.CorrectionMeter);
-    push(
-      state.today,
-      Number(daily?.[0]?.dailyVolume ?? 0)
-    );
+    push(state.today, Number(daily?.[0]?.dailyVolume ?? 0));
 
     syncStateLength();
 
     /* =========================
        RENDER
     ========================= */
-    if(detailChart){
-      refreshChart();
-    }
-    
-    updateAllSparklines();
-    
-    applyRiskUI(risk, totalHours, trend);
+    if (detailChart) refreshChart();
 
-    
+    updateAllSparklines();
+
   } catch (err) {
     console.error(err);
     const el = document.getElementById("update");
