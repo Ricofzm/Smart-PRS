@@ -189,8 +189,6 @@ async function loadData() {
     ).innerText =
     `Avg ${avgCons.toFixed(2)} Bar/Jam`;
     
-    updateGauge(inletPressure);
-    
     const standbyFull =
     tsStock.some(
       x => x.status === "FULL"
@@ -280,6 +278,8 @@ async function loadData() {
     updateAllSparklines();
     
     applyRiskUI(risk, totalHours, trend);
+    
+    updateGauge(inletPressure);
 
     
   } catch (err) {
