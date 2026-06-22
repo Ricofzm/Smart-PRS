@@ -1,7 +1,8 @@
 const API = "https://smart-prs-api.enrikofzm.workers.dev";
 
-const SWITCH_POINT = 20;
+const SWITCH_PRESSURE = 50;
 const FULL_PRESSURE = 220;
+const MAX_SWITCH_WINDOW = 12;
 
 /* =========================
    STATE
@@ -26,7 +27,6 @@ const sparkCharts = {};
 let detailChart = null;
 let historyMode = "hourly";
 let tsStock = [];
-let lastTSPercent = 0;
 
 /* =========================
    INIT
@@ -106,52 +106,59 @@ async function loadData() {
     const avgCons = getAvgConsumption(state);
 
     /* =========================
-       ENGINE: SAFE STOCK
+       SAFE STOCK ENGINE (CAPACITY)
     ========================= */
     const stockEngine = calculateStockHours(
       d.PressureInlet,
       avgCons
     );
-    
+
     const standbyFull = tsStock.some(x => x.status === "FULL");
-    
-    const safeStockHours = standbyFull
-      ? stockEngine.hoursLeft + 15
-      : stockEngine.hoursLeft;
-    
-    
+
+    const safeStockHours =
+      standbyFull
+        ? stockEngine.hoursLeft + 15
+        : stockEngine.hoursLeft;
+
     /* =========================
-       ENGINE: SWITCH PREDICTION
+       PREDICT SWITCH ENGINE (TIME DROP)
     ========================= */
+    const dropRate = getPressureDropRate(hourly);
+
     const currentPressure = Number(d.PressureInlet || 0);
+    const remainingPressure = Math.max(currentPressure - SWITCH_PRESSURE, 0);
 
-    const avgDrop = getAvgPressureDrop(state.hourlyData);
+    const rawHoursLeft =
+      dropRate > 0 ? remainingPressure / dropRate : 0;
 
-    const pressureGap = Math.max(currentPressure - SWITCH_POINT, 0);
-    
-    const predictHoursLeft =
-      avgDrop > 0 ? pressureGap / avgDrop : 0;
-    
-    // convert ke jam real clock
-    const predictDate = new Date(Date.now() + predictHoursLeft * 3600000);
+    window._smoothHours =
+      window._smoothHours
+        ? window._smoothHours * 0.7 + rawHoursLeft * 0.3
+        : rawHoursLeft;
+
+    const predictHoursLeft = window._smoothHours;
+
+    const predictDate = new Date(
+      Date.now() + predictHoursLeft * 3600000
+    );
 
     /* =========================
        HERO UI
     ========================= */
-    document.getElementById("heroStockHours").innerText =
-    `${safeStockHours.toFixed(1)} JAM`;
-  
     document.getElementById("heroInlet").innerText =
       `Inlet ${Number(d.PressureInlet).toFixed(1)} Bar`;
-    
+
     document.getElementById("heroAvg").innerText =
-      `Avg ${avgCons.toFixed(2)} Flow`;
+      `Avg ${avgCons.toFixed(2)} Bar/Jam`;
+
+    document.getElementById("heroStockHours").innerText =
+      `${safeStockHours.toFixed(1)} JAM`;
 
     /* =========================
        RISK ENGINE
     ========================= */
     const trend = getConsumptionTrend(state);
-    const risk = getStockRisk(predictHoursLeft, trend);
+    const risk = getStockRisk(safeStockHours, trend);
 
     applyRiskUI(risk);
 
@@ -175,28 +182,24 @@ async function loadData() {
     /* =========================
        PROGRESS BAR (FIXED → PREDICT SWITCH ONLY)
     ========================= */
-    
-    const progress =
-    (
-      (FULL_PRESSURE - currentPressure) /
-      (FULL_PRESSURE - SWITCH_POINT)
-    ) * 100;
-    
-    const finalPercent =
-    Math.max(
+    const progress = Math.max(
       0,
-      Math.min(100, progress)
+      Math.min(
+        100,
+        (1 - predictHoursLeft / MAX_SWITCH_WINDOW) * 100
+      )
     );
-    
-    updateTSProgress(finalPercent);
-    
-    console.log({
-     currentPressure,
-     avgCons,
-     predictHoursLeft,
-     finalPercent
-    });
-    
+
+    const percentEl = document.getElementById("tsPercent");
+    const fillEl = document.getElementById("tsProgressFill");
+
+    if (percentEl) percentEl.textContent = progress.toFixed(0) + "%";
+
+    if (fillEl) {
+      fillEl.style.transition = "width 0.8s ease-out";
+      fillEl.style.width = progress + "%";
+    }
+
     /* =========================
        STATE UPDATE
     ========================= */
@@ -1117,7 +1120,7 @@ async function loadTSLog(){
     <td colspan="4">
       <div class="table-progress-head">
         <span>${running?.ts || "-"} RUNNING</span>
-        <span id="tsPercent">70%</span>
+        <span id="tsPercent">Loading...</span>
       </div>
       <div class="table-progress">
         <div
@@ -1143,7 +1146,7 @@ async function loadTSLog(){
   );
   
   body.innerHTML = rows.join("");
-  
+
 }
 
 async function loadStock(){
@@ -1318,41 +1321,13 @@ function startClock(){
 
 }
 
-function updateTSProgress(finalPercent) {
-  const percentEl = document.getElementById("tsPercent");
-  const fillEl = document.getElementById("tsProgressFill");
-
-  if (!percentEl || !fillEl) return; // STOP aja
-
-  percentEl.textContent = finalPercent.toFixed(0) + "%";
-  fillEl.style.width = finalPercent + "%";
-  console.log("TS progress DOM check:", {
-    percentEl: !!document.getElementById("tsPercent"),
-    fillEl: !!document.getElementById("tsProgressFill"),
-    value: finalPercent
-  });
-}
-
-function getAvgPressureDrop(hourly){
+function getPressureDropRate(hourly){
 
   const arr = hourly
     .slice(0, 12)
     .map(r => Number(r.inlet))
     .reverse();
 
-  if (arr.length < 2) return 0;
+  if (arr.length < 3) return 0;
 
-  let total = 0;
-  let count = 0;
-
-  for (let i = 1; i < arr.length; i++) {
-    const drop = arr[i - 1] - arr[i];
-
-    if (drop > 0) {
-      total += drop;
-      count++;
-    }
-  }
-
-  return count > 0 ? total / count : 0;
-}
+  let totalDrop = 0;
