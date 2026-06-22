@@ -1173,41 +1173,19 @@ async function loadTSLog(){
   
   rows.push(`
   <tr class="running-progress-row">
-  
-  <td colspan="4">
-  
-  <div class="table-progress-head">
-  
-  <span>
-  ${running?.ts || "-"} RUNNING
-  </span>
-  
-  <span id="tsPercent">
-  74%
-  </span>
-  
-  </div>
-  
-  <div class="table-progress">
-  
-  <div
-  class="table-progress-fill"
-  id="tsProgressFill">
-  </div>
-  
-  </div>
-  
-  <div class="table-progress-info">
-  
-  Predict Switch
-  <b id="predictTime">
-  -
-  </b>
-  
-  </div>
-  
-  </td>
-  
+    <td colspan="4">
+      <div class="table-progress-head">
+        <span>${running?.ts || "-"} RUNNING</span>
+        <span id="tsPercent">74%</span>
+      </div>
+      <div class="table-progress">
+        <div
+        class="table-progress-fill"
+        id="tsProgressFill">
+        </div>
+      </div>
+      <div class="table-progress-info"></div>
+    </td>
   </tr>
   `);
   
