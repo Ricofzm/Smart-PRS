@@ -1213,13 +1213,3 @@ opacity:.9;
   font-size:16px;
   letter-spacing:.5px;
 }
-
-main#page-dashboard {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.hero-prs,
-.grid {
-  margin: 0;
-}
