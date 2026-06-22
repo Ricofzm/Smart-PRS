@@ -278,7 +278,6 @@ async function loadData() {
     updateAllSparklines();
     
     applyRiskUI(risk, totalHours, trend);
-    updateGauge(PressureInlet);
     
     const inletPressure =
       parseFloat(document.getElementById("heroInlet")?.textContent) || 0;
