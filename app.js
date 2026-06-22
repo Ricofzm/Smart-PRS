@@ -159,7 +159,7 @@ async function loadData() {
        RISK ENGINE
     ========================= */
     const trend = getConsumptionTrend(state);
-    const risk = getStockRisk(safeStockHours, trend);
+    const risk = getStockRisk(predictHoursLeft, trend);
 
     applyRiskUI(risk);
 
