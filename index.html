@@ -99,12 +99,43 @@
     <!-- LAYER 3 -->
     <div class="hero-gauge layer gauge">
       
-      <div class="gauge-value">
-        120 BAR
-      </div>
-    
-      <div class="gauge-label">
-        INLET PRESSURE
+      <div class="hero-gauge layer gauge">
+
+        <svg class="gauge-svg" viewBox="0 0 240 140">
+      
+          <path
+            d="M30 120 A90 90 0 0 1 210 120"
+            class="gauge-track"/>
+      
+          <path
+            id="gaugeFill"
+            d="M30 120 A90 90 0 0 1 210 120"
+            class="gauge-fill"/>
+      
+          <line
+            id="gaugeNeedle"
+            x1="120"
+            y1="120"
+            x2="120"
+            y2="50"
+            class="gauge-needle"/>
+      
+          <circle
+            cx="120"
+            cy="120"
+            r="5"
+            class="gauge-center"/>
+      
+        </svg>
+      
+        <div id="gaugeValue" class="gauge-value">
+          98.6
+        </div>
+      
+        <div class="gauge-label">
+          INLET PRESSURE
+        </div>
+      
       </div>
     
     </div>
