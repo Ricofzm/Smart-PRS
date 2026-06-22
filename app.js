@@ -1330,4 +1330,17 @@ function getPressureDropRate(hourly){
 
   if (arr.length < 3) return 0;
 
-  let totalDrop = 0;
+    let totalDrop = 0;
+  let count = 0;
+
+  for (let i = 1; i < arr.length; i++) {
+    const diff = arr[i - 1] - arr[i];
+
+    if (diff > 0 && diff < 10) {
+      totalDrop += diff;
+      count++;
+    }
+  }
+
+  return count > 0 ? totalDrop / count : 0;
+}
