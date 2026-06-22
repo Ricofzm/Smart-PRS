@@ -1417,38 +1417,31 @@ function getPressureDropRate(hourly){
 }
 
 function setHero(index){
-  heroIndex = index;
 
-  const prs = document.querySelector('.hero-prs');
-  const operator = document.querySelector('.hero-operator');
-  const gauge = document.querySelector('.hero-gauge');
+  const layers = {
+    0: document.querySelector('.hero-operator'),
+    1: document.querySelector('.hero-gauge'),
+    2: document.querySelector('.hero-prs')
+  };
 
+  const all = Object.values(layers);
+
+  // reset semua
+  all.forEach(el => {
+    el.classList.remove('active','back-right','far-right');
+  });
+
+  // DOT update
   const dots = document.querySelectorAll('.hero-peek-dots span');
-
   dots.forEach(d => d.classList.remove('active'));
   dots[index].classList.add('active');
 
-  // RESET
-  prs.style.transform = '';
-  operator.style.transform = '';
-  gauge.style.transform = '';
+  // SET ACTIVE
+  layers[index].classList.add('active');
 
-  // STACK SHIFT LOGIC
-  if(index === 0){ // OPERATOR ACTIVE
-    operator.style.zIndex = 3;
-    prs.style.transform = 'translateX(40px) scale(.94)';
-    gauge.style.transform = 'translateX(80px) scale(.88)';
-  }
+  // SET BACK STACK
+  let order = all.filter((_,i)=>i!==index);
 
-  if(index === 1){ // GAUGE ACTIVE
-    gauge.style.zIndex = 3;
-    prs.style.transform = 'translateX(-40px) scale(.94)';
-    operator.style.transform = 'translateX(-80px) scale(.88)';
-  }
-
-  if(index === 2){ // PRS ACTIVE (default)
-    prs.style.zIndex = 3;
-    operator.style.transform = 'translateX(-40px) scale(.92)';
-    gauge.style.transform = 'translateX(40px) scale(.92)';
-  }
+  order[0].classList.add('back-right');
+  order[1].classList.add('far-right');
 }
