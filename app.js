@@ -1122,7 +1122,7 @@ async function loadTSLog(){
     <td colspan="4">
       <div class="table-progress-head">
         <span>${running?.ts || "-"} RUNNING</span>
-        <span id="tsPercent">Loading...</span>
+        <span id="tsPercent">70%</span>
       </div>
       <div class="table-progress">
         <div
