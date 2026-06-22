@@ -198,22 +198,7 @@ async function loadData() {
     
     const finalPercent = window._progressSmooth;
     
-    const percentEl = document.getElementById("tsPercent");
-    const fillEl = document.getElementById("tsProgressFill");
-    
-    if (!percentEl || !fillEl) {
-      console.log("TS progress DOM belum ready");
-      return;
-    }
-    
-    percentEl.textContent = finalPercent.toFixed(0) + "%";
-    fillEl.style.width = finalPercent + "%";
-    
-    if (predictHoursLeft > MAX_SWITCH_WINDOW) {
-      fillEl.style.width = "2%";
-      percentEl.textContent = "0%";
-      return;
-    }
+    updateTSProgress(finalPercent);
 
     /* =========================
        STATE UPDATE
@@ -1358,4 +1343,14 @@ function getPressureDropRate(hourly){
   }
 
   return count > 0 ? totalDrop / count : 0;
+}
+
+function updateTSProgress(finalPercent) {
+  const percentEl = document.getElementById("tsPercent");
+  const fillEl = document.getElementById("tsProgressFill");
+
+  if (!percentEl || !fillEl) return;
+
+  percentEl.textContent = finalPercent.toFixed(0) + "%";
+  fillEl.style.width = finalPercent + "%";
 }
