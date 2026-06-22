@@ -185,15 +185,31 @@ async function loadData() {
     ).innerText =
     `Avg ${avgCons.toFixed(2)} Bar/Jam`;
     
-    const standbyFull =
-    tsStock.some(
-      x => x.status === "FULL"
-    );
-    
     const totalHours =
     standbyFull
     ? engine.hoursLeft + 15
     : engine.hoursLeft;
+    
+    console.log("tsStock", tsStock);
+
+const standbyFull =
+tsStock.some(
+  x => x.status === "FULL"
+);
+
+console.log("standbyFull", standbyFull);
+
+console.log(
+  "engine.hoursLeft",
+  engine.hoursLeft
+);
+
+console.log(
+  "totalHours",
+  standbyFull
+  ? engine.hoursLeft + 15
+  : engine.hoursLeft
+);
     
     document.getElementById(
     "heroStockHours"
