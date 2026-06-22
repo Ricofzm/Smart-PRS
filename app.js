@@ -1416,32 +1416,36 @@ function getPressureDropRate(hourly){
   return count > 0 ? totalDrop / count : 0;
 }
 
+const layers = [
+  document.querySelector(".prs"),
+  document.querySelector(".operator"),
+  document.querySelector(".gauge")
+];
+
 function setHero(index){
 
-  const layers = {
-    0: document.querySelector('.hero-operator'),
-    1: document.querySelector('.hero-gauge'),
-    2: document.querySelector('.hero-prs')
-  };
-
-  const all = Object.values(layers);
-
-  // reset semua
-  all.forEach(el => {
-    el.classList.remove('active','back-right','far-right');
+  layers.forEach(el=>{
+    el.classList.remove(
+      "active",
+      "back-right",
+      "far-right"
+    );
   });
 
-  // DOT update
-  const dots = document.querySelectorAll('.hero-peek-dots span');
-  dots.forEach(d => d.classList.remove('active'));
-  dots[index].classList.add('active');
+  layers[index].classList.add("active");
 
-  // SET ACTIVE
-  layers[index].classList.add('active');
+  layers[(index+1)%3]
+    .classList.add("back-right");
 
-  // SET BACK STACK
-  let order = all.filter((_,i)=>i!==index);
+  layers[(index+2)%3]
+    .classList.add("far-right");
 
-  order[0].classList.add('back-right');
-  order[1].classList.add('far-right');
+  document
+    .querySelectorAll(".hero-peek-dots span")
+    .forEach((dot,i)=>{
+      dot.classList.toggle(
+        "active",
+        i===index
+      );
+    });
 }
