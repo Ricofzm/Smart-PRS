@@ -125,13 +125,14 @@ async function loadData() {
     ========================= */
     const currentPressure = Number(d.PressureInlet || 0);
 
-    // jam menuju switch (tetap pakai logic lama)
-    const predictHoursLeft =
-      avgDrop > 0
-        ? Math.max(currentPressure - SWITCH_POINT, 0) / avgDrop
-        : 0;
+    const avgDrop = getAvgPressureDrop(state.hourlyData);
+
+    const pressureGap = Math.max(currentPressure - SWITCH_POINT, 0);
     
-    // 🔥 NEW: direct mapping ke jam clock
+    const predictHoursLeft =
+      avgDrop > 0 ? pressureGap / avgDrop : 0;
+    
+    // convert ke jam real clock
     const predictDate = new Date(Date.now() + predictHoursLeft * 3600000);
 
     /* =========================
@@ -1334,32 +1335,24 @@ function updateTSProgress(finalPercent) {
 
 function getAvgPressureDrop(hourly){
 
-  const arr =
-    hourly
-      .slice(0,12)
-      .map(r => Number(r.inlet))
-      .reverse();
+  const arr = hourly
+    .slice(0, 12)
+    .map(r => Number(r.inlet))
+    .reverse();
 
-  if(arr.length < 2) return 0;
+  if (arr.length < 2) return 0;
 
   let total = 0;
   let count = 0;
 
-  for(let i=1;i<arr.length;i++){
+  for (let i = 1; i < arr.length; i++) {
+    const drop = arr[i - 1] - arr[i];
 
-    const drop =
-      arr[i-1] - arr[i];
-
-    if(drop > 0){
-
+    if (drop > 0) {
       total += drop;
       count++;
-
     }
-
   }
 
-  return count > 0
-    ? total / count
-    : 0;
+  return count > 0 ? total / count : 0;
 }
