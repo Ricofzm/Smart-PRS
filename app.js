@@ -107,33 +107,34 @@ async function loadData() {
     
     const avgFlow = getAvgFlow(state);
     
-    const FULL_PRESSURE = 220;
-    const SWITCH_PRESSURE = 50;
 
-    const dropRate =
-    getPressureDropRate(hourly);
+    const dropRate = getPressureDropRate(hourly);
+
+    const currentPressure = Number(d.PressureInlet || 0);
     
-    const currentPressure =
-    Number(d.PressureInlet);
+    const SWITCH_PRESSURE = 50;
     
     const remainingPressure =
-    Math.max(
-      currentPressure - SWITCH_PRESSURE,
-      0
-    );
+      Math.max(currentPressure - SWITCH_PRESSURE, 0);
     
+    // jam estimasi
     const hoursLeft =
-    dropRate > 0
-    ? remainingPressure / dropRate
-    : 0;
+      dropRate > 0 ? remainingPressure / dropRate : 0;
     
-    let predictDate =
-    new Date(
-      Date.now() +
-      hoursLeft * 3600000
+    // smoothing biar gak loncat
+    const smoothHours =
+      lastHoursLeft
+        ? (lastHoursLeft * 0.7 + hoursLeft * 0.3)
+        : hoursLeft;
+    
+    lastHoursLeft = smoothHours;
+    
+    const predictDate = new Date(
+      Date.now() + smoothHours * 3600000
     );
     
-
+    let lastHoursLeft = null;
+    
     /* =========================
        CONSUMPTION
     ========================= */
@@ -219,18 +220,12 @@ async function loadData() {
       });
     }
     
-    const remainPercent =
-    (
-      (currentPressure - SWITCH_PRESSURE)
-      /
-      (FULL_PRESSURE - SWITCH_PRESSURE)
-    ) * 100;
-    
+    const progress =
+    (currentPressure - SWITCH_PRESSURE) /
+    (FULL_PRESSURE - SWITCH_PRESSURE) * 100;
+  
     const safePercent =
-    Math.max(
-      0,
-      Math.min(100, remainPercent)
-    );
+    Math.max(0, Math.min(100, progress));
     
     const percentEl =
     document.getElementById("tsPercent");
@@ -244,8 +239,8 @@ async function loadData() {
     }
     
     if(fillEl){
-      fillEl.style.width =
-      safePercent + "%";
+      fillEl.style.transition = "width 0.8s ease-out";
+      fillEl.style.width = safePercent + "%";
     }
 
     /* =========================
@@ -1393,31 +1388,24 @@ if (diffMin < 3) {
 
 function getPressureDropRate(hourly){
 
-  const arr =
-  hourly
-  .slice(0,12)
-  .map(r=>Number(r.inlet))
-  .reverse();
+  const arr = hourly
+    .slice(0, 12)
+    .map(r => Number(r.inlet))
+    .reverse();
 
-  if(arr.length < 2) return 0;
+  if (arr.length < 3) return 0;
 
-  let drops = [];
+  let totalDrop = 0;
+  let count = 0;
 
-  for(let i=1;i<arr.length;i++){
+  for (let i = 1; i < arr.length; i++) {
+    const diff = arr[i - 1] - arr[i];
 
-    const d = arr[i-1] - arr[i];
-
-    if(d > 0){
-      drops.push(d);
+    if (diff > 0 && diff < 10) {
+      totalDrop += diff;
+      count++;
     }
-
   }
 
-  if(!drops.length) return 0;
-
-  return (
-    drops.reduce((a,b)=>a+b,0)
-    /
-    drops.length
-  );
+  return count > 0 ? totalDrop / count : 0;
 }
