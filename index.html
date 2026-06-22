@@ -72,53 +72,67 @@
 
 <!-- PAGE: DASHBOARD -->
 <main class="page active" id="page-dashboard">
-   <div class="hero-prs">
+  <div class="hero-stack">
 
-  <div class="hero-left">
-
-    <div class="hero-label">
-      SAFE STOCK
-    </div>
-
-    <div id="heroStockHours" class="hero-hours">
-      22 JAM
-    </div>
-
-    <div class="hero-meta">
-      <span id="heroInlet">Inlet -- bar</span>
-      •
-      <span id="heroAvg">Flow -- m³/h</span>
-    </div>
-
-  </div>
-
-  <div class="hero-separator"></div>
-
-  <div class="hero-right">
-
-    <div class="kredel-item running">
-      <span>RUNNING</span>
-      <strong id="runningTS">-</strong>
+  <!-- LAYER 2 -->
+    <div class="hero-operator">
+      Operator On Duty
     </div>
   
-    <div class="kredel-item standby">
-      <span>STANDBY</span>
-      <strong id="standbyTS">-</strong>
-    </div>
-  
-  </div>
-
-  <button
-    onclick="openStockModal()"
-    class="btn-edit-stock">
+    <!-- LAYER 3 -->
+    <div class="hero-gauge"></div>
     
-    <svg viewBox="0 0 24 24">
-    <path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25z"/>
-    <path d="M14.06 4.94l3.75 3.75"/>
-    </svg>
-  </button>
+    <!-- LAYER 1 -->
+    <div class="hero-prs">
   
-</div>
+      <div class="hero-left">
+    
+        <div class="hero-label">
+          SAFE STOCK
+        </div>
+    
+        <div id="heroStockHours" class="hero-hours">
+          22 JAM
+        </div>
+    
+        <div class="hero-meta">
+          <span id="heroInlet">Inlet -- bar</span>
+          •
+          <span id="heroAvg">Flow -- m³/h</span>
+        </div>
+    
+      </div>
+    
+      <div class="hero-separator"></div>
+    
+      <div class="hero-right">
+    
+        <div class="kredel-item running">
+          <span>RUNNING</span>
+          <strong id="runningTS">-</strong>
+        </div>
+      
+        <div class="kredel-item standby">
+          <span>STANDBY</span>
+          <strong id="standbyTS">-</strong>
+        </div>
+    
+      </div>
+  
+      <button
+        onclick="openStockModal()"
+        class="btn-edit-stock">
+        
+        <svg viewBox="0 0 24 24">
+        <path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25z"/>
+        <path d="M14.06 4.94l3.75 3.75"/>
+        </svg>
+      </button>
+    
+    </div>
+    
+  </div>
+
   <div class="grid">
     <div
       class="card"
