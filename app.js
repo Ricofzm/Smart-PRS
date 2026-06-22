@@ -1134,8 +1134,55 @@ async function loadTSLog(){
     return;
   }
 
-  body.innerHTML =
-  data.map(r=>`
+  const rows = [];
+
+  const running =
+  tsStock.find(
+    x => x.status === "RUNNING"
+  );
+  
+  rows.push(`
+  <tr class="running-progress-row">
+  
+  <td colspan="4">
+  
+  <div class="table-progress-head">
+  
+  <span>
+  ${running?.ts || "-"} RUNNING
+  </span>
+  
+  <span id="tsPercent">
+  74%
+  </span>
+  
+  </div>
+  
+  <div class="table-progress">
+  
+  <div
+  class="table-progress-fill"
+  id="tsProgressFill">
+  </div>
+  
+  </div>
+  
+  <div class="table-progress-info">
+  
+  Predict Switch
+  <b id="predictTime">
+  -
+  </b>
+  
+  </div>
+  
+  </td>
+  
+  </tr>
+  `);
+  
+  rows.push(
+  data.slice(1).map(r=>`
   <tr>
     <td>${r.ts_name}</td>
     <td>${r.nextTS || "-"}</td>
@@ -1143,7 +1190,10 @@ async function loadTSLog(){
     <td>${new Date(r.end_time)
         .toLocaleString("id-ID")}</td>
   </tr>
-  `).join("");
+  `).join("")
+  );
+  
+  body.innerHTML = rows.join("");
 
 }
 
