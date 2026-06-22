@@ -2,7 +2,6 @@ const API = "https://smart-prs-api.enrikofzm.workers.dev";
 
 const SWITCH_PRESSURE = 50;
 const FULL_PRESSURE = 220;
-const MAX_SWITCH_WINDOW = 12;
 
 /* =========================
    STATE
@@ -192,23 +191,18 @@ async function loadData() {
       predictHoursLeft
     });
     const progress =
-    (predictHoursLeft <= 0)
-    ? 100
-    : Math.min(100, (1 - predictHoursLeft / MAX_SWITCH_WINDOW) * 100);
+    (
+      (FULL_PRESSURE - currentPressure) /
+      (FULL_PRESSURE - SWITCH_PRESSURE)
+    ) * 100;
     
-    const safePercent = Math.max(0, Math.min(100, progress));
-    
-    /* smoothing UI biar iOS feel */
-    window._progressSmooth =
-      window._progressSmooth
-        ? window._progressSmooth * 0.8 + safePercent * 0.2
-        : safePercent;
-    
-    const finalPercent = window._progressSmooth;
+    const finalPercent =
+    Math.max(0, Math.min(100, progress));
     
     lastTSPercent = finalPercent;
+    
     updateTSProgress(finalPercent);
-
+    
     /* =========================
        STATE UPDATE
     ========================= */
