@@ -124,24 +124,27 @@ async function loadData() {
        ENGINE: SWITCH PREDICTION
     ========================= */
     const currentPressure =
-      Number(d.PressureInlet || 0);
+    Number(d.PressureInlet || 0);
+    
+    const avgPressureDrop =
+    getAvgPressureDrop(hourly);
     
     const usablePressure =
-      Math.max(
-        currentPressure - SWITCH_POINT,
-        0
-      );
+    Math.max(
+      currentPressure - SWITCH_POINT,
+      0
+    );
     
     const predictHoursLeft =
-      avgCons > 0
-        ? usablePressure / avgCons
-        : 0;
+    avgPressureDrop > 0
+      ? usablePressure / avgPressureDrop
+      : 0;
     
     const predictDate =
-      new Date(
-        Date.now() +
-        predictHoursLeft * 3600000
-      );
+    new Date(
+      Date.now() +
+      predictHoursLeft * 3600000
+    );
 
     /* =========================
        HERO UI
@@ -190,29 +193,20 @@ async function loadData() {
       (FULL_PRESSURE - SWITCH_POINT)
     ) * 100;
     
-    const safePercent =
+    const finalPercent =
     Math.max(
       0,
       Math.min(100, progress)
     );
     
-    window._progressSmooth =
-    window._progressSmooth
-    ? window._progressSmooth * 0.8 +
-      safePercent * 0.2
-    : safePercent;
-    
-    const finalPercent =
-    window._progressSmooth;
-    
     updateTSProgress(finalPercent);
     
     console.log({
- currentPressure,
- avgCons,
- predictHoursLeft,
- finalPercent
-});
+     currentPressure,
+     avgCons,
+     predictHoursLeft,
+     finalPercent
+    });
     
     /* =========================
        STATE UPDATE
@@ -1348,4 +1342,36 @@ function updateTSProgress(finalPercent) {
     fillEl: !!document.getElementById("tsProgressFill"),
     value: finalPercent
   });
+}
+
+function getAvgPressureDrop(hourly){
+
+  const arr =
+    hourly
+      .slice(0,12)
+      .map(r => Number(r.inlet))
+      .reverse();
+
+  if(arr.length < 2) return 0;
+
+  let total = 0;
+  let count = 0;
+
+  for(let i=1;i<arr.length;i++){
+
+    const drop =
+      arr[i-1] - arr[i];
+
+    if(drop > 0){
+
+      total += drop;
+      count++;
+
+    }
+
+  }
+
+  return count > 0
+    ? total / count
+    : 0;
 }
