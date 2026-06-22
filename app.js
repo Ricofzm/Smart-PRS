@@ -188,6 +188,8 @@ async function loadData() {
     ? 100
     : Math.min(100, (1 - predictHoursLeft / MAX_SWITCH_WINDOW) * 100);
     
+    const safePercent = Math.max(0, Math.min(100, progress));
+    
     /* smoothing UI biar iOS feel */
     window._progressSmooth =
       window._progressSmooth
