@@ -118,6 +118,8 @@ async function loadData() {
     const remainingPressure =
       Math.max(currentPressure - SWITCH_PRESSURE, 0);
     
+    let lastHoursLeft = null;
+    
     // jam estimasi
     const hoursLeft =
       dropRate > 0 ? remainingPressure / dropRate : 0;
@@ -134,7 +136,6 @@ async function loadData() {
       Date.now() + smoothHours * 3600000
     );
     
-    let lastHoursLeft = null;
     
     /* =========================
        CONSUMPTION
