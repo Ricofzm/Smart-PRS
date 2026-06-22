@@ -185,14 +185,14 @@ async function loadData() {
     ========================= */
     const progressBase = MAX_SWITCH_WINDOW;
 
-    const progress = predictHoursLeft <= 0
-    ? 100
-    : Math.min(
-        100,
-        ((MAX_SWITCH_WINDOW - predictHoursLeft) / MAX_SWITCH_WINDOW) * 100
-      );
+    const clampedHours = Math.min(
+      Math.max(predictHoursLeft, 0),
+      progressBase
+    );
     
-    const safePercent = Math.max(0, Math.min(100, progress));
+    const progress =
+      ((progressBase - clampedHours) / progressBase) * 100;
+        const safePercent = Math.max(0, Math.min(100, progress));
     
     /* smoothing UI biar iOS feel */
     window._progressSmooth =
@@ -215,6 +215,12 @@ async function loadData() {
       MAX_SWITCH_WINDOW,
       progress: safePercent
     });
+    
+    if (predictHoursLeft > MAX_SWITCH_WINDOW) {
+      fillEl.style.width = "2%";
+      percentEl.textContent = "0%";
+      return;
+    }
 
     /* =========================
        STATE UPDATE
