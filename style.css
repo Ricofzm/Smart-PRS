@@ -63,6 +63,16 @@ body{
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
 }
 
+main#page-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.hero-prs,
+.grid {
+  margin: 0;
+}
+
 /* ===== NAVBAR (iOS floating glass) ===== */
 .navbar{
   position:fixed;
