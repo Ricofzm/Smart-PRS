@@ -107,12 +107,13 @@ async function loadData() {
     
     const avgFlow = getAvgFlow(state);
     
+    const SWITCH_PRESSURE = 50;
+    const FULL_PRESSURE = 220;
 
     const dropRate = getPressureDropRate(hourly);
 
     const currentPressure = Number(d.PressureInlet || 0);
     
-    const SWITCH_PRESSURE = 50;
     
     const remainingPressure =
       Math.max(currentPressure - SWITCH_PRESSURE, 0);
