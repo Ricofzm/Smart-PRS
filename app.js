@@ -23,6 +23,10 @@ const sparkCharts = {};
 let detailChart = null;
 let historyMode = "hourly";
 let tsStock = [];
+let heroIndex = 2; 
+// 0 = Operator
+// 1 = Gauge
+// 2 = PRS (default)
 
 /* =========================
    INIT
@@ -1410,4 +1414,41 @@ function getPressureDropRate(hourly){
   }
 
   return count > 0 ? totalDrop / count : 0;
+}
+
+function setHero(index){
+  heroIndex = index;
+
+  const prs = document.querySelector('.hero-prs');
+  const operator = document.querySelector('.hero-operator');
+  const gauge = document.querySelector('.hero-gauge');
+
+  const dots = document.querySelectorAll('.hero-peek-dots span');
+
+  dots.forEach(d => d.classList.remove('active'));
+  dots[index].classList.add('active');
+
+  // RESET
+  prs.style.transform = '';
+  operator.style.transform = '';
+  gauge.style.transform = '';
+
+  // STACK SHIFT LOGIC
+  if(index === 0){ // OPERATOR ACTIVE
+    operator.style.zIndex = 3;
+    prs.style.transform = 'translateX(40px) scale(.94)';
+    gauge.style.transform = 'translateX(80px) scale(.88)';
+  }
+
+  if(index === 1){ // GAUGE ACTIVE
+    gauge.style.zIndex = 3;
+    prs.style.transform = 'translateX(-40px) scale(.94)';
+    operator.style.transform = 'translateX(-80px) scale(.88)';
+  }
+
+  if(index === 2){ // PRS ACTIVE (default)
+    prs.style.zIndex = 3;
+    operator.style.transform = 'translateX(-40px) scale(.92)';
+    gauge.style.transform = 'translateX(40px) scale(.92)';
+  }
 }
