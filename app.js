@@ -189,6 +189,8 @@ async function loadData() {
     ).innerText =
     `Avg ${avgCons.toFixed(2)} Bar/Jam`;
     
+    updateGauge(inletPressure);
+    
     const standbyFull =
     tsStock.some(
       x => x.status === "FULL"
@@ -1454,3 +1456,38 @@ function setHero(index){
 }
 
 setHero(2);
+
+function updateGauge(bar){
+
+  const min = 0;
+  const max = 120;
+
+  const pct =
+  Math.max(
+    0,
+    Math.min(
+      1,
+      (bar-min)/(max-min)
+    )
+  );
+
+  const angle =
+  -90 + (pct * 180);
+
+  document
+    .getElementById("gaugeNeedle")
+    .style.transform =
+    `rotate(${angle}deg)`;
+
+  const length = 283;
+
+  document
+    .getElementById("gaugeFill")
+    .style.strokeDashoffset =
+    length - (length * pct);
+
+  document
+    .getElementById("gaugeValue")
+    .textContent =
+    bar.toFixed(1);
+}
