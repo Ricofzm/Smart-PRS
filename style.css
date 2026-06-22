@@ -1323,3 +1323,34 @@ opacity:.9;
 .hero-gauge{
   transition: all .35s cubic-bezier(.2,.8,.2,1);
 }
+
+.layer{
+  position:absolute;
+  inset:0;
+  border-radius:28px;
+  transition:.35s cubic-bezier(.2,.8,.2,1);
+}
+
+/* default stack */
+.prs{ z-index:3; }
+.operator{ z-index:2; }
+.gauge{ z-index:1; }
+
+/* ACTIVE STATE ALWAYS FULL FRONT */
+.layer.active{
+  z-index:10;
+  transform:translateX(0) scale(1) !important;
+  opacity:1;
+}
+
+/* BACK LAYERS (peek kanan) */
+.layer.back-right{
+  transform:translateX(40px) scale(.94);
+  opacity:.35;
+}
+
+/* BACK LAYERS (lebih jauh) */
+.layer.far-right{
+  transform:translateX(80px) scale(.88);
+  opacity:.2;
+}
