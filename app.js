@@ -27,6 +27,7 @@ const sparkCharts = {};
 let detailChart = null;
 let historyMode = "hourly";
 let tsStock = [];
+let lastTSPercent = 0;
 
 /* =========================
    INIT
@@ -198,6 +199,7 @@ async function loadData() {
     
     const finalPercent = window._progressSmooth;
     
+    lastTSPercent = finalPercent;
     updateTSProgress(finalPercent);
 
     /* =========================
@@ -1146,7 +1148,11 @@ async function loadTSLog(){
   );
   
   body.innerHTML = rows.join("");
-
+  
+  setTimeout(() => {
+    updateTSProgress(lastTSPercent);
+  }, 50);
+  
 }
 
 async function loadStock(){
@@ -1349,7 +1355,11 @@ function updateTSProgress(finalPercent) {
   const percentEl = document.getElementById("tsPercent");
   const fillEl = document.getElementById("tsProgressFill");
 
-  if (!percentEl || !fillEl) return;
+  if (!percentEl || !fillEl) {
+    // retry nanti
+    setTimeout(() => updateTSProgress(finalPercent), 300);
+    return;
+  }
 
   percentEl.textContent = finalPercent.toFixed(0) + "%";
   fillEl.style.width = finalPercent + "%";
