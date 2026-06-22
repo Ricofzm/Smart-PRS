@@ -184,6 +184,13 @@ async function loadData() {
     /* =========================
        PROGRESS BAR (FIXED → PREDICT SWITCH ONLY)
     ========================= */
+    console.log({
+      inlet: currentPressure,
+      dropRate,
+      remainingPressure,
+      rawHoursLeft,
+      predictHoursLeft
+    });
     const progress =
     (predictHoursLeft <= 0)
     ? 100
