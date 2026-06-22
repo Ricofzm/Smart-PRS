@@ -132,9 +132,30 @@ async function loadData() {
     
     lastHoursLeft = smoothHours;
     
-    const predictDate = new Date(
+    let predictDate = new Date(
       Date.now() + smoothHours * 3600000
     );
+    
+    if (!window.lastPredict) {
+      window.lastPredict = predictDate;
+    }
+    
+    const diffMin =
+    Math.abs(
+      predictDate - window.lastPredict
+    ) / 60000;
+    
+    if (diffMin < 3) {
+    
+      predictDate =
+      window.lastPredict;
+    
+    } else {
+    
+      window.lastPredict =
+      predictDate;
+    
+    }
     
     
     /* =========================
@@ -185,17 +206,17 @@ async function loadData() {
     ).innerText =
     `Avg ${avgCons.toFixed(2)} Bar/Jam`;
     
+    const standbyFull =
+    tsStock.some(
+      x => x.status === "FULL"
+    );
+    
     const totalHours =
     standbyFull
     ? engine.hoursLeft + 15
     : engine.hoursLeft;
     
     console.log("tsStock", tsStock);
-
-const standbyFull =
-tsStock.some(
-  x => x.status === "FULL"
-);
 
 console.log("standbyFull", standbyFull);
 
@@ -1388,20 +1409,6 @@ function startClock(){
     }
   );
 
-}
-
-let lastPredict = null;
-
-if (!lastPredict) lastPredict = predictDate;
-
-const diffMin =
-Math.abs(predictDate - lastPredict) / 60000;
-
-if (diffMin < 3) {
-  // kalau perubahan kecil, ignore biar smooth
-  predictDate = lastPredict;
-} else {
-  lastPredict = predictDate;
 }
 
 function getPressureDropRate(hourly){
