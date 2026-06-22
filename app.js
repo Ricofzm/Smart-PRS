@@ -123,28 +123,16 @@ async function loadData() {
     /* =========================
        ENGINE: SWITCH PREDICTION
     ========================= */
-    const currentPressure =
-    Number(d.PressureInlet || 0);
-    
-    const avgPressureDrop =
-    getAvgPressureDrop(hourly);
-    
-    const usablePressure =
-    Math.max(
-      currentPressure - SWITCH_POINT,
-      0
-    );
-    
+    const currentPressure = Number(d.PressureInlet || 0);
+
+    // jam menuju switch (tetap pakai logic lama)
     const predictHoursLeft =
-    avgPressureDrop > 0
-      ? usablePressure / avgPressureDrop
-      : 0;
+      avgDrop > 0
+        ? Math.max(currentPressure - SWITCH_POINT, 0) / avgDrop
+        : 0;
     
-    const predictDate =
-    new Date(
-      Date.now() +
-      predictHoursLeft * 3600000
-    );
+    // 🔥 NEW: direct mapping ke jam clock
+    const predictDate = new Date(Date.now() + predictHoursLeft * 3600000);
 
     /* =========================
        HERO UI
