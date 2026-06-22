@@ -279,10 +279,7 @@ async function loadData() {
     
     applyRiskUI(risk, totalHours, trend);
     
-    const inletPressure =
-      parseFloat(document.getElementById("heroInlet")?.textContent) || 0;
-    
-    updateGauge(inletPressure);
+    updateGauge(Number(d.PressureInlet || 0));
     
   } catch (err) {
     console.error(err);
