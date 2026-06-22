@@ -1222,6 +1222,7 @@ opacity:.9;
   position:relative;
   height:260px;
   margin-bottom:18px;
+  perspective:1000px;
 }
 
 .hero-operator{
@@ -1264,4 +1265,9 @@ opacity:.9;
 
   z-index:0;
   opacity:.5;
+}
+
+.hero-operator,
+.hero-gauge{
+  filter: blur(0.3px);
 }
