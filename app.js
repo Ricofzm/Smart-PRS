@@ -213,14 +213,14 @@ async function loadData() {
       console.error("updateAlarm crash:", e);
     }
     
-    const el = document.getElementById("predictTime");
-
-    if (el) {
-      el.textContent = predictDate.toLocaleTimeString("id-ID", {
-        hour: "2-digit",
-        minute: "2-digit"
-      });
-    }
+    document.getElementById("predictTime").textContent =
+    predictDate.toLocaleString("id-ID", {
+      weekday: "short",
+      day: "2-digit",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
     
     const progress =
     (currentPressure - SWITCH_PRESSURE) /
