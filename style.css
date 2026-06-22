@@ -1277,30 +1277,25 @@ opacity:.9;
 
 .hero-peek-dots{
   position:absolute;
-  top:-6px;
-  right:6px;
+  top:14px;
+  right:16px;
+  z-index:9999;
 
-  padding:8px 10px;
+  display:flex;
+  gap:8px;
+}
+
+.hero-peek-dots span{
+  width:10px;
+  height:10px;
 
   border-radius:999px;
 
   background:
-  rgba(20,25,35,.55);
+  rgba(255,255,255,.18);
 
-  backdrop-filter:blur(20px);
-
-  border:1px solid rgba(255,255,255,.08);
-
-  z-index:999;
-}
-
-.hero-peek-dots span{
-  width:8px;
-  height:8px;
-
-  border-radius:50%;
-
-  background:rgba(255,255,255,.25);
+  border:
+  1px solid rgba(255,255,255,.25);
 
   cursor:pointer;
 
@@ -1310,10 +1305,10 @@ opacity:.9;
 .hero-peek-dots span.active{
   background:#0a84ff;
 
-  box-shadow:
-  0 0 10px rgba(10,132,255,.6);
+  border-color:#0a84ff;
 
-  transform:scale(1.2);
+  box-shadow:
+  0 0 10px rgba(10,132,255,.7);
 }
 
 /* active dot (hero utama) */
@@ -1324,11 +1319,6 @@ opacity:.9;
 
 .hero-peek-dots:hover span{
   opacity:.6;
-}
-
-.hero-peek-dots:hover span:last-child{
-  opacity:1;
-  transform:scale(1.1);
 }
 
 .hero-prs,
