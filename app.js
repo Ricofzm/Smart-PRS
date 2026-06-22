@@ -106,6 +106,9 @@ async function loadData() {
     }
     
     const avgFlow = getAvgFlow(state);
+    
+    const FULL_PRESSURE = 220;
+    const SWITCH_PRESSURE = 50;
 
     const dropRate =
     getPressureDropRate(hourly);
@@ -215,9 +218,6 @@ async function loadData() {
         minute: "2-digit"
       });
     }
-    
-    const FULL_PRESSURE = 220;
-    const SWITCH_PRESSURE = 50;
     
     const remainPercent =
     (
