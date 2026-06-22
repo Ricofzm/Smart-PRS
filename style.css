@@ -1317,3 +1317,9 @@ opacity:.9;
   transform:scale(1.2);
   box-shadow:0 0 10px rgba(10,132,255,.6);
 }
+
+.hero-prs,
+.hero-operator,
+.hero-gauge{
+  transition: all .35s cubic-bezier(.2,.8,.2,1);
+}
