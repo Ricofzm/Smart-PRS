@@ -54,6 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
   
   initHeroStack();
   renderOperatorHero();
+  setInterval(
+    renderOperatorHero,
+    60000
+  );
     
 });
 
