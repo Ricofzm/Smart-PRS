@@ -1212,11 +1212,14 @@ opacity:.9;
 
   overflow:visible;
 
-  padding-right:60px;
+  padding-right:0;
 }
 .layer{
   position:absolute;
-  inset:0;
+  top:0;
+  left:0;
+  right:60px;   /* kasih ruang peek */
+  bottom:0;
 
   border-radius:28px;
 
@@ -1323,9 +1326,7 @@ opacity:.9;
 
 /* BACK LAYERS (peek kanan) */
 .layer.back-right{
-  transform:
-  translateX(20px)
-  scale(.96);
+  transform:translateX(28px) scale(.96);
 
   opacity:.72;
 }
@@ -1333,7 +1334,7 @@ opacity:.9;
 /* BACK LAYERS (lebih jauh) */
 .layer.far-right{
   transform:
-  translateX(40px)
+  translateX(56px)
   scale(.92);
 
   opacity:.5;
@@ -1424,8 +1425,4 @@ opacity:.9;
   .hero-gauge{
     transform: translateX(14px) translateY(2px);
   }
-}
-
-.layer.active{
-  transform:none !important;
 }
