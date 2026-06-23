@@ -1639,7 +1639,7 @@ const OPERATOR_PHOTO = {
     "img/dita.png",
 
   "Enriko Fazar Maulana":
-    "img/enriko.png",
+    "img/enriko.jpg",
 
   "Ajid Saepuloh":
     "img/ajid.png",
