@@ -1235,6 +1235,7 @@ opacity:.9;
   1px solid rgba(255,255,255,.08);
 
   backdrop-filter:blur(24px);
+  transition:.35s cubic-bezier(.2,.8,.2,1);
 }
 
 .prs.active{
@@ -1307,19 +1308,6 @@ opacity:.9;
   opacity:.6;
 }
 
-.hero-prs,
-.hero-operator,
-.hero-gauge{
-  transition: all .35s cubic-bezier(.2,.8,.2,1);
-}
-
-.layer{
-  position:absolute;
-  inset:0;
-  border-radius:28px;
-  transition:.35s cubic-bezier(.2,.8,.2,1);
-}
-
 /* default stack */
 .prs{ z-index:3; }
 .operator{ z-index:2; }
@@ -1360,6 +1348,7 @@ opacity:.9;
   align-items:center;
   justify-content:center;
   opacity:.25;
+  transform: translateX(12px) translateY(2px);
 }
 
 .gauge-svg{
