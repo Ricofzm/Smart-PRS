@@ -1296,8 +1296,9 @@ opacity:.9;
 
   margin-bottom: 20px;
 
-  overflow: hidden; /* 🔥 ini kunci utama biar gak nabrak layout bawah */
+  overflow: visible; /* 🔥 ini kunci utama biar gak nabrak layout bawah */
   border-radius: 28px;
+  padding-right:60px;
 }
 
 /* wrapper layer biar aman stacking */
