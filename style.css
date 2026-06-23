@@ -1437,38 +1437,154 @@ opacity:.9;
 
 @media (min-width: 1024px) {
 
+  /* =========================
+     GLOBAL TYPOGRAPHY SCALE
+  ========================= */
+  :root {
+    --text-xs: 11px;
+    --text-sm: 13px;
+    --text-md: 15px;
+    --text-lg: 20px;
+    --text-xl: 28px;
+    --text-xxl: 36px;
+  }
+
+  /* =========================
+     DASHBOARD CONTAINER
+  ========================= */
+  body {
+    font-size: var(--text-sm);
+  }
+
   .hero-stack {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 28px 40px;
 
     display: grid;
     grid-template-columns: 1fr;
     justify-items: center;
-
-    padding: 30px 40px;
+    gap: 18px;
   }
 
-  /* bikin layer gak full stretch kiri */
   .hero-stack .layer {
     width: 100%;
-    max-width: 900px;
+    max-width: 950px;
   }
 
-  /* kasih breathing space antar card hero */
+  /* =========================
+     HERO PRS CARD
+  ========================= */
+  .hero-prs {
+    padding: 26px 30px;
+    border-radius: 20px;
+  }
+
+  .hero-hours {
+    font-size: var(--text-xxl);
+    font-weight: 700;
+  }
+
+  .hero-label {
+    font-size: var(--text-xs);
+    letter-spacing: 1.2px;
+  }
+
+  .hero-meta {
+    font-size: var(--text-sm);
+    opacity: 0.75;
+  }
+
+  /* =========================
+     OPERATOR CARD
+  ========================= */
+  .hero-operator {
+    padding: 22px 26px;
+    border-radius: 20px;
+  }
+
+  .operator-photo {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+  }
+
+  .operator-name {
+    font-size: var(--text-xl);
+    font-weight: 700;
+  }
+
+  .operator-shift {
+    font-size: var(--text-sm);
+    letter-spacing: 0.5px;
+  }
+
+  .operator-time,
+  .operator-group {
+    font-size: var(--text-xs);
+    opacity: 0.7;
+  }
+
+  /* =========================
+     GAUGE CARD
+  ========================= */
+  .hero-gauge {
+    padding: 22px;
+  }
+
+  .gauge-value {
+    font-size: var(--text-xl);
+    font-weight: 700;
+  }
+
+  .gauge-label {
+    font-size: var(--text-xs);
+    letter-spacing: 1px;
+    opacity: 0.7;
+  }
+
+  /* =========================
+     RIGHT SIDE / TS INFO
+  ========================= */
+  .kredel-item span {
+    font-size: var(--text-xs);
+  }
+
+  .kredel-item strong {
+    font-size: var(--text-lg);
+  }
+
+  /* =========================
+     SPACING FIX BIAR GAK NUMPUK
+  ========================= */
   .hero-prs,
   .hero-operator,
   .hero-gauge {
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
-}
-
-@media (min-width: 1024px) {
-
+  /* =========================
+     BACKGROUND INDUSTRIAL FEEL
+  ========================= */
   body {
     background:
       radial-gradient(circle at 15% 20%, rgba(48,209,88,0.08), transparent 40%),
       radial-gradient(circle at 85% 60%, rgba(0,122,255,0.06), transparent 45%);
+  }
+
+  /* =========================
+     HOVER FEEL (OPTIONAL)
+  ========================= */
+  .hero-prs,
+  .hero-operator,
+  .hero-gauge {
+    transition: 0.25s ease;
+  }
+
+  .hero-prs:hover,
+  .hero-operator:hover,
+  .hero-gauge:hover {
+    transform: translateY(-2px);
   }
 
 }
