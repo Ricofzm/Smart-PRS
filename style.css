@@ -1392,3 +1392,21 @@ opacity:.9;
   background: #0a84ff;
   box-shadow: 0 0 10px rgba(10,132,255,.6);
 }
+
+.hero-stack::after{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  width:80px;
+  height:100%;
+
+  background:linear-gradient(
+    to left,
+    rgba(11,15,23,1),
+    transparent
+  );
+
+  pointer-events:none;
+  z-index:5;
+}
