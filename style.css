@@ -1205,111 +1205,6 @@ opacity:.9;
   letter-spacing:.5px;
 }
 
-.hero-stack{
-  position:relative;
-  height:250px;
-  margin-bottom:20px;
-
-  overflow:visible;
-
-  padding-right:70px;
-}
-.layer{
-  z-index:1;
-  position:absolute;
-  insert:0;
-
-  border-radius:28px;
-
-  padding:22px;
-
-  background:
-  linear-gradient(
-    135deg,
-    rgba(255,255,255,.08),
-    rgba(255,255,255,.04)
-  );
-
-  border:
-  1px solid rgba(255,255,255,.08);
-
-  backdrop-filter:blur(24px);
-  transition:.35s cubic-bezier(.2,.8,.2,1);
-}
-
-.hero-peek-dots{
-  position:absolute;
-  top:14px;
-  right:16px;
-  z-index:9999;
-
-  display:flex;
-  gap:8px;
-}
-
-.hero-peek-dots span{
-  width:10px;
-  height:10px;
-
-  border-radius:999px;
-
-  background:
-  rgba(255,255,255,.18);
-
-  border:
-  1px solid rgba(255,255,255,.25);
-
-  cursor:pointer;
-
-  transition:.25s;
-}
-
-.hero-peek-dots span.active{
-  background:#0a84ff;
-
-  border-color:#0a84ff;
-
-  box-shadow:
-  0 0 10px rgba(10,132,255,.7);
-}
-
-/* active dot (hero utama) */
-.hero-peek-dots span:last-child{
-  background:#0a84ff;
-  box-shadow:0 0 10px rgba(10,132,255,.5);
-}
-
-.hero-peek-dots:hover span{
-  opacity:.6;
-}
-
-/* ACTIVE STATE ALWAYS FULL FRONT */
-.layer.active{
-  z-index:10;
-  transform:translateX(0) scale(1);
-  opacity:1;
-  box-shadow:none;
-  backdrop-filter:blur(30px);
-}
-
-/* BACK LAYERS (peek kanan) */
-.layer.back-right{
-  z-index:5;
-  transform:translateX(28px) scale(.96);
-
-  opacity:.72;
-}
-
-/* BACK LAYERS (lebih jauh) */
-.layer.far-right{
-  z-index:2;
-  transform:
-  translateX(56px)
-  scale(.92);
-
-  opacity:.5;
-}
-
 .hero-gauge{
   position:relative;
   display:flex;
@@ -1388,4 +1283,111 @@ opacity:.9;
   .hero-stack{
     height:180px;
   }
+}
+
+/* ========================= */
+/* HERO STACK FIXED VERSION  */
+/* ========================= */
+
+.hero-stack{
+  position: relative;
+  width: 100%;
+  height: 260px;
+
+  margin-bottom: 20px;
+
+  overflow: hidden; /* 🔥 ini kunci utama biar gak nabrak layout bawah */
+  border-radius: 28px;
+}
+
+/* wrapper layer biar aman stacking */
+.layer{
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 28px;
+
+  padding: 20px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,.08),
+    rgba(255,255,255,.04)
+  );
+
+  border: 1px solid rgba(255,255,255,.08);
+
+  backdrop-filter: blur(24px);
+
+  transition: transform .35s cubic-bezier(.2,.8,.2,1),
+              opacity .35s ease,
+              filter .35s ease;
+
+  will-change: transform;
+}
+
+/* ========================= */
+/* STACK STATE (IMPORTANT)   */
+/* ========================= */
+
+.layer.active{
+  z-index: 3;
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  filter: none;
+}
+
+.layer.back-right{
+  z-index: 2;
+  transform: translateX(18px) scale(.96);
+  opacity: .65;
+  filter: blur(.2px);
+}
+
+.layer.far-right{
+  z-index: 1;
+  transform: translateX(36px) scale(.92);
+  opacity: .45;
+  filter: blur(.4px);
+}
+
+/* ========================= */
+/* PREVENT OVERFLOW BUG      */
+/* ========================= */
+
+.hero-stack,
+.hero-prs,
+.hero-gauge,
+.hero-operator{
+  contain: layout paint;
+}
+
+/* ========================= */
+/* DOT INDICATOR FIX         */
+/* ========================= */
+
+.hero-peek-dots{
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  z-index: 20;
+  display: flex;
+  gap: 8px;
+}
+
+.hero-peek-dots span{
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.2);
+  border: 1px solid rgba(255,255,255,.25);
+  transition: .2s;
+}
+
+.hero-peek-dots span.active{
+  background: #0a84ff;
+  box-shadow: 0 0 10px rgba(10,132,255,.6);
 }
