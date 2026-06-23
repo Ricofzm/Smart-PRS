@@ -1390,12 +1390,6 @@ opacity:.9;
   box-shadow: 0 0 10px rgba(10,132,255,.6);
 }
 
-@media (max-width: 480px){
-  .hero-stack{
-    height:180px;
-  }
-}
-
 .operator-wrap{
   display:flex;
   align-items:center;
@@ -1439,4 +1433,32 @@ opacity:.9;
 .operator-group {
   font-size: 11px;
   color: rgba(255,255,255,0.6);
+}
+
+@media (min-width: 1024px) {
+
+  .hero-stack {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+
+    padding: 30px 40px;
+  }
+
+  /* bikin layer gak full stretch kiri */
+  .hero-stack .layer {
+    width: 100%;
+    max-width: 900px;
+  }
+
+  /* kasih breathing space antar card hero */
+  .hero-prs,
+  .hero-operator,
+  .hero-gauge {
+    margin-bottom: 16px;
+  }
+
 }
