@@ -1489,3 +1489,62 @@ function updateGauge(bar){
     .textContent =
     bar.toFixed(1);
 }
+
+const stack = document.querySelector(".hero-stack");
+const layers = document.querySelectorAll(".layer");
+const dots = document.querySelectorAll(".hero-peek-dots span");
+
+let index = 0;
+
+function updateHero(i){
+  index = i;
+
+  layers.forEach((el, idx) => {
+    el.classList.remove("active","back-right","far-right");
+
+    if(idx === i){
+      el.classList.add("active");
+    }
+    else if(idx === i + 1){
+      el.classList.add("back-right");
+    }
+    else if(idx === i + 2){
+      el.classList.add("far-right");
+    }
+  });
+
+  dots.forEach((d, idx) => {
+    d.classList.toggle("active", idx === i);
+  });
+}
+
+// DOT CLICK
+dots.forEach((dot, i) => {
+  dot.addEventListener("click", () => updateHero(i));
+});
+
+// SWIPE
+let startX = 0;
+
+stack.addEventListener("touchstart", (e) => {
+  startX = e.touches[0].clientX;
+});
+
+stack.addEventListener("touchend", (e) => {
+  const endX = e.changedTouches[0].clientX;
+  const diff = startX - endX;
+
+  if(Math.abs(diff) < 40) return;
+
+  if(diff > 0){
+    // swipe kiri
+    if(index < layers.length - 1){
+      updateHero(index + 1);
+    }
+  } else {
+    // swipe kanan
+    if(index > 0){
+      updateHero(index - 1);
+    }
+  }
+});
