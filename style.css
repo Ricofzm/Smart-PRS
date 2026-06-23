@@ -1352,7 +1352,7 @@ opacity:.9;
 .gauge-svg{
   width:100%;
   max-width:160px;
-  height:90px;
+  height:auto;
 }
 
 .gauge-track{
