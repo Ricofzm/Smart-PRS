@@ -1462,3 +1462,13 @@ opacity:.9;
   }
 
 }
+
+@media (min-width: 1024px) {
+
+  body {
+    background:
+      radial-gradient(circle at 15% 20%, rgba(48,209,88,0.08), transparent 40%),
+      radial-gradient(circle at 85% 60%, rgba(0,122,255,0.06), transparent 45%);
+  }
+
+}
