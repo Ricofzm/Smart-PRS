@@ -1,5 +1,57 @@
 const API = "https://smart-prs-api.enrikofzm.workers.dev";
 
+const OPERATOR_ROTATION = [
+
+  // Group A
+  [
+    "Dita Mulyana",
+    "Enriko Fazar Maulana",
+    "Ajid Saepuloh",
+    "Aldi Aditya"
+  ],
+
+  // Group B
+  [
+    "Enriko Fazar Maulana",
+    "Ajid Saepuloh",
+    "Aldi Aditya",
+    "Dita Mulyana"
+  ],
+
+  // Group C
+  [
+    "Ajid Saepuloh",
+    "Aldi Aditya",
+    "Dita Mulyana",
+    "Enriko Fazar Maulana"
+  ],
+
+  // Group D
+  [
+    "Aldi Aditya",
+    "Dita Mulyana",
+    "Enriko Fazar Maulana",
+    "Ajid Saepuloh"
+  ]
+
+];
+
+const OPERATOR_PHOTO = {
+
+  "Dita Mulyana":
+    "img/dita.png",
+
+  "Enriko Fazar Maulana":
+    "img/enriko.jpg",
+
+  "Ajid Saepuloh":
+    "img/ajid.png",
+
+  "Aldi Aditya":
+    "img/aldi.png"
+
+};
+
 /* =========================
    STATE
 ========================= */
@@ -145,7 +197,6 @@ async function loadData() {
     const predictDate = new Date(
       Date.now() + smoothHours * 3600000
     );
-    
     
     /* =========================
        CONSUMPTION
@@ -1385,20 +1436,6 @@ function startClock(){
 
 }
 
-let lastPredict = null;
-
-if (!lastPredict) lastPredict = predictDate;
-
-const diffMin =
-Math.abs(predictDate - lastPredict) / 60000;
-
-if (diffMin < 3) {
-  // kalau perubahan kecil, ignore biar smooth
-  predictDate = lastPredict;
-} else {
-  lastPredict = predictDate;
-}
-
 function getPressureDropRate(hourly){
 
   const arr = hourly
@@ -1550,42 +1587,6 @@ function initHeroStack(){
 
 }
 
-const OPERATOR_ROTATION = [
-
-  // Group A
-  [
-    "Dita Mulyana",
-    "Enriko Fazar Maulana",
-    "Ajid Saepuloh",
-    "Aldi Aditya"
-  ],
-
-  // Group B
-  [
-    "Enriko Fazar Maulana",
-    "Ajid Saepuloh",
-    "Aldi Aditya",
-    "Dita Mulyana"
-  ],
-
-  // Group C
-  [
-    "Ajid Saepuloh",
-    "Aldi Aditya",
-    "Dita Mulyana",
-    "Enriko Fazar Maulana"
-  ],
-
-  // Group D
-  [
-    "Aldi Aditya",
-    "Dita Mulyana",
-    "Enriko Fazar Maulana",
-    "Ajid Saepuloh"
-  ]
-
-];
-
 function getOperatorDuty(){
 
   const baseDate =
@@ -1636,22 +1637,6 @@ function getOperatorDuty(){
   };
 
 }
-
-const OPERATOR_PHOTO = {
-
-  "Dita Mulyana":
-    "img/dita.png",
-
-  "Enriko Fazar Maulana":
-    "img/enriko.jpg",
-
-  "Ajid Saepuloh":
-    "img/ajid.png",
-
-  "Aldi Aditya":
-    "img/aldi.png"
-
-};
 
 function renderOperatorHero(){
 
