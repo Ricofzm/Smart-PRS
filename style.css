@@ -659,16 +659,6 @@ color:#9aa4b2;
 
   border-radius:28px;
 
-  background: linear-gradient(
-    135deg,
-    rgba(255,255,255,.10),
-    rgba(255,255,255,.04)
-  );
-
-  border:1px solid rgba(255,255,255,.08);
-
-  backdrop-filter: blur(28px);
-
   box-shadow: 0 25px 60px rgba(0,0,0,.35);
 }
 
@@ -1219,19 +1209,32 @@ opacity:.9;
 
 .hero-stack{
   position:relative;
-  height:220px;
+  height:250px;
   margin-bottom:20px;
-  overflow:hidden;
-}
 
+  overflow:visible;
+
+  padding-right:60px;
+}
 .layer{
   position:absolute;
   inset:0;
 
-  transition:
-  transform .45s cubic-bezier(.22,1,.36,1),
-  opacity .45s,
-  z-index .45s;
+  border-radius:28px;
+
+  padding:22px;
+
+  background:
+  linear-gradient(
+    135deg,
+    rgba(255,255,255,.08),
+    rgba(255,255,255,.04)
+  );
+
+  border:
+  1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(24px);
 }
 
 .prs.active{
@@ -1252,8 +1255,6 @@ opacity:.9;
 
   opacity:.45;
 
-  background:
-  rgba(255,255,255,.06);
 }
 
 .hero-prs{
@@ -1329,8 +1330,7 @@ opacity:.9;
   z-index:10;
   transform:translateX(0) scale(1);
   opacity:1;
-  box-shadow:
-  0 30px 80px rgba(0,0,0,.45);
+  box-shadow:none;
 
   backdrop-filter:blur(30px);
 }
@@ -1338,37 +1338,28 @@ opacity:.9;
 /* BACK LAYERS (peek kanan) */
 .layer.back-right{
   transform:
-  translateX(24px)
+  translateX(20px)
   scale(.96);
 
-  opacity:.55;
+  opacity:.72;
 }
 
 /* BACK LAYERS (lebih jauh) */
 .layer.far-right{
   transform:
-  translateX(48px)
+  translateX(40px)
   scale(.92);
 
-  opacity:.25;
+  opacity:.5;
 }
 
 .hero-gauge{
   position:relative;
-
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-
   opacity:.25;
-
-  background:
-  linear-gradient(
-    135deg,
-    rgba(255,255,255,.08),
-    rgba(255,255,255,.03)
-  );
 }
 
 .gauge-svg{
