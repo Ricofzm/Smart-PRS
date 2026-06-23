@@ -1365,22 +1365,18 @@ opacity:.9;
 
   opacity:.25;
 
-  padding:20px;
-
   background:
   linear-gradient(
     135deg,
     rgba(255,255,255,.08),
     rgba(255,255,255,.03)
   );
-
-  border:1px solid rgba(255,255,255,.08);
 }
 
 .gauge-svg{
   width:100%;
-  max-width:180px;
-  height:100px;
+  max-width:160px;
+  height:90px;
 }
 
 .gauge-track{
@@ -1419,7 +1415,7 @@ opacity:.9;
 .gauge-value{
   margin-top:-10px;
 
-  font-size:48px;
+  font-size:32px;
   font-weight:700;
   line-height:1;
 }
@@ -1427,7 +1423,7 @@ opacity:.9;
 .gauge-label{
   margin-top:6px;
 
-  font-size:12px;
+  font-size:10px;
   letter-spacing:2px;
 
   color:#9aa4b2;
