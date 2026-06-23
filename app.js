@@ -23,7 +23,7 @@ const sparkCharts = {};
 let detailChart = null;
 let historyMode = "hourly";
 let tsStock = [];
-let heroIndex = 2; 
+
 // 0 = Operator
 // 1 = Gauge
 // 2 = PRS (default)
@@ -51,6 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   startClock();
   setInterval(startClock,1000);
+  
+  initHeroStack();
     
 });
 
@@ -1416,45 +1418,6 @@ function getPressureDropRate(hourly){
   return count > 0 ? totalDrop / count : 0;
 }
 
-function setHero(index){
-
-  const layers = {
-    0: document.querySelector('.hero-operator'),
-    1: document.querySelector('.hero-gauge'),
-    2: document.querySelector('.hero-prs')
-  };
-
-  const all = Object.values(layers);
-
-  all.forEach(el=>{
-    el.classList.remove(
-      'active',
-      'back-right',
-      'far-right'
-    );
-  });
-
-  document
-    .querySelectorAll('.hero-peek-dots span')
-    .forEach(dot=>{
-      dot.classList.remove('active');
-    });
-
-  document
-    .querySelectorAll('.hero-peek-dots span')[index]
-    .classList.add('active');
-
-  layers[index].classList.add('active');
-
-  const order =
-    all.filter((_,i)=>i!==index);
-
-  order[0].classList.add('back-right');
-  order[1].classList.add('far-right');
-}
-
-setHero(2);
-
 function updateGauge(bar){
 
   const min = 0;
@@ -1490,61 +1453,94 @@ function updateGauge(bar){
     bar.toFixed(1);
 }
 
-const stack = document.querySelector(".hero-stack");
-const layers = document.querySelectorAll(".layer");
-const dots = document.querySelectorAll(".hero-peek-dots span");
+function initHeroStack(){
 
-let index = 0;
+  const stack =
+    document.querySelector(".hero-stack");
 
-function updateHero(i){
-  index = i;
+  if(!stack) return;
 
-  layers.forEach((el, idx) => {
-    el.classList.remove("active","back-right","far-right");
+  const layers =
+    stack.querySelectorAll(".layer");
 
-    if(idx === i){
-      el.classList.add("active");
-    }
-    else if(idx === i + 1){
-      el.classList.add("back-right");
-    }
-    else if(idx === i + 2){
-      el.classList.add("far-right");
-    }
-  });
+  const dots =
+    stack.querySelectorAll(
+      ".hero-peek-dots span"
+    );
 
-  dots.forEach((d, idx) => {
-    d.classList.toggle("active", idx === i);
-  });
-}
+  let index = 2; // default PRS
 
-// DOT CLICK
-dots.forEach((dot, i) => {
-  dot.addEventListener("click", () => updateHero(i));
-});
+  function updateHero(i){
 
-// SWIPE
-let startX = 0;
+    index = i;
 
-stack.addEventListener("touchstart", (e) => {
-  startX = e.touches[0].clientX;
-});
+    layers.forEach(el=>{
+      el.classList.remove(
+        "active",
+        "back-right",
+        "far-right"
+      );
+    });
 
-stack.addEventListener("touchend", (e) => {
-  const endX = e.changedTouches[0].clientX;
-  const diff = startX - endX;
+    layers[i].classList.add("active");
 
-  if(Math.abs(diff) < 40) return;
+    layers[(i+1)%3]
+      .classList.add("back-right");
 
-  if(diff > 0){
-    // swipe kiri
-    if(index < layers.length - 1){
-      updateHero(index + 1);
-    }
-  } else {
-    // swipe kanan
-    if(index > 0){
-      updateHero(index - 1);
-    }
+    layers[(i+2)%3]
+      .classList.add("far-right");
+
+    dots.forEach((d,x)=>{
+      d.classList.toggle(
+        "active",
+        x===i
+      );
+    });
   }
-});
+
+  updateHero(2);
+
+  dots.forEach((dot,i)=>{
+    dot.onclick = ()=>updateHero(i);
+  });
+
+  let startX = 0;
+
+  stack.addEventListener(
+    "touchstart",
+    e=>{
+      startX =
+      e.touches[0].clientX;
+    },
+    {passive:true}
+  );
+
+  stack.addEventListener(
+    "touchend",
+    e=>{
+
+      const diff =
+        startX -
+        e.changedTouches[0].clientX;
+
+      if(Math.abs(diff) < 40) return;
+
+      if(diff > 0){
+
+        updateHero(
+          (index + 1) % 3
+        );
+
+      }else{
+
+        updateHero(
+          (index - 1 + 3) % 3
+        );
+
+      }
+
+    },
+    {passive:true}
+  );
+
+}
