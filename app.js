@@ -111,8 +111,8 @@ async function loadData() {
     
     const avgFlow = getAvgFlow(state);
     
-    const SWITCH_PRESSURE = 50;
-    const FULL_PRESSURE = 220;
+    const SWITCH_PRESSURE = 20;
+    const FULL_PRESSURE = 200;
 
     const dropRate = getPressureDropRate(hourly);
 
