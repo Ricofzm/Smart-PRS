@@ -1212,9 +1212,10 @@ opacity:.9;
 
   overflow:visible;
 
-  padding-right:70;
+  padding-right:70px;
 }
 .layer{
+  z-index:1;
   position:absolute;
   insert:0;
 
@@ -1234,26 +1235,6 @@ opacity:.9;
 
   backdrop-filter:blur(24px);
   transition:.35s cubic-bezier(.2,.8,.2,1);
-}
-
-.prs.active{
-  z-index:10;
-}
-
-.operator.back-right{
-  z-index:5;
-}
-
-.gauge.far-right{
-  z-index:1;
-}
-
-.hero-operator{
-  opacity:.45;
-}
-
-.hero-prs{
-  opacity:1;
 }
 
 .hero-peek-dots{
@@ -1302,23 +1283,18 @@ opacity:.9;
   opacity:.6;
 }
 
-/* default stack */
-.prs{ z-index:3; }
-.operator{ z-index:2; }
-.gauge{ z-index:1; }
-
 /* ACTIVE STATE ALWAYS FULL FRONT */
 .layer.active{
   z-index:10;
   transform:translateX(0) scale(1);
   opacity:1;
   box-shadow:none;
-
   backdrop-filter:blur(30px);
 }
 
 /* BACK LAYERS (peek kanan) */
 .layer.back-right{
+  z-index:5;
   transform:translateX(28px) scale(.96);
 
   opacity:.72;
@@ -1326,6 +1302,7 @@ opacity:.9;
 
 /* BACK LAYERS (lebih jauh) */
 .layer.far-right{
+  z-index:2;
   transform:
   translateX(56px)
   scale(.92);
@@ -1404,20 +1381,11 @@ opacity:.9;
 .hero-gauge,
 .hero-operator,
 .hero-prs{
-  transform-origin:center;
   will-change: transform;
 }
 
 @media (max-width: 480px){
   .hero-stack{
     height:180px;
-  }
-
-  .hero-hours{
-    font-size:38px;
-  }
-
-  .hero-gauge{
-    transform: translateX(14px) translateY(2px);
   }
 }
