@@ -1441,3 +1441,17 @@ opacity:.9;
   transform-origin:center;
   will-change: transform;
 }
+
+@media (max-width: 480px){
+  .hero-stack{
+    height:180px;
+  }
+
+  .hero-hours{
+    font-size:38px;
+  }
+
+  .hero-gauge{
+    transform: translateX(14px) translateY(2px);
+  }
+}
