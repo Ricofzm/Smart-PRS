@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(startClock,1000);
   
   initHeroStack();
+  renderOperatorHero();
     
 });
 
@@ -1542,5 +1543,140 @@ function initHeroStack(){
     },
     {passive:true}
   );
+
+}
+
+const OPERATOR_ROTATION = [
+
+  // Group A
+  [
+    "Dita Mulyana",
+    "Enriko Fazar Maulana",
+    "Ajid Saepuloh",
+    "Aldi Aditya"
+  ],
+
+  // Group B
+  [
+    "Enriko Fazar Maulana",
+    "Ajid Saepuloh",
+    "Aldi Aditya",
+    "Dita Mulyana"
+  ],
+
+  // Group C
+  [
+    "Ajid Saepuloh",
+    "Aldi Aditya",
+    "Dita Mulyana",
+    "Enriko Fazar Maulana"
+  ],
+
+  // Group D
+  [
+    "Aldi Aditya",
+    "Dita Mulyana",
+    "Enriko Fazar Maulana",
+    "Ajid Saepuloh"
+  ]
+
+];
+
+function getOperatorDuty(){
+
+  const baseDate =
+    new Date("2026-06-23T00:00:00");
+
+  const now = new Date();
+
+  const diffDays =
+    Math.floor(
+      (now - baseDate) / 86400000
+    );
+
+  // ganti group tiap 2 hari
+  const groupIndex =
+    Math.floor(diffDays / 2) % 4;
+
+  let shift = 3;
+  let shiftTime = "23:00 - 07:00";
+
+  const hour = now.getHours();
+
+  if(hour >= 7 && hour < 15){
+    shift = 1;
+    shiftTime = "07:00 - 15:00";
+  }
+  else if(hour >= 15 && hour < 23){
+    shift = 2;
+    shiftTime = "15:00 - 23:00";
+  }
+
+  const group =
+    OPERATOR_ROTATION[groupIndex];
+
+  return {
+
+    operator:
+      group[shift - 1],
+
+    shift,
+
+    shiftTime,
+
+    group:
+      String.fromCharCode(
+        65 + groupIndex
+      )
+
+  };
+
+}
+
+const OPERATOR_PHOTO = {
+
+  "Dita Mulyana":
+    "img/dita.png",
+
+  "Enriko Fazar Maulana":
+    "img/enriko.png",
+
+  "Ajid Saepuloh":
+    "img/ajid.png",
+
+  "Aldi Aditya":
+    "img/aldi.png"
+
+};
+
+function renderOperatorHero(){
+
+  const duty =
+    getOperatorDuty();
+
+  document.getElementById(
+    "operatorName"
+  ).textContent =
+  duty.operator;
+
+  document.getElementById(
+    "operatorShift"
+  ).textContent =
+  `SHIFT ${duty.shift}`;
+
+  document.getElementById(
+    "operatorTime"
+  ).textContent =
+  duty.shiftTime;
+
+  document.getElementById(
+    "operatorGroup"
+  ).textContent =
+  `ROTASI ${duty.group}`;
+
+  document.getElementById(
+    "operatorPhoto"
+  ).src =
+  OPERATOR_PHOTO[duty.operator];
 
 }
