@@ -1306,8 +1306,8 @@ opacity:.9;
   position: absolute;
   inset: 0;
 
-  width: calc(100% - 60px); /* 🔥 kasih ruang kanan */
-  height: 100%;
+  width: calc(100% - 25px); /* 🔥 kasih ruang kanan */
+  height: 90%;
 
   border-radius: 28px;
 
