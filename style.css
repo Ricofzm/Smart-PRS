@@ -1403,30 +1403,40 @@ opacity:.9;
   height:100%;
 }
 
-.operator-photo{
-  width:90px;
-  height:90px;
+.operator-photo {
+  width: 62px;
+  height: 62px;
+  border-radius: 14px;
+  object-fit: cover;
 
-  border-radius:50%;
-  object-fit:cover;
+  border: 1px solid rgba(255,255,255,0.1);
 
-  border:3px solid rgba(255,255,255,.15);
+  box-shadow:
+    0 0 0 2px rgba(48, 209, 88, 0.15),
+    0 8px 20px rgba(0,0,0,0.4);
 }
 
-.operator-name{
-  font-size:22px;
-  font-weight:700;
+.operator-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.operator-shift{
-  margin-top:6px;
-  font-size:14px;
-  color:#30d158;
+.operator-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.operator-shift {
+  font-size: 12px;
+  color: #30D158;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .operator-time,
-.operator-group{
-  margin-top:4px;
-  font-size:12px;
-  color:#9aa4b2;
+.operator-group {
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
 }
