@@ -1279,12 +1279,6 @@ opacity:.9;
   will-change: transform;
 }
 
-@media (max-width: 480px){
-  .hero-stack{
-    height:180px;
-  }
-}
-
 /* ========================= */
 /* HERO STACK FIXED VERSION  */
 /* ========================= */
@@ -1299,6 +1293,9 @@ opacity:.9;
   overflow: visible; /* 🔥 ini kunci utama biar gak nabrak layout bawah */
   border-radius: 28px;
   padding-right:60px;
+  
+  touch-action: pan-y; /* biar swipe horizontal gak konflik scroll */
+  user-select: none;
 }
 
 /* wrapper layer biar aman stacking */
@@ -1391,4 +1388,10 @@ opacity:.9;
 .hero-peek-dots span.active{
   background: #0a84ff;
   box-shadow: 0 0 10px rgba(10,132,255,.6);
+}
+
+@media (max-width: 480px){
+  .hero-stack{
+    height:180px;
+  }
 }
