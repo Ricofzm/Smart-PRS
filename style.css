@@ -1228,8 +1228,6 @@ opacity:.9;
   position:absolute;
   inset:0;
 
-  border-radius:28px;
-
   transition:
   transform .45s cubic-bezier(.22,1,.36,1),
   opacity .45s,
