@@ -1617,32 +1617,35 @@ function getOperatorDuty(){
     shiftTime = "15:00 - 23:00";
   }
 
-  const group =
-    OPERATOR_ROTATION[groupIndex];
-
-  const operator =
-  group[shift - 1];
-
-  // 🔥 next 2 operator (SAFE ROTATION)
-  const nextOperator1 =
-    group[shift % 4];
+  const group = OPERATOR_ROTATION[groupIndex];
   
-  const nextOperator2 =
-    group[(shift + 1) % 4];
+  const shiftOrder = [
+    group[0], // shift 1
+    group[1], // shift 2
+    group[2], // shift 3
+    group[3]  // standby/off pattern
+  ];
   
-  // off tetap last slot / non-active logic
-  const offOperator =
-    group[3];
+  const operator = shiftOrder[shift - 1];
+  
+  // 🔥 auto next chain
+  const nextShift1 = shiftOrder[shift % 4];
+  const nextShift2 = shiftOrder[(shift + 1) % 4];
+  const nextShift3 = shiftOrder[(shift + 2) % 4];
+  
+  const offOperator = shiftOrder[3];
   
   return {
     operator,
-    nextOperator1,
-    nextOperator2,
-    offOperator,
     shift,
     shiftTime,
-    group:
-      String.fromCharCode(65 + groupIndex)
+    group: String.fromCharCode(65 + groupIndex),
+  
+    // timeline shift otomatis
+    nextShift1,
+    nextShift2,
+    nextShift3,
+    offOperator
   };
 }
 
@@ -1692,28 +1695,20 @@ function startOperatorTicker(){
     const duty = getOperatorDuty();
 
     const items = [
-      {
-        text: `NEXT 1 : ${duty.nextOperator1}`
-      },
-      {
-        text: `NEXT 2 : ${duty.nextOperator2}`
-      },
-      {
-        text: `OFF : ${duty.offOperator}`
-      }
+      `SHIFT ${((duty.shift % 3) + 1)} : ${duty.nextShift1}`,
+      `SHIFT ${(((duty.shift + 1) % 3) + 1)} : ${duty.nextShift2}`,
+      `SHIFT ${(((duty.shift + 2) % 3) + 1)} : ${duty.nextShift3}`
     ];
 
     box.classList.remove("pop");
     void box.offsetWidth;
     box.classList.add("pop");
 
-    text.textContent = items[index].text;
+    text.textContent = items[index];
 
     index = (index + 1) % items.length;
   }
 
   render();
-
-  // cukup smooth, ga perlu terlalu sering
   setInterval(render, 4000);
 }
