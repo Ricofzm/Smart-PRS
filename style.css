@@ -1440,7 +1440,6 @@ opacity:.9;
 }
 
 .operator-ticker{
-  margin-top:10px;
   display:flex;
   align-items:center;
   gap:8px;
@@ -1449,7 +1448,7 @@ opacity:.9;
   border-radius:999px;
 
   background:rgba(255,255,255,.06);
-  backdrop-filter:blur(14px);
+  backdrop-filter:blur(16px);
 
   color:#eaeaea;
   font-size:11px;
@@ -1457,6 +1456,14 @@ opacity:.9;
   width:fit-content;
 
   transition:all .35s ease;
+  transform:translateY(0);
+  opacity:1;
+}
+
+/* animasi masuk (dynamic island feel) */
+.operator-ticker.pop{
+  transform:translateY(-2px) scale(1.02);
+  opacity:.85;
 }
 
 .ticker-icon{
@@ -1465,21 +1472,18 @@ opacity:.9;
   display:flex;
   align-items:center;
   justify-content:center;
-  opacity:.8;
+  opacity:.75;
+}
+
+.ticker-icon svg{
+  width:14px;
+  height:14px;
 }
 
 .ticker-text{
   font-weight:600;
   letter-spacing:.2px;
-}
-
-/* subtle state (bukan warna rame) */
-.operator-ticker.next{
-  box-shadow:0 0 0 1px rgba(255,255,255,.08);
-}
-
-.operator-ticker.off{
-  opacity:.9;
+  white-space:nowrap;
 }
 
 @media (min-width: 1024px) {
