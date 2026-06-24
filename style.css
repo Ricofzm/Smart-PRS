@@ -1440,50 +1440,45 @@ opacity:.9;
 }
 
 .operator-ticker{
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
 
+  padding:8px 12px;
+  border-radius:999px;
+
+  background:rgba(255,255,255,.06);
+  backdrop-filter:blur(14px);
+
+  color:#eaeaea;
+  font-size:11px;
+
+  width:fit-content;
+
+  transition:all .35s ease;
+}
+
+.ticker-icon{
+  width:14px;
+  height:14px;
   display:flex;
   align-items:center;
   justify-content:center;
+  opacity:.8;
+}
 
-  height:34px;
-  min-width:180px;
-  max-width:220px;
-
-  padding:0 14px;
-
-  border-radius:999px;
-
-  background:
-  rgba(255,255,255,.06);
-
-  border:
-  1px solid
-  rgba(255,255,255,.08);
-
-  backdrop-filter:
-  blur(20px);
-
-  color:#fff;
-
-  font-size:11px;
+.ticker-text{
   font-weight:600;
-  letter-spacing:.3px;
-
-  overflow:hidden;
-
-  transition:
-  all .35s ease;
+  letter-spacing:.2px;
 }
 
-.operator-ticker span{
-  opacity:1;
-  transform:translateY(0);
+/* subtle state (bukan warna rame) */
+.operator-ticker.next{
+  box-shadow:0 0 0 1px rgba(255,255,255,.08);
 }
 
-.operator-ticker svg{
-  width:14px;
-  height:14px;
-  flex-shrink:0;
+.operator-ticker.off{
   opacity:.9;
 }
 
