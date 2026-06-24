@@ -1677,59 +1677,27 @@ function renderOperatorHero(){
 function startOperatorTicker(){
 
   const box = document.getElementById("operatorTicker");
-  const icon = document.getElementById("tickerIcon");
   const text = document.getElementById("tickerText");
 
-  if(!box || !icon || !text) return;
+  if(!box || !text) return;
 
   let index = 0;
-
-  const svgNext = `
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-      <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2"/>
-    </svg>
-  `;
-
-  const svgOff = `
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-      <path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="2"/>
-    </svg>
-  `;
 
   function render(){
 
     const duty = getOperatorDuty();
 
     const items = [
-      {
-        text: `NEXT SHIFT • ${duty.nextOperator}`,
-        icon: svgNext,
-        className: "next"
-      },
-      {
-        text: `OFF SHIFT • ${duty.offOperator}`,
-        icon: svgOff,
-        className: "off"
-      }
+      `NEXT SHIFT : ${duty.nextOperator}`,
+      `OFF DUTY : ${duty.offOperator}`
     ];
 
-    const item = items[index];
+    // trigger animation reset
+    box.classList.remove("pop");
+    void box.offsetWidth; // force reflow
+    box.classList.add("pop");
 
-    // animasi fade smooth
-    box.style.opacity = 0;
-    box.style.transform = "translateY(2px)";
-
-    setTimeout(() => {
-
-      box.className = `operator-ticker ${item.className}`;
-
-      icon.innerHTML = item.icon;
-      text.textContent = item.text;
-
-      box.style.opacity = 1;
-      box.style.transform = "translateY(0px)";
-
-    }, 180);
+    text.textContent = items[index];
 
     index = (index + 1) % items.length;
   }
