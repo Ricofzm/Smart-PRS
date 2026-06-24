@@ -106,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   initHeroStack();
   renderOperatorHero();
+  startOperatorTicker();
   setInterval(
     renderOperatorHero,
     60000
@@ -1670,16 +1671,6 @@ function renderOperatorHero(){
     "operatorPhoto"
   ).src =
   OPERATOR_PHOTO[duty.operator];
-  
-  document.getElementById(
-  "nextOperator"
-  ).textContent =
-  duty.nextOperator;
-  
-  document.getElementById(
-    "offOperator"
-  ).textContent =
-  duty.offOperator;
 
 }
 
