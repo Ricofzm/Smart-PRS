@@ -1677,55 +1677,61 @@ function renderOperatorHero(){
 function startOperatorTicker(){
 
   const box = document.getElementById("operatorTicker");
-  if(!box) return;
+  const icon = document.getElementById("tickerIcon");
+  const text = document.getElementById("tickerText");
+
+  if(!box || !icon || !text) return;
 
   let index = 0;
 
-  const iconNext = `
-  <svg viewBox="0 0 24 24" fill="none">
-    <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>`;
+  const svgNext = `
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+      <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2"/>
+    </svg>
+  `;
 
-  const iconOff = `
-  <svg viewBox="0 0 24 24" fill="none">
-    <path d="M12 2v20M4 12h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-  </svg>`;
+  const svgOff = `
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+      <path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="2"/>
+    </svg>
+  `;
 
   function render(){
 
     const duty = getOperatorDuty();
 
     const items = [
-
       {
-        html: `
-          ${iconNext}
-          <span>NEXT SHIFT • ${duty.nextOperator}</span>
-        `
+        text: `NEXT SHIFT • ${duty.nextOperator}`,
+        icon: svgNext,
+        className: "next"
       },
-
       {
-        html: `
-          ${iconOff}
-          <span>OFF SHIFT • ${duty.offOperator}</span>
-        `
+        text: `OFF SHIFT • ${duty.offOperator}`,
+        icon: svgOff,
+        className: "off"
       }
-
     ];
 
+    const item = items[index];
+
+    // animasi fade smooth
     box.style.opacity = 0;
-    box.style.transform = "translateY(6px)";
+    box.style.transform = "translateY(2px)";
 
-    setTimeout(()=>{
+    setTimeout(() => {
 
-      box.innerHTML = items[index].html;
+      box.className = `operator-ticker ${item.className}`;
+
+      icon.innerHTML = item.icon;
+      text.textContent = item.text;
 
       box.style.opacity = 1;
-      box.style.transform = "translateY(0)";
+      box.style.transform = "translateY(0px)";
 
-      index = (index + 1) % items.length;
+    }, 180);
 
-    },180);
+    index = (index + 1) % items.length;
   }
 
   render();
