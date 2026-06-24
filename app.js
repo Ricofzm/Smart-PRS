@@ -1621,24 +1621,28 @@ function getOperatorDuty(){
     OPERATOR_ROTATION[groupIndex];
 
   const operator =
-    group[shift - 1];
+  group[shift - 1];
 
-  const nextOperator =
-    group[shift % 3];
-
+  // 🔥 next 2 operator (SAFE ROTATION)
+  const nextOperator1 =
+    group[shift % 4];
+  
+  const nextOperator2 =
+    group[(shift + 1) % 4];
+  
+  // off tetap last slot / non-active logic
   const offOperator =
     group[3];
-
+  
   return {
     operator,
-    nextOperator,
+    nextOperator1,
+    nextOperator2,
     offOperator,
     shift,
     shiftTime,
     group:
-      String.fromCharCode(
-        65 + groupIndex
-      )
+      String.fromCharCode(65 + groupIndex)
   };
 }
 
@@ -1688,20 +1692,28 @@ function startOperatorTicker(){
     const duty = getOperatorDuty();
 
     const items = [
-      `NEXT SHIFT : ${duty.nextOperator}`,
-      `OFF DUTY : ${duty.offOperator}`
+      {
+        text: `NEXT 1 : ${duty.nextOperator1}`
+      },
+      {
+        text: `NEXT 2 : ${duty.nextOperator2}`
+      },
+      {
+        text: `OFF : ${duty.offOperator}`
+      }
     ];
 
-    // trigger animation reset
     box.classList.remove("pop");
-    void box.offsetWidth; // force reflow
+    void box.offsetWidth;
     box.classList.add("pop");
 
-    text.textContent = items[index];
+    text.textContent = items[index].text;
 
     index = (index + 1) % items.length;
   }
 
   render();
-  setInterval(render, 3500);
+
+  // cukup smooth, ga perlu terlalu sering
+  setInterval(render, 4000);
 }
