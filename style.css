@@ -1435,6 +1435,34 @@ opacity:.9;
   color: rgba(255,255,255,0.6);
 }
 
+.operator-extra{
+  margin-top:10px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.operator-chip{
+  font-size:11px;
+  padding:6px 10px;
+  border-radius:999px;
+  backdrop-filter:blur(10px);
+}
+
+.operator-chip.next{
+  background:rgba(48,209,88,.15);
+  color:#30D158;
+}
+
+.operator-chip.off{
+  background:rgba(255,69,58,.15);
+  color:#FF453A;
+}
+
+.operator-chip span{
+  font-weight:600;
+}
+
 @media (min-width: 1024px) {
 
   /* =========================
