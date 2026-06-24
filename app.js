@@ -1590,7 +1590,7 @@ function initHeroStack(){
 function getOperatorDuty(){
 
   const baseDate =
-    new Date("2026-06-23T00:00:00");
+    new Date("2026-06-22T00:00:00");
 
   const now = new Date();
 
