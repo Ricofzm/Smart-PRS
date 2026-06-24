@@ -1676,54 +1676,58 @@ function renderOperatorHero(){
 
 function startOperatorTicker(){
 
-  const box =
-    document.getElementById(
-      "operatorTicker"
-    );
-
+  const box = document.getElementById("operatorTicker");
   if(!box) return;
 
   let index = 0;
 
-  function updateOperatorTicker(){
+  const iconNext = `
+  <svg viewBox="0 0 24 24" fill="none">
+    <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
 
-    const duty =
-      getOperatorDuty();
+  const iconOff = `
+  <svg viewBox="0 0 24 24" fill="none">
+    <path d="M12 2v20M4 12h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>`;
+
+  function render(){
+
+    const duty = getOperatorDuty();
 
     const items = [
 
       {
-        text:`NEXT : ${duty.nextOperator}`,
-        className:"next"
+        html: `
+          ${iconNext}
+          <span>NEXT SHIFT • ${duty.nextOperator}</span>
+        `
       },
 
       {
-        text:`OFF : ${duty.offOperator}`,
-        className:"off"
+        html: `
+          ${iconOff}
+          <span>OFF SHIFT • ${duty.offOperator}</span>
+        `
       }
 
     ];
 
-    const item =
-      items[index];
+    box.style.opacity = 0;
+    box.style.transform = "translateY(6px)";
 
-    box.className =
-      `operator-ticker ${item.className}`;
+    setTimeout(()=>{
 
-    box.innerHTML =
-      item.text;
+      box.innerHTML = items[index].html;
 
-    index =
-      (index + 1) %
-      items.length;
+      box.style.opacity = 1;
+      box.style.transform = "translateY(0)";
 
+      index = (index + 1) % items.length;
+
+    },180);
   }
 
-  updateOperatorTicker();
-
-  setInterval(
-    updateOperatorTicker,
-    3000
-  );
-
+  render();
+  setInterval(render, 3500);
 }
