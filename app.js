@@ -1682,3 +1682,57 @@ function renderOperatorHero(){
   duty.offOperator;
 
 }
+
+function startOperatorTicker(){
+
+  const box =
+    document.getElementById(
+      "operatorTicker"
+    );
+
+  if(!box) return;
+
+  let index = 0;
+
+  function updateOperatorTicker(){
+
+    const duty =
+      getOperatorDuty();
+
+    const items = [
+
+      {
+        text:`NEXT : ${duty.nextOperator}`,
+        className:"next"
+      },
+
+      {
+        text:`OFF : ${duty.offOperator}`,
+        className:"off"
+      }
+
+    ];
+
+    const item =
+      items[index];
+
+    box.className =
+      `operator-ticker ${item.className}`;
+
+    box.innerHTML =
+      item.text;
+
+    index =
+      (index + 1) %
+      items.length;
+
+  }
+
+  updateOperatorTicker();
+
+  setInterval(
+    updateOperatorTicker,
+    3000
+  );
+
+}
