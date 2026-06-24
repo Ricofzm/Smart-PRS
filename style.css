@@ -1442,25 +1442,36 @@ opacity:.9;
   flex-wrap:wrap;
 }
 
-.operator-chip{
-  font-size:11px;
-  padding:6px 10px;
+.operator-ticker{
+  margin-top:10px;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  min-width:180px;
+  height:34px;
+
+  padding:0 14px;
+
   border-radius:999px;
-  backdrop-filter:blur(10px);
+
+  font-size:12px;
+  font-weight:600;
+
+  transition:.35s ease;
 }
 
-.operator-chip.next{
-  background:rgba(48,209,88,.15);
+.operator-ticker.next{
+  background:
+  rgba(48,209,88,.15);
   color:#30D158;
 }
 
-.operator-chip.off{
-  background:rgba(255,69,58,.15);
+.operator-ticker.off{
+  background:
+  rgba(255,69,58,.15);
   color:#FF453A;
-}
-
-.operator-chip span{
-  font-weight:600;
 }
 
 @media (min-width: 1024px) {
