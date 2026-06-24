@@ -1599,7 +1599,6 @@ function getOperatorDuty(){
       (now - baseDate) / 86400000
     );
 
-  // ganti group tiap 2 hari
   const groupIndex =
     Math.floor(diffDays / 2) % 4;
 
@@ -1620,22 +1619,26 @@ function getOperatorDuty(){
   const group =
     OPERATOR_ROTATION[groupIndex];
 
+  const operator =
+    group[shift - 1];
+
+  const nextOperator =
+    group[shift % 3];
+
+  const offOperator =
+    group[3];
+
   return {
-
-    operator:
-      group[shift - 1],
-
+    operator,
+    nextOperator,
+    offOperator,
     shift,
-
     shiftTime,
-
     group:
       String.fromCharCode(
         65 + groupIndex
       )
-
   };
-
 }
 
 function renderOperatorHero(){
@@ -1667,5 +1670,15 @@ function renderOperatorHero(){
     "operatorPhoto"
   ).src =
   OPERATOR_PHOTO[duty.operator];
+  
+  document.getElementById(
+  "nextOperator"
+  ).textContent =
+  duty.nextOperator;
+  
+  document.getElementById(
+    "offOperator"
+  ).textContent =
+  duty.offOperator;
 
 }
