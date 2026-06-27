@@ -68,9 +68,9 @@ const state = {
   consumption: [],
   hourlyData: [],
   dailyData: [],
-  flowAvg: []
+  flowAvg: [],
   
-  lastHoursLeft: null,
+  lastHoursLeft: null
 };
 
 const sparkCharts = {};
