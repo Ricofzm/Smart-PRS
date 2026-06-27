@@ -69,6 +69,8 @@ const state = {
   hourlyData: [],
   dailyData: [],
   flowAvg: []
+  
+  lastHoursLeft: null,
 };
 
 const sparkCharts = {};
@@ -181,19 +183,21 @@ async function loadData() {
     const remainingPressure =
       Math.max(currentPressure - SWITCH_PRESSURE, 0);
     
-    let lastHoursLeft = null;
-    
     // jam estimasi
     const hoursLeft =
-      dropRate > 0 ? remainingPressure / dropRate : 0;
+      dropRate > 0
+        ? remainingPressure / dropRate
+        : 0;
     
-    // smoothing biar gak loncat
+    // smoothing
     const smoothHours =
-      lastHoursLeft
-        ? (lastHoursLeft * 0.7 + hoursLeft * 0.3)
-        : hoursLeft;
+    state.lastHoursLeft != null
+    ?
+    (state.lastHoursLeft * 0.7) + (hoursLeft * 0.3)
+    :
+    hoursLeft;
     
-    lastHoursLeft = smoothHours;
+    state.lastHoursLeft = smoothHours;
     
     const predictDate = new Date(
       Date.now() + smoothHours * 3600000
