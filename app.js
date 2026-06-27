@@ -1282,29 +1282,39 @@ function renderHeroTS(){
 
   const running =
   tsStock.find(
-    x => x.status === "RUNNING"
+  x=>x.status==="RUNNING"
   );
-
+  
   const standby =
   tsStock.find(
-    x => x.status === "FULL"
+  x=>x.status==="FULL"
   );
+  
+  const optimal =
+  tsStock.find(
+  x=>x.status==="OPTIMAL"
+  );
+  
+  let heroLabel =
+  standby
+  ? "STANDBY"
+  : "OPTIMAL";
 
   document.getElementById("runningTS")
   .textContent =
   running?.ts || "-";
 
-  document.getElementById("standbyTS")
-  .textContent =
-  standby?.ts || "-";
+  document.getElementById("standbyTS").textContent =
+  standby?.ts || optimal?.ts || "-";
   
-  document.getElementById("TSrunning")
-  .textContent =
+  document.getElementById("TSrunning").textContent =
   running?.ts || "-";
 
-  document.getElementById("TSstandby")
-  .textContent =
-  standby?.ts || "-";
+  document.getElementById("TSstandby").textContent =
+  standby?.ts || optimal?.ts || "-";
+  
+  document.getElementById("standbyLabel").textContent =
+  heroLabel;
 
 }
 
@@ -1387,29 +1397,29 @@ function closeStockModal(){
 
 async function saveStock(){
 
-  const newTS = document.getElementById("tsInput").value;
+  const ts =
+  document.getElementById("tsInput").value;
 
-  const running = tsStock.find(x => x.status === "RUNNING");
-
-  const payload = [
-    {
-      ts: running?.ts || "-",
-      status: "RUNNING"
+  await fetch(API + "/stock",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
     },
-    {
-      ts: newTS,
-      status: "FULL"
-    }
-  ];
-
-  await fetch(API + "/stock", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
+    body:JSON.stringify({
+      ts
+    })
   });
 
   await loadStock();
+
+  renderHeroTS();
+  
+  if(document.getElementById("page-ts").classList.contains("active")){
+      loadTSLog();
+  }
+
   closeStockModal();
+
 }
 
 function startClock(){
