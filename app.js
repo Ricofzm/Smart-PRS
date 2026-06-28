@@ -1507,60 +1507,86 @@ let slideReady=false;
 
 function initSlideSave(){
 
-  if(slideReady) return;
-
-  slideReady=true;
-
   const slider=document.getElementById("slideSave");
   const thumb=document.getElementById("slideThumb");
-
+  const fill=document.getElementById("slideFill");
+  const text=document.getElementById("slideText");
+  
   let dragging=false;
-
-  thumb.addEventListener("pointerdown",()=>{
-
+  
+  thumb.style.left="4px";
+  fill.style.width="0";
+  text.style.opacity="1";
+  
+  thumb.onpointerdown=()=>{
+  
       dragging=true;
-
-  });
-
-  window.addEventListener("pointerup",()=>{
-
+      thumb.classList.add("dragging");
+  
+  };
+  
+  window.onpointerup=()=>{
+  
       if(!dragging) return;
-
+  
       dragging=false;
-
+  
+      thumb.classList.remove("dragging");
+  
       thumb.style.left="4px";
-
-  });
-
-  window.addEventListener("pointermove",async e=>{
-
+      fill.style.width="0";
+      text.style.opacity="1";
+      text.style.transform="translate(-50%,-50%)";
+  
+  };
+  
+  window.onpointermove=async(e)=>{
+  
       if(!dragging) return;
-
+  
       const rect=slider.getBoundingClientRect();
-
-      let x=e.clientX-rect.left-25;
-
-      const max=rect.width-54;
-
+  
+      const max=rect.width-56;
+  
+      let x=e.clientX-rect.left-26;
+  
       x=Math.max(4,Math.min(max,x));
-
+  
       thumb.style.left=x+"px";
-
-      if(x>=max-2){
-
+  
+      fill.style.width=(x+52)+"px";
+  
+      const progress=x/max;
+  
+      text.style.opacity=1-progress*1.4;
+  
+      text.style.transform=
+      `translate(-50%,-50%) translateX(${-progress*40}px)`;
+  
+      if(progress>0.98){
+  
           dragging=false;
-
+  
+          thumb.classList.remove("dragging");
+  
           thumb.style.left=max+"px";
-
+          fill.style.width="100%";
+  
           await saveStock();
-
+  
           setTimeout(()=>{
+  
               thumb.style.left="4px";
-          },300);
-
+              fill.style.width="0";
+  
+              text.style.opacity="1";
+              text.style.transform="translate(-50%,-50%)";
+  
+          },250);
+  
       }
-
-  });
+  
+  };
 
 }
 
