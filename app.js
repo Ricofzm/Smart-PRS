@@ -1432,6 +1432,14 @@ function closeStockModal(){
   .classList.add("hidden");
 }
 
+function closeStockOutside(e){
+
+  if(e.target.id==="stockModal"){
+    closeStockModal();
+  }
+
+}
+
 async function saveStock(){
 
   const num =
