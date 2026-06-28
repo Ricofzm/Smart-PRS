@@ -10,127 +10,125 @@
 </head>
 <body>
   
-  <div id="stockModal" class="modal hidden">
-  <div class="modal-box">
+  <div id="stockModal" class="modal hidden" onclick="closeStockOutside(event)">
 
-    <h3>Edit Standby TS</h3>
-
-    <div class="stock-note">
-    
-      <b>Syarat Penggunaan</b>
-      
-      <ul>
-      <li>Gunakan hanya setelah tube trailer standby benar-benar sudah terpasang.</li>
-      
-      <li>Menu ini hanya untuk mengubah TS STANDBY.</li>
-      
-      <li>TS RUNNING akan berubah otomatis saat proses switch.</li>
-      
-      <li>Pastikan nomor TS sesuai sebelum menyimpan.</li>
-      
-      </ul>
-    
-    </div>
-    
-    <div class="stock-type">
-    
-    <button
-      class="type-btn"
-      data-type="20"
-      onclick="selectType(this,'20')">
-      
-      20 FEET
-      
+    <div class="modal-box" onclick="event.stopPropagation()">
+  
+      <button class="modal-close" onclick="closeStockModal()">
+        ✕
       </button>
+  
+      <h3>Edit Standby TS</h3>
+  
+        <div class="stock-note">
+        
+          <b>Syarat Penggunaan</b>
+          
+          <ul>
+          <li>Gunakan hanya setelah tube trailer standby benar-benar sudah terpasang.</li>
+          
+          <li>Menu ini hanya untuk mengubah TS STANDBY.</li>
+          
+          <li>TS RUNNING akan berubah otomatis saat proses switch.</li>
+          
+          <li>Pastikan nomor TS sesuai sebelum menyimpan.</li>
+          
+          </ul>
+        
+        </div>
       
-      <button
-      class="type-btn active"
-      data-type="40"
-      onclick="selectType(this,'40')">
+      <div class="stock-type">
       
-      40 FEET
+        <button
+        class="type-btn"
+        data-type="20"
+        onclick="selectType(this,'20')">
+        
+        20 FEET
+        
+        </button>
+        
+        <button
+        class="type-btn active"
+        data-type="40"
+        onclick="selectType(this,'40')">
+        
+        40 FEET
+        
+        </button>
       
-      </button>
-    
-    </div>
-    
-    <label>Nomor TS</label>
-    
-    <input
-    id="tsNumber"
-    type="number"
-    placeholder="contoh : 20"
-    />
-    
-    <div class="modal-actions">
-    
-      <button
-      class="btn-save"
-      onclick="saveStock()">
+      </div>
       
-      Simpan
+      <label>Nomor TS</label>
       
-      </button>
+      <input
+      id="tsNumber"
+      type="number"
+      placeholder="contoh : 20"
+      />
       
-      <button
-      class="btn-cancel"
-      onclick="closeStockModal()">
+      <div class="modal-actions">
       
-      Batal
+        <button
+        class="btn-save"
+        onclick="saveStock()">
+        
+        Simpan
+        
+        </button>
       
-      </button>
-    
+      </div>
+      
     </div>
     
   </div>
-</div>
 
-<nav class="navbar">
-
-  <div class="nav-left">
-    <img src="gflogovid.GIF" class="logo">
-  </div>
-
-  <div class="nav-divider"></div>
-
-  <div class="nav-center">
-    <div class="live-info">
-    <span class="dot"></span>
-    <span class="live-text">LIVE</span>
+  <nav class="navbar">
+  
+    <div class="nav-left">
+      <img src="gflogovid.GIF" class="logo">
     </div>
-    <div class="update-row">
-      <span id="live-sub">Last Update :</span>
-      <span id="update">--</span>
+  
+    <div class="nav-divider"></div>
+  
+    <div class="nav-center">
+      <div class="live-info">
+      <span class="dot"></span>
+      <span class="live-text">LIVE</span>
+      </div>
+      <div class="update-row">
+        <span id="live-sub">Last Update :</span>
+        <span id="update">--</span>
+      </div>
     </div>
-  </div>
-
-  <div class="nav-divider"></div>
-
-  <div class="nav-right">
-
-    <div class="date-row">
-      <svg viewBox="0 0 24 24">
-        <rect x="3" y="5" width="18" height="16" rx="2"/>
-        <path d="M8 3v4"/>
-        <path d="M16 3v4"/>
-        <path d="M3 10h18"/>
-      </svg>
-
-      <span id="dateNow">--</span>
+  
+    <div class="nav-divider"></div>
+  
+    <div class="nav-right">
+  
+      <div class="date-row">
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="5" width="18" height="16" rx="2"/>
+          <path d="M8 3v4"/>
+          <path d="M16 3v4"/>
+          <path d="M3 10h18"/>
+        </svg>
+  
+        <span id="dateNow">--</span>
+      </div>
+  
+      <div class="time-row">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 7v5l3 3"/>
+        </svg>
+  
+        <span id="clockNow">--</span>
+      </div>
+  
     </div>
-
-    <div class="time-row">
-      <svg viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="9"/>
-        <path d="M12 7v5l3 3"/>
-      </svg>
-
-      <span id="clockNow">--</span>
-    </div>
-
-  </div>
-
-</nav>
+  
+  </nav>
 
 <!-- PAGE: DASHBOARD -->
 <main class="page active" id="page-dashboard">
