@@ -840,6 +840,8 @@ z-index:99999;
 }
 
 .modal-box{
+  
+position:relative;
 
 width:100%;
 max-width:500px;
@@ -1011,19 +1013,80 @@ gap:10px;
 
 }
 
-.btn-save{
+.btn-save-stock{
 
-flex:1;
-background:#2ecc71;
+width:100%;
+
+margin-top:24px;
+
+padding:16px;
+
+border:none;
+
+border-radius:16px;
+
+background:#3b82f6;
+
 color:#fff;
+
+font-size:16px;
+
+font-weight:700;
+
+cursor:pointer;
+
+transition:.25s;
 
 }
 
-.btn-cancel{
+.btn-save-stock:hover{
 
-flex:1;
-background:#444;
+transform:translateY(-2px);
+
+}
+
+.btn-save-stock:active{
+
+transform:scale(.98);
+
+}
+
+.btn-save-stock:disabled{
+
+opacity:.6;
+
+cursor:not-allowed;
+
+}
+
+.modal-close{
+
+position:absolute;
+top:18px;
+right:18px;
+
+width:34px;
+height:34px;
+
+border:none;
+border-radius:50%;
+
+background:rgba(255,255,255,.08);
+
 color:#fff;
+
+font-size:18px;
+
+cursor:pointer;
+
+transition:.2s;
+
+}
+
+.modal-close:hover{
+
+background:rgba(255,255,255,.16);
+transform:rotate(90deg);
 
 }
 
