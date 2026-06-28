@@ -1006,56 +1006,74 @@ margin-bottom:18px;
 
 }
 
-.modal-actions{
+.slide-save{
 
-display:flex;
-gap:10px;
+position:relative;
+
+height:58px;
+
+margin-top:26px;
+
+border-radius:30px;
+
+background:rgba(255,255,255,.08);
+
+overflow:hidden;
+
+user-select:none;
 
 }
 
-.btn-save-stock{
+.slide-thumb{
 
-width:100%;
+position:absolute;
 
-margin-top:24px;
+left:4px;
+top:4px;
 
-padding:16px;
+width:50px;
+height:50px;
 
-border:none;
+border-radius:50%;
 
-border-radius:16px;
+background:#fff;
 
-background:#3b82f6;
+display:flex;
+align-items:center;
+justify-content:center;
 
-color:#fff;
-
-font-size:16px;
-
+font-size:22px;
 font-weight:700;
+
+color:#111;
 
 cursor:pointer;
 
-transition:.25s;
+transition:.15s;
+
+touch-action:none;
+
+z-index:2;
 
 }
 
-.btn-save-stock:hover{
+.slide-text{
 
-transform:translateY(-2px);
+position:absolute;
 
-}
+inset:0;
 
-.btn-save-stock:active{
+display:flex;
+align-items:center;
+justify-content:center;
 
-transform:scale(.98);
+font-weight:600;
 
-}
+letter-spacing:.5px;
 
-.btn-save-stock:disabled{
+color:#cfd6df;
 
-opacity:.6;
-
-cursor:not-allowed;
+pointer-events:none;
 
 }
 
