@@ -1389,10 +1389,43 @@ async function copyReportText(){
 
 }
 
-function openStockModal(){
-  document.getElementById("stockModal")
-  .classList.remove("hidden");
+let tsType = "40";
+
+function selectType(btn,type){
+
+  tsType = type;
+
+  document
+    .querySelectorAll(".type-btn")
+    .forEach(b=>b.classList.remove("active"));
+
+  btn.classList.add("active");
+
 }
+
+function openStockModal(){
+
+  tsType = "40";
+
+  document.getElementById("tsNumber").value = "";
+
+  document
+    .querySelectorAll(".type-btn")
+    .forEach(b=>b.classList.remove("active"));
+
+  document
+    .querySelector(".type-btn[data-type='40']")
+    ?.classList.add("active");
+
+  document
+    .getElementById("stockModal")
+    .classList.remove("hidden");
+  
+  document.getElementById("tsNumber").focus();
+  
+}
+
+alert(`${ts} berhasil dijadikan STANDBY`);
 
 function closeStockModal(){
   document.getElementById("stockModal")
@@ -1401,29 +1434,84 @@ function closeStockModal(){
 
 async function saveStock(){
 
-  const ts =
-  document.getElementById("tsInput").value;
+  const num =
+  document.getElementById("tsNumber")
+  .value.trim();
 
-  await fetch(API + "/stock",{
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json"
-    },
-    body:JSON.stringify({
-      ts
-    })
-  });
-
-  await loadStock();
-
-  renderHeroTS();
-  
-  if(document.getElementById("page-ts").classList.contains("active")){
-      loadTSLog();
+  if(!/^\d+$/.test(num)){
+    alert("Nomor TS hanya boleh angka");
+    return;
   }
 
-  closeStockModal();
+  let ts="";
 
+  if(tsType==="20"){
+
+    ts =
+    "TS0" +
+    String(num).padStart(2,"0");
+
+  }else{
+
+    ts =
+    "TS00" +
+    String(num).padStart(2,"0");
+
+  }
+  
+  if(
+    !confirm(
+    `Jadikan ${ts} sebagai STANDBY?`
+    )
+    ){
+      return;
+    }
+    
+  const btn =
+  document.querySelector(".btn-save-stock");
+  
+  btn.disabled = true;
+  btn.innerText = "Menyimpan...";
+  
+  try{
+
+    const res = await fetch(API+"/stock",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({ts})
+    });
+    
+    if(!res.ok){
+      throw new Error("Gagal menyimpan stock");
+    }
+  
+    await loadStock();
+  
+    if(document.getElementById("page-ts").classList.contains("active")){
+      loadTSLog();
+    }
+    
+    document.getElementById("tsNumber").value = "";
+  
+    tsType = "40";
+    
+    document
+    .querySelectorAll(".type-btn")
+    .forEach(b=>b.classList.remove("active"));
+    
+    document
+    .querySelector(".type-btn[data-type='40']")
+    ?.classList.add("active");
+  
+    closeStockModal();
+    
+  }finally{
+  
+    btn.disabled = false;
+    btn.innerText = "Simpan";
+  }
 }
 
 function startClock(){
