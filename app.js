@@ -1427,8 +1427,6 @@ function openStockModal(){
   
 }
 
-alert(`${ts} berhasil dijadikan STANDBY`);
-
 function closeStockModal(){
   document.getElementById("stockModal")
   .classList.add("hidden");
@@ -1468,22 +1466,6 @@ async function saveStock(){
     String(num).padStart(2,"0");
 
   }
-  
-  if(
-    !confirm(
-    `Jadikan ${ts} sebagai STANDBY?`
-    )
-    ){
-      return;
-    }
-    
-  const btn =
-  document.querySelector(".btn-save-stock");
-  
-  btn.disabled = true;
-  btn.innerText = "Menyimpan...";
-  
-  try{
 
     const res = await fetch(API+"/stock",{
       method:"POST",
@@ -1514,14 +1496,72 @@ async function saveStock(){
     document
     .querySelector(".type-btn[data-type='40']")
     ?.classList.add("active");
+    
+    alert(`${ts} berhasil dijadikan STANDBY`);
   
     closeStockModal();
     
-  }finally{
-  
-    btn.disabled = false;
-    btn.innerText = "Simpan";
-  }
+}
+
+let slideReady=false;
+
+function initSlideSave(){
+
+  if(slideReady) return;
+
+  slideReady=true;
+
+  const slider=document.getElementById("slideSave");
+  const thumb=document.getElementById("slideThumb");
+
+  let dragging=false;
+
+  thumb.addEventListener("pointerdown",()=>{
+
+      dragging=true;
+
+  });
+
+  window.addEventListener("pointerup",()=>{
+
+      if(!dragging) return;
+
+      dragging=false;
+
+      thumb.style.left="4px";
+
+  });
+
+  window.addEventListener("pointermove",async e=>{
+
+      if(!dragging) return;
+
+      const rect=slider.getBoundingClientRect();
+
+      let x=e.clientX-rect.left-25;
+
+      const max=rect.width-54;
+
+      x=Math.max(4,Math.min(max,x));
+
+      thumb.style.left=x+"px";
+
+      if(x>=max-2){
+
+          dragging=false;
+
+          thumb.style.left=max+"px";
+
+          await saveStock();
+
+          setTimeout(()=>{
+              thumb.style.left="4px";
+          },300);
+
+      }
+
+  });
+
 }
 
 function startClock(){
@@ -1816,65 +1856,4 @@ function startOperatorTicker(){
 
   render();
   setInterval(render, 3500);
-}
-
-let slideReady=false;
-
-function initSlideSave(){
-
-  if(slideReady) return;
-
-  slideReady=true;
-
-  const slider=document.getElementById("slideSave");
-  const thumb=document.getElementById("slideThumb");
-
-  let dragging=false;
-
-  thumb.addEventListener("pointerdown",()=>{
-
-      dragging=true;
-
-  });
-
-  window.addEventListener("pointerup",()=>{
-
-      if(!dragging) return;
-
-      dragging=false;
-
-      thumb.style.left="4px";
-
-  });
-
-  window.addEventListener("pointermove",async e=>{
-
-      if(!dragging) return;
-
-      const rect=slider.getBoundingClientRect();
-
-      let x=e.clientX-rect.left-25;
-
-      const max=rect.width-54;
-
-      x=Math.max(4,Math.min(max,x));
-
-      thumb.style.left=x+"px";
-
-      if(x>=max-2){
-
-          dragging=false;
-
-          thumb.style.left=max+"px";
-
-          await saveStock();
-
-          setTimeout(()=>{
-              thumb.style.left="4px";
-          },300);
-
-      }
-
-  });
-
 }
