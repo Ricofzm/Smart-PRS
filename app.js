@@ -4,13 +4,21 @@ const OPERATOR_ROTATION = [
 
   // Group A
   [
+    "Aldi Aditya",
+    "Dita Mulyana",
+    "Enriko Fazar Maulana",
+    "Ajid Saepuloh"
+  ],
+
+  // Group B
+  [
     "Dita Mulyana",
     "Enriko Fazar Maulana",
     "Ajid Saepuloh",
     "Aldi Aditya"
   ],
 
-  // Group B
+  // Group C
   [
     "Enriko Fazar Maulana",
     "Ajid Saepuloh",
@@ -18,20 +26,12 @@ const OPERATOR_ROTATION = [
     "Dita Mulyana"
   ],
 
-  // Group C
+  // Group D
   [
     "Ajid Saepuloh",
     "Aldi Aditya",
     "Dita Mulyana",
     "Enriko Fazar Maulana"
-  ],
-
-  // Group D
-  [
-    "Aldi Aditya",
-    "Dita Mulyana",
-    "Enriko Fazar Maulana",
-    "Ajid Saepuloh"
   ]
 
 ];
